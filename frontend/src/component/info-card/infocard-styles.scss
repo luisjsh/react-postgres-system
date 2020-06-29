@@ -1,0 +1,68 @@
+@import '../breakpoints/breakpoints.scss';
+$blue-color: #0E8FFF;
+$sub-color: grey;
+$main-color: #DEDEDE;
+
+
+.infocard{
+    width: 100%;
+    height: 89%;
+    position: absolute;
+    margin-top: 6vh;
+    .inside-card{
+        width: 100%;
+        height: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;    
+        .profile-picture{
+            width: 200px;
+            height: 200px;
+            border-radius: 100%;
+            background-color: saddlebrown;
+        }
+    }
+
+    .below-card{
+        width: 100%;
+        height: 65%;
+        display: flex;
+        flex-direction: column;
+        bottom: 0;
+        
+        span{
+            width: 100%;
+            height: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            &:hover, &:focus{
+                background: $main-color;
+            }
+        }
+        
+        .log-out{
+            bottom: 0;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 10%;
+            border-top: 1px solid $main-color;
+            justify-content: center;
+            cursor: pointer;
+
+            &:hover, &:focus{
+                border:1px solid red;
+            }
+
+            &::before{
+                content: 'Desconectarse';
+                font-size: 20px;
+                color:red;
+            }
+        }
+    }
+}

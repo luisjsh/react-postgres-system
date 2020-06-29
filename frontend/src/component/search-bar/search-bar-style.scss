@@ -1,0 +1,103 @@
+@import '../breakpoints/breakpoints.scss';
+
+$blue-color: #0E8FFF;
+
+%deleate-them-search-icon{
+    width: 10%;
+    height: 100%;
+    cursor: pointer;
+    transition: 0.5 ease;
+    &:hover{
+        background-color: #dedede;
+    }
+
+}
+
+
+.searchbar{
+    position: relative;
+    width: 60%;
+    height: 70%;
+    top: 0.60rem;
+    z-index: 3;  
+    background-color: white;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    transition: 1s;
+
+    &:hover{  
+        border: 1px solid $blue-color;
+    }
+
+    &:focus-within{
+        border: 1px solid $blue-color;
+        .search-results{
+            display: block;
+        }
+    }
+
+    .search-inputs{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        .search{
+        width: 80%;
+        height: 100%;
+            input{
+                width: 100%;
+                height: 80%;
+                border: none;
+                outline: none;
+            }
+        }
+
+        .deleate-them{
+            background: url('./deleatethem.svg') center no-repeat;
+            background-size: 18px;
+            @extend %deleate-them-search-icon;
+        }
+
+        .search-icon{
+            background: url('./searchinputs.svg') center no-repeat;
+            background-size: 18px;
+            @extend %deleate-them-search-icon;
+        }
+    }
+
+    .search-results{
+        display: none;
+        height: 140px;
+        width: 80%;
+        background-color: white;
+        border-bottom: 1px solid $blue-color;
+        border-left: 1px solid $blue-color;
+        border-right: 1px solid $blue-color;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+
+        .result{
+            width: 100%;
+            height: 25%;
+            font-size: 30px;
+            text-align: center;
+            outline: none;
+            &:hover{
+                background-color: $blue-color;
+                opacity: 0.6;
+                color: white;
+            }
+
+            &:focus-within{
+                outline: 2px solid  $blue-color;
+            }
+        }
+    }
+}
+
+
+@include media('<=tablet'){
+    .searchbar{
+        width: 94%;
+    }
+}
