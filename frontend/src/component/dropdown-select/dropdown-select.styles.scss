@@ -1,0 +1,39 @@
+$main-color: #DEDEDE;
+
+.dropdown-select {
+    margin: 25px 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+
+    select {
+        background: none;
+        background-color: white;
+        color: grey;
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        display: block;
+        width: 100%;
+        border: 1px solid $main-color;
+        margin: 3px 0;
+        border-radius: 4px;
+
+        .label {
+            font-size: 16px;
+            font-weight: normal;
+            position: absolute;
+            color: black;
+            left: 5px;
+        }
+
+        select-list {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            margin-top: 40px;
+            padding: 0;
+            background-color: #595959;
+        }
+    }
+}

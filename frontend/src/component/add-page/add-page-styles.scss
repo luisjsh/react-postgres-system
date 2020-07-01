@@ -191,43 +191,7 @@ $main-color: #DEDEDE;
                 width: 40%;
                 transition: 0.3s;
 
-                .pelaje-search {
-                    display: flex;
-                    flex-direction: column;
-
-                    &:focus-within {
-                        .pelaje-results {
-                            display: flex;
-                        }
-                    }
-
-                    .pelaje-results {
-                        position: absolute;
-                        width: 300px;
-                        height: 100px;
-                        max-height: 400px;
-                        margin-top: 69px;
-                        background-color: white;
-                        border: 1px solid $main-color;
-                        overflow-y: auto;
-                        display: none;
-                        flex-direction: column;
-
-                        button {
-                            width: 100%;
-                            background-color: white;
-                            border: none;
-                            font-size: 20px;
-                            cursor: pointer;
-                            color: #707070;
-
-                            &:hover,
-                            &:focus {
-                                background-color: #dedede;
-                            }
-                        }
-                    }
-                }
+                
 
                 .birth-date {
                     width: 100%;
@@ -341,43 +305,7 @@ $main-color: #DEDEDE;
                     }
                 }
 
-                .sex-section {
-                    margin: 25px 0;
-                    width: 300px;
-                    display: flex;
-                    flex-direction: column;
-
-                    select {
-                        background: none;
-                        background-color: white;
-                        color: grey;
-                        font-size: 18px;
-                        padding: 10px 10px 10px 5px;
-                        display: block;
-                        width: 100%;
-                        border: 1px solid $main-color;
-                        border-radius: 0;
-                        margin: 3px 0;
-
-                        .label {
-                            font-size: 16px;
-                            font-weight: normal;
-                            position: absolute;
-                            color: black;
-                            left: 5px;
-                        }
-
-                        select-list {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            z-index: 1;
-                            margin-top: 40px;
-                            padding: 0;
-                            background-color: #595959;
-                        }
-                    }
-                }
+                
             }
         }
 
@@ -433,59 +361,6 @@ $main-color: #DEDEDE;
             .goals-information {
                 @extend %information-cards;
                 flex-direction: column;
-
-                .logros-area-section {
-                    padding: 10px;
-                    width: 400px;
-                    height: 100px;
-
-
-                    label {
-                        font-size: 16px;
-                        color: grey;
-                    }
-
-                    select {
-                        background: none;
-                        background-color: white;
-                        color: grey;
-                        font-size: 18px;
-                        padding: 10px 10px 10px 5px;
-                        display: block;
-                        width: 100%;
-                        border: 1px solid $main-color;
-                        border-radius: 0;
-                        margin: 3px 0;
-
-                        .label {
-                            font-size: 16px;
-                            font-weight: normal;
-                            position: absolute;
-                            color: black;
-                            left: 5px;
-                        }
-                    }
-                }
-
-                .text-area-section {
-                    display: flex;
-                    flex-direction: column;
-                    width: 400px;
-                    height: 100px;
-                    margin-bottom: 1vw;
-
-                    label {
-                        font-size: 16px;
-                        color: grey;
-                    }
-
-                    textarea {
-                        border: 1px solid $main-color;
-                        width: 100%;
-                        height: 100%;
-                    }
-
-                }
             }
         }
 
@@ -554,7 +429,7 @@ $main-color: #DEDEDE;
             }
 
             .card-information {
-                width: 100%;
+                width: 95%;
 
 
                 .information-enter {
@@ -562,7 +437,7 @@ $main-color: #DEDEDE;
                     width: 100%;
 
                     .first-half-form {
-                        width: 30%;
+                        width: 50%;
                         transition: 0.3s;
                     }
 
@@ -596,7 +471,7 @@ $main-color: #DEDEDE;
             }
 
             .card-information {
-                width: 100%;
+                width: 95%;
 
 
                 .information-enter {

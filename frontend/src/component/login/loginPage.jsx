@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 
 import './login-style.scss'
+
 import CustomInput from '../custom-input/custom-input';
 import CustomButton from '../custom-button/custom-button';
 
@@ -55,15 +56,17 @@ class LogIn extends React.Component {
             body: formData
         }).then( async response =>{
             let responsejson = await response.json()
-            
-              if ( responsejson.status.search('aproved') >= 0 ){
+
+              if ( responsejson.status.search('password approved') >= 0 ){
                   
+
                 let userInformation = {
                     id: responsejson.userInformation.id,
                     name: responsejson.userInformation.nombre,
                     token: responsejson.token,
-                    path: responsejson.userInformation.usuariosimagenes[0].path
+                    path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
                 }
+
 
                   this.props.login(userInformation);
                   this.props.history.push('/')

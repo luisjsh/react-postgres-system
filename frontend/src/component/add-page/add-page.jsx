@@ -2,13 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
+import "./add-page-styles.scss";
+
 import CustomInput from "../custom-input/custom-input";
 import Custombutton from "../custom-button/custom-button";
 import USureCard from "../u-sure-card/u-sure-card";
 import PhotoCarousel from "../image-carousel-add/image-carousel-add";
-import "./add-page-styles.scss";
 import ImageCard from "../image-card/image-card";
-
+import DropdownInput from '../dropdown-with-input-text/dropdown-with-input'
+import ItemInformation from '../item-information-card/item-information-card'
+import DropdownSelect from '../dropdown-select/dropdown-select'
+import TextArea from '../text-area-component/text-area-component'
 
 class AddPage extends React.Component {
   constructor() {
@@ -351,22 +355,24 @@ class AddPage extends React.Component {
           <span>Informacion</span>
           <div className="information-enter">
             <div className="first-half-form">
-              <CustomInput
+              <ItemInformation id='name'>
+                <CustomInput
                 name="nombre"
                 value={this.state.nombre}
                 onChange={this.formHandler}
                 required
                 label="Nombre"
-              ></CustomInput>
-              <div className="pelaje-search">
-                <CustomInput
-                  name="pelaje"
-                  value={this.state.pelaje}
-                  onChange={this.formHandler}
-                  required
-                  label="Pelaje"
                 ></CustomInput>
-                <div className="pelaje-results">
+              </ItemInformation>
+
+              <ItemInformation id='hair'>
+                <DropdownInput 
+                  id='pelaje' 
+                  name="pelaje"
+                  onChange={this.formHandler}
+                  labelName='Pelaje' 
+                  value={this.state.pelaje}
+                  >
                   {this.state.pelajeInformation
                     ? this.state.pelajeInformation.response.map(
                         ({ id, nombre }) =>
@@ -385,21 +391,23 @@ class AddPage extends React.Component {
                             ""
                           )
                       )
-                    : ""}
-                </div>
-              </div>
+                    : ""}</DropdownInput>
+                </ItemInformation>
+               
 
-              <div className="birth-date">
-                <label htmlFor="date">Date</label>
-                <input
-                  name="date"
-                  onChange={this.formHandler}
-                  required
-                  type="date"
-                  id="date"
-                  style={{ width: "290px", borderRadius: "4px" }}
-                />
-              </div>
+                <ItemInformation id='date'>
+                  <div className="birth-date">
+                    <label htmlFor="date">Date</label>
+                    <input
+                      name="date"
+                      onChange={this.formHandler}
+                      required
+                      type="date"
+                      id="date"
+                      style={{ width: "290px", borderRadius: "4px" }}
+                      />
+                  </div>
+                </ItemInformation>
             </div>
 
             <div className="second-half">
@@ -449,18 +457,14 @@ class AddPage extends React.Component {
                 </div>
               </div>
 
-              <div className="sex-section">
-                <label htmlFor="sexo">Sexo</label>
-                <select
-                  name="sexo"
-                  id="sexo"
-                  onChange={this.formHandler}
-                  required
-                >
+              <ItemInformation id='sexo'>
+                
+                <DropdownSelect labelName='Sexo' onChange={this.formHandler} name='sexo' value={this.state.sexo}>
                   <option value="Hembra">Hembra</option>
                   <option value="Macho">Macho</option>
-                </select>
-              </div>
+                </DropdownSelect>
+
+              </ItemInformation>
             </div>
           </div>
 
@@ -596,11 +600,10 @@ class AddPage extends React.Component {
           <div className="information-goals-enter">
             <span>Comportamiento</span>
             <div className="goals-information">
-              <div className="logros-area-section">
-                <label htmlFor="logros">Logros</label>
-                <select
+              <ItemInformation id='goal'>
+                <DropdownSelect 
+                  labelName='Logros'               
                   value={this.state.logros}
-                  id="logros"
                   name="logros"
                   onChange={this.formHandler}
                   required
@@ -615,22 +618,22 @@ class AddPage extends React.Component {
                         )
                       )
                     : ""}
-                </select>
-              </div>
+                
+                </DropdownSelect>
+              </ItemInformation>
               {/*
 
 */}
-              <div className="text-area-section" style={{ marginLeft: "10px" }}>
-                <label htmlFor="textarea">Notas</label>
-                <textarea
-                  id="textarea"
-                  name="textarea"
-                  value={this.state.textarea}
-                  onChange={this.formHandler}
-                  required
-                ></textarea>
-              </div>
-            </div>
+              <ItemInformation id='notepad'>
+                <TextArea
+                    labelName='Notas' 
+                    name="textarea"
+                    value={this.state.textarea}
+                    onChange={this.formHandler}
+                  >
+                </TextArea>
+              </ItemInformation>
+            </div>                              
           </div>
 
           <div className="button-section">

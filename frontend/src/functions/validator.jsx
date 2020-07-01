@@ -3,6 +3,7 @@ function validator (  detail , history , logOut ) {
      if ( detail.search('tokeninvalid') !== -1 || detail.search('token expired') !== -1){
         
         if ( history.location.pathname != '/login'){
+            console.log('asdasd')
             logOut();
         }
 

@@ -174,8 +174,27 @@ $main-color: #DEDEDE;
                 -moz-box-shadow: 0px 0px 0px 2px $blue-color;
                 box-shadow: 0px 0px 0px 2px $blue-color;
             }
+        }
 
+        .no-image{
+            background: url('./IMG/name-icon.svg') no-repeat;
+            background-size: 40px;
+            background-position: center;
+            margin-top: 10px;
+            height: 40px;
+            width: 40px;
+            border: 1px solid $main-color;
+            border-radius: 100%;
+            background-color: white;
+            transition: 0.4s;
+            outline: none;
+            cursor: pointer;   
             
+            &:hover, &:focus {
+                -webkit-box-shadow: 0px 0px 0px 7px $blue-color;
+                -moz-box-shadow: 0px 0px 0px 2px $blue-color;
+                box-shadow: 0px 0px 0px 2px $blue-color;
+            }
         }
 
         .information-card{

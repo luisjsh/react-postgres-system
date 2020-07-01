@@ -90,9 +90,10 @@ router.post('/login', async (req, res)=>{
             model: userimagens
         }]
     }).then( async response => {
+        
      if ( await passwordFunctions.compare(clave , response.clave) ){
         token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
-        status = 'password aproved'
+        status = 'password approved'
         userInformation = response 
     } else {
         status = 'password wrong'
@@ -126,11 +127,10 @@ router.post('/changepassword',  async (req,res)=>{
 router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)=>{
     let { id } = req.params
     
-    await usuarioImagenes.findAll({
-
+    await usuarioImagenes.findOne({
         where: { usuarioid: id }
     }).then( response =>{
-
+        console.log(response)
         if( response.length > 0){
             
             response.forEach( async ( image ) => {
@@ -140,8 +140,6 @@ router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)
             })
         }    
     })
-
-    await user.destroy({ where: {id} }).then( e => res.status(200))
 
 })
 

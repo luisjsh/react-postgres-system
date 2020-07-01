@@ -11,7 +11,7 @@ class ProfilePage extends React.Component {
  constructor(){
      super();
      this.Redirect = this.Redirect.bind(this);
-     this.DeleteUser = this.DeleteUser.bind(this);
+     this.handleDelete = this.handleDelete.bind(this);
  }
 
     componentDidMount(){
@@ -29,7 +29,7 @@ class ProfilePage extends React.Component {
 
     //--------------------------------
 
-    async DeleteUser(){
+    async handleDelete(){
         await fetch('http://localhost:4000/user/delete/'+ this.props.currentUserArray.id , {
             method: "GET",
             headers: {
@@ -59,14 +59,12 @@ class ProfilePage extends React.Component {
 
     <div className="information-side">
 
-
-
     <span>Correo: { this.props.currentUserArray.email }</span>
     <span>Nombre: { this.props.currentUserArray.nombre }</span>
 
     <div className="edit-section">
         <CustomButton color='secundary-blue' onClick={()=>{this.props.history.push('/changepassword')}}>Cambiar contraseña</CustomButton>
-        <CustomButton color='secundary-red' onClick={this.DeleteUser} >Eliminar cuenta</CustomButton>
+        <CustomButton color='secundary-red' onClick={this.handleDelete} >Eliminar cuenta</CustomButton>
     </div>
 
     </div> 

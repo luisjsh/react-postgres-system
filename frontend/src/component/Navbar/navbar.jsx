@@ -3,8 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './navbar-style.scss'
-import SearchBar from '../search-bar/search-bar'
+
 import validator from '../../functions/validator'
+
+import SearchBar from '../search-bar/search-bar'
+import InfoCard from '../info-card/infocard'
 
 class Nav extends React.Component{
 
@@ -26,8 +29,8 @@ class Nav extends React.Component{
 
 
      componentDidMount(){
-
         this.UpdateStatus()
+        console.log(this.props.currentUserImagePath , 'false')
     }
 
 
@@ -40,7 +43,7 @@ class Nav extends React.Component{
 
     async UpdateStatus ( ){
         if ( this.props.currentToken !== null ){
-
+            console.log(this.props)
             await fetch("http://localhost:4000/user/admin", {
                 method: "GET",
                 headers: {
@@ -119,25 +122,34 @@ class Nav extends React.Component{
                         this.props.currentUser !== null  ?
                         
                     <div className='info-section'>
-                    <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath+') center center / 80px no-repeat'}}>
+
+                        {
+                            this.props.currentUserImagePath == 'false' || this.props.currentUserImagePath == false  ? 
+                            
+                            <button className='no-image'>
+
+                            </button>
+
+                            :
+
+                            <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
                       
-                    </button>    
+                            </button>
+                        }    
+                    
 
                     <div className='information-card'>
-                        <div className="inside-card">
-                            <div className="profile-picture" style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath+') center center / cover no-repeat'}}>
 
-                            </div>
-                        </div>
-                        <div className="below-card">
+                        <InfoCard
+                        user={this.props.currentUser}
+                        image={this.props.currentUserImagePath} 
+                        profile={this.setUserForProfile} 
+                        configuration={this.Redirect}
+                        LogOut={this.LogOut} 
+                        />
 
-                        <span onClick={this.setUserForProfile}>Perfil</span>
-                        <span value='configuration' onClick={this.Redirect}>Configuración</span>
-                      
-                        <div className="log-out" onClick={this.LogOut}></div>
-                        </div>                        
                     </div>
-   
+                         
 
                     </div>
 

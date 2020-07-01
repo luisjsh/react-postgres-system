@@ -15,6 +15,8 @@ class ItemPage extends React.Component{
         this.state = {
 
             edit: false,
+            hairInformation: false,
+            goalInformation:false,
             //edit-values
             name: '',
             pelaje: '',
@@ -28,6 +30,7 @@ class ItemPage extends React.Component{
         }
 
         this.updateInformation = this.updateInformation.bind(this);
+        this.handleEdit = this.handleEdit.bind(this)
     }
 
     async componentDidMount(){
@@ -110,6 +113,40 @@ class ItemPage extends React.Component{
     }
     
 
+    async handleEdit(){
+        if (this.state.hairInformation == false || this.state.goalInformation == false){
+        await fetch("http://localhost:4000/configuration/getpelaje", {
+            method: "GET",
+            headers: {
+              "x-access-token": this.props.currentToken,
+            },
+          })
+            .then(async (response) => {
+              this.setState({ hairInformation: await response.json() });
+            })
+            .catch((e) => alert("error de conexion"));
+
+
+          await fetch("http://localhost:4000/configuration/logros", {
+            method: "GET",
+            headers: {
+              "x-access-token": this.props.currentToken,
+            },
+          })
+            .then(async (response) => {
+              this.setState({ goalInformation: await response.json() });
+            })
+            .catch((e) => alert("error de conexion"));
+            
+            this.setState({edit: !this.state.edit})
+
+        } else {
+
+            this.setState({edit: !this.state.edit})
+        }
+
+   
+    }
       //---------------- input-form ----------------------
 
     render(){   
@@ -125,7 +162,7 @@ class ItemPage extends React.Component{
                         {
                             this.props.currentUserAdmin ? 
                             <div className='admin-privileges'>
-                                <button className='edit' onClick={ ()=>this.setState({edit: !this.state.edit})}></button>
+                                <button className='edit' onClick={this.handleEdit}></button>
                             </div>
 
                             : 
@@ -137,7 +174,7 @@ class ItemPage extends React.Component{
                         {
                             this.state.currentItemArray ?
                             
-                            <InformationCard id={this.state.id} edit={this.state.edit} handleClick={()=>this.setState({edit: !this.state.edit})}  updateInformation={this.updateInformation} />
+                            <InformationCard id={this.state.id} edit={this.state.edit} hair={this.state.hairInformation} goals={this.state.goalInformation} handleClick={()=>this.setState({edit: !this.state.edit})}  updateInformation={this.updateInformation} />
 
                             :
 
@@ -242,7 +279,8 @@ class ItemPage extends React.Component{
                                                 this.props.history.push('/item/'+ id)
                                             }}
                                         />
-                             ))
+                                        ))
+                                        
                                         : <div className='no-response'> </div>
 
                                     :
