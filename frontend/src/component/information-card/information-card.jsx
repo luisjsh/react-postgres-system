@@ -3,9 +3,12 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux' 
 
 import './information-card-styles.scss'
+
 import ItemInformationCard from '../item-information-card/item-information-card'
 import DropdownSelect from '../dropdown-select/dropdown-select'
+import DropdownInput from '../dropdown-with-input-text/dropdown-with-input'
 import TextArea from '../text-area-component/text-area-component'
+import CustomInput from '../custom-input/custom-input'
 
 class informationCard extends Component {
     constructor(props) {
@@ -13,13 +16,16 @@ class informationCard extends Component {
 
         this.state = {
                  name: '',
-                 hair: '',
                  fechanac: '',
                  goal: '',
                  notepad: '',
-                 currentItemArray: false
+                 pelaje: '',
+
+                 currentItemArray: false,
+                 pelajeInformation: false
         }
 
+        this.pelajeSelected = this.pelajeSelected.bind(this);
         this.handleUpdateandMount = this.handleUpdateandMount.bind(this)
         this.formHandler = this.formHandler.bind(this);
         this.applyUpdateEdit = this.applyUpdateEdit.bind(this);
@@ -30,6 +36,18 @@ class informationCard extends Component {
     async componentDidMount ( ) {
         let {id} = this.props
         this.handleUpdateandMount(id)
+
+        await fetch("http://localhost:4000/configuration/getpelaje", {
+            method: "GET",
+            headers: {
+              "x-access-token": this.props.currentToken,
+            },
+          })
+            .then(async (response) => {
+              this.setState({ pelajeInformation: await response.json() });
+            })
+            .catch((e) => alert("error de conexion"));
+
     }
 
     componentDidUpdate(){     
@@ -43,7 +61,7 @@ class informationCard extends Component {
         await fetch('http://localhost:4000/item/search/profile/' + id)
         .then( async responseArray => {
             let { response } = await responseArray.json()
-            this.setState({currentItemArray: response , id: id , name: response.nombre, hair: response.pelaje, goal: response.logros ,goalValue: response.logro.nombre, notepad: response.notas})
+            this.setState({currentItemArray: response , id: id , name: response.nombre, pelaje: response.pelajes.nombre, goal: response.logros ,goalValue: response.logro.nombre, notepad: response.notas})
         })
     }
 
@@ -58,7 +76,7 @@ class informationCard extends Component {
         let formData = new FormData()
         formData.append('id' , this.props.currentItemArray.id)
         formData.append('nombre' , this.state.name)
-        formData.append('pelaje' , this.state.hair )
+        formData.append('pelaje' , this.state.pelaje )
         formData.append('fechanac' , this.state.fechanac)
         formData.append('logro' , this.state.goal)
         formData.append('notas' , this.state.notepad)
@@ -77,9 +95,12 @@ class informationCard extends Component {
                 this.props.updateInformation(this.props.currentItemArray.id)
                 
                 
-            }).catch( async error =>{ console.log(error)} )
+            }).catch( async error =>{ console.log(error) } )
         }
 
+        pelajeSelected(event) {
+            this.setState({ pelaje: event.target.attributes.value.value });
+          }
         
 
     render() {
@@ -92,9 +113,42 @@ class informationCard extends Component {
     
                     <div className="information-card">
                         
-                        <ItemInformationCard id='name'><input type='text' onChange={this.formHandler} name='name' value={this.state.name} placeholder={this.props.currentItemArray.nombre}/> </ItemInformationCard>
+                        <ItemInformationCard id='name'><CustomInput type='text' onChange={this.formHandler} name='name' value={this.state.name} placeholder={this.props.currentItemArray.nombre}/> </ItemInformationCard>
 
-                        <ItemInformationCard id='hair'><input type='text' onChange={this.formHandler} name='hair' value={this.state.hair} placeholder={this.props.currentItemArray.pelaje}/></ItemInformationCard>
+                        <ItemInformationCard id='hair'>
+
+                            <DropdownInput
+                                id='pelaje' 
+                                name="pelaje"
+                                onChange={this.formHandler}
+                                labelName='Pelaje' 
+                                value={this.state.pelaje}
+                                >
+                                    
+                                {
+                                    this.state.pelajeInformation ?
+                                     this.state.pelajeInformation.response.map(
+                                            ({ id, nombre }) =>
+                                              nombre
+                                                .toLowerCase()
+                                                .indexOf(this.state.pelaje.toLowerCase()) > -1 ? (
+                                                <button
+                                                  key={id}
+                                                  name="pelaje"
+                                                  value={id}
+                                                  onClick={this.pelajeSelected}
+                                                >
+                                                  {nombre}
+                                                </button>
+                                              ) : (
+                                                ""
+                                              )
+                                          )
+                                        : ""
+                                }
+                            </DropdownInput>
+
+                        </ItemInformationCard>
 
                         <ItemInformationCard id='sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
                       
@@ -128,7 +182,7 @@ class informationCard extends Component {
     
                         <ItemInformationCard id='name'><span>{this.state.currentItemArray.nombre}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='hair'><span>{this.state.currentItemArray.pelaje}</span></ItemInformationCard>
+                        <ItemInformationCard id='hair'><span>{this.state.pelaje}</span></ItemInformationCard>
 
                         <ItemInformationCard id='sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
                       

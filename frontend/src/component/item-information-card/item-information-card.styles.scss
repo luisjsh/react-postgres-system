@@ -55,6 +55,27 @@
         transition: 0.3;
     }
 
+    #mail{
+        background: url('./img/mail-icon.svg') no-repeat;
+        background-position: center;
+        background-size: 30px;
+        transition: 0.3;
+    }
+
+    #lock{
+        background: url('./img/lock-icon.svg') no-repeat;
+        background-position: center;
+        background-size: 30px;
+        transition: 0.3;        
+    }
+
+    #admin{
+        background: url('./img/admin-icon.svg') no-repeat;
+        background-position: center;
+        background-size: 30px;
+        transition: 0.3;        
+    }
+
     input{
         width: 80%;
         height: 25px;

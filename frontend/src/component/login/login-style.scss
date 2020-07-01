@@ -23,7 +23,7 @@ $blue-color: #0E8FFF;
     .login-section {
         display: flex;
         flex-direction: column;
-        width: 28%;
+        width: 30%;
         height: 400px;
         transition: 0.3s;
 
@@ -33,7 +33,6 @@ $blue-color: #0E8FFF;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
 
             .iniciar-sesion{
                 font-size: 31px;

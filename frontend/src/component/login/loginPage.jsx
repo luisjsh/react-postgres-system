@@ -7,6 +7,7 @@ import './login-style.scss'
 
 import CustomInput from '../custom-input/custom-input';
 import CustomButton from '../custom-button/custom-button';
+import ImageAtSide from '../item-information-card/item-information-card'
 
 class LogIn extends React.Component {
     constructor(props){
@@ -98,8 +99,12 @@ class LogIn extends React.Component {
                         <span className='iniciar-sesion'></span>
                         
                         <div className="try" style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                        <CustomInput name='email' label={this.state.emailLabel} style={{border: '1px solid '+ this.state.emailBorderColor}} value={this.state.email} onChange={this.formHandler}></CustomInput>
-                        <CustomInput name='password' label={this.state.passwordLabel} style={{border: '1px solid '+ this.state.passwordBorderColor}} value={this.state.password} onChange={this.formHandler}></CustomInput>
+                        <ImageAtSide id='mail'>
+                            <CustomInput name='email' label={this.state.emailLabel} style={{border: '1px solid '+ this.state.emailBorderColor}} value={this.state.email} onChange={this.formHandler}></CustomInput>
+                        </ImageAtSide>
+                        <ImageAtSide id='lock'>
+                            <CustomInput name='password' label={this.state.passwordLabel} style={{border: '1px solid '+ this.state.passwordBorderColor}} value={this.state.password} onChange={this.formHandler}></CustomInput>
+                        </ImageAtSide>
                         </div>
 
                         <div className="captchap">

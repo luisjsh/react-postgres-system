@@ -6,6 +6,8 @@ const Op = sequelize.Op
 const toros = require('../models/toros.model')
 const torosImage = require('../models/torosimagenes.model')
 const logrosModel = require('../models/usefull-model/logros.model')
+const pelajeModel = require('../models/usefull-model/pelaje.model')
+
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
 
 router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
@@ -47,7 +49,7 @@ router.get('/search/profile/:id', async (req, res)=>{
         where: {
             id 
         },
-        include: [{model: torosImage} , {model: logrosModel}]
+        include: [{model: torosImage} , {model: logrosModel}, {model: pelajeModel, as: 'pelajes'}]
     }).then( response => res.status(200).json({status: 200, response}))
 })
 

@@ -1,30 +1,50 @@
 $main-color: #DEDEDE;
+$sub-color: grey;
+$focus-color: #0E8FFF; 
 
 .dropdown-select {
-    margin: 25px 0;
-    width: 220px;
+    width: 80%;
+    position: relative;
     display: flex;
     flex-direction: column;
+    margin: 20px 0;
+
+    &:focus-within, &:hover{
+
+        select{
+            border: 1px solid $focus-color;
+        }
+
+        label{
+            font-size: 18px;
+            color: $focus-color;
+          }
+        }
+    
+
+    label {
+        position: absolute;
+        font-size: 16px;
+        font-weight: normal;
+        left: 5px;
+        top: 0px;
+        color: $sub-color;
+        transition: 0.3s;
+    }
 
     select {
         background: none;
         background-color: white;
         color: grey;
         font-size: 18px;
-        padding: 10px 10px 10px 5px;
+        padding: 0px 0px 0px 5px;
+        height: 40px;
         display: block;
         width: 100%;
         border: 1px solid $main-color;
-        margin: 3px 0;
+        margin: 25px 0;
         border-radius: 4px;
 
-        .label {
-            font-size: 16px;
-            font-weight: normal;
-            position: absolute;
-            color: black;
-            left: 5px;
-        }
 
         select-list {
             position: absolute;

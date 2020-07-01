@@ -53,7 +53,7 @@ router.post('/add', async (req, res)=>{
     contrasena = await passwordFunctions.encrypt( contrasena ); 
     let detail = null;
     await user.create({
-        email: correo , clave: contrasena, nombre: nombre, admin , primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta
+        email: correo , clave: contrasena, nombre: nombre, admin: true , primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta
     },{
         fields: [ 'email', 'clave', 'nombre', 'admin' ,'primerapregunta', 'primerapreguntarespuesta', 'segundapregunta', 'segundapreguntarespuesta' ]
     }).then( async response => {

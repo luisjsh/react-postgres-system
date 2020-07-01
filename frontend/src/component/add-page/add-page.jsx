@@ -396,6 +396,7 @@ class AddPage extends React.Component {
                
 
                 <ItemInformation id='date'>
+                  
                   <div className="birth-date">
                     <label htmlFor="date">Date</label>
                     <input
@@ -404,13 +405,17 @@ class AddPage extends React.Component {
                       required
                       type="date"
                       id="date"
-                      style={{ width: "290px", borderRadius: "4px" }}
+                      style={{ width: "100%", borderRadius: "4px" }}
                       />
                   </div>
+
                 </ItemInformation>
             </div>
 
             <div className="second-half">
+              
+              <ItemInformation id='name'>
+
               <div className="hierro">
                 <label htmlFor="hierro">Hierro</label>
                 <div className="hierro-section" label="hierro">
@@ -456,6 +461,7 @@ class AddPage extends React.Component {
                   ></input>
                 </div>
               </div>
+              </ItemInformation>
 
               <ItemInformation id='sexo'>
                 

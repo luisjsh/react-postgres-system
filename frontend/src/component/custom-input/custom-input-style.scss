@@ -4,7 +4,7 @@ $focus-color: #0E8FFF;
 
 .group {
   position: relative;
-
+  width: 100%;
   &:focus-within{
     .form-input-label{
       font-size: 18px;

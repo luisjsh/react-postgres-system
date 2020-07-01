@@ -2,12 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
+import './signup-page-styles.scss';
+
+
 import Custombutton from '../custom-button/custom-button';
 import CarouselAdd from '../image-carousel-add/image-carousel-add';
 import CustomInput from '../custom-input/custom-input';
 import SecurityQuestions from '../security-questions-modal/security-questions'
-import './signup-page-styles.scss';
-
+import ImageAside from '../item-information-card/item-information-card'
 
 class signUpPage extends React.Component {
     constructor (props){
@@ -105,6 +107,7 @@ class signUpPage extends React.Component {
                 this.setState({emailLabel: 'Correo Valido', inputBorderColor: 'green'})
                 this.props.saveToken(json.token);
                 this.DontShow();
+                this.props.history.push('/')
             }
              
         }).catch( e =>{
@@ -140,23 +143,37 @@ class signUpPage extends React.Component {
             
                 <div className="information-section">
                     <span>Informacion</span>
-                <div className="information-card">
+                <div className="information">
                     <div className="input-section">
-                    <CustomInput name='name' onChange={this.formHandler} value={this.state.name} label='Nombre'></CustomInput>
-                    <CustomInput type='email' name='email' onChange={this.formHandler} value={this.state.email} label={this.state.emailLabel} style={{border: '1px solid '+ this.state.inputBorderColor}}></CustomInput>
-                    <CustomInput type='password' name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
-                    <CustomInput type='password' name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} style={{border: '1px solid ' + this.state.repeatPasswordBorderColor}}></CustomInput>
+                    
+                    <ImageAside id='name'>
+                        <CustomInput name='name' onChange={this.formHandler} value={this.state.name} label='Nombre'></CustomInput>
+                    </ImageAside>
+                    
+                    <ImageAside id='mail'>
+                        <CustomInput type='email' name='email' onChange={this.formHandler} value={this.state.email} label={this.state.emailLabel} style={{border: '1px solid '+ this.state.inputBorderColor}}></CustomInput>
+                    </ImageAside>
+
+                    <ImageAside id='lock'>
+                        <CustomInput type='password' name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
+                    </ImageAside>
+
+                    <ImageAside id='lock'>
+                        <CustomInput type='password' name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} style={{border: '1px solid ' + this.state.repeatPasswordBorderColor}}></CustomInput>
+                    </ImageAside>
                     
                 {
                     this.props.currentUserAdmin ? 
 
-                    <div className="admin-section">
-                    <span>Administrador</span>
-                    <div className='switch'>
-                    <input id='switch-1' type='checkbox' onClick={()=>{ this.setState({ admin: !this.state.admin })}} className='switch-input'/>
-                    <label htmlFor='switch-1' className="switch-label"></label>
-                    </div>
-                    </div>
+                    <ImageAside id='admin'>
+                        <div className="admin-section">
+                            <span>Administrador</span>
+                            <div className='switch'>
+                                <input id='switch-1' type='checkbox' onClick={()=>{ this.setState({ admin: !this.state.admin })}} className='switch-input'/>
+                                <label htmlFor='switch-1' className="switch-label"></label>
+                            </div>
+                        </div>
+                    </ImageAside>
 
                     :
 
