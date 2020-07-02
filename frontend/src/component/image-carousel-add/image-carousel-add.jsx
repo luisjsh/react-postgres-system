@@ -12,11 +12,6 @@ class PhotoCarousel extends React.Component{
         }
     }
 
-
-componentDidMount(){
-    console.log(this.props)
-}
-
 //---------------- Carrousel ----------------------
 goLeft = () =>{
 

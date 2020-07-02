@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 import './infocard-styles.scss'
 
-function infocard({ image , user , LogOut }) {
-    console.log( image == false || image == 'false' )
+function infocard({ image , user , addMore, profile , LogOut }) {
     return (
         <div className='infocard'>
             <div className="inside-card">
@@ -28,9 +27,16 @@ function infocard({ image , user , LogOut }) {
             
             <div className="below-card">
 
-                    <span>Perfil</span>
-                    <span>Configuracion</span>
-                      
+                    <button onClick={profile}>Perfil</button>
+                    <div className='dropdown'>
+
+                        <button className='dropdown-button'>Mas Opciones <div className='arrow'></div></button>
+
+                        <div className='displayed-dropdown'>
+                            <button value='configuration' onClick={addMore}>Agregar pelaje / hierro</button>
+                        </div>
+                    </div>
+                    
                     <div className="log-out" onClick={LogOut}></div>
             </div>      
         </div>

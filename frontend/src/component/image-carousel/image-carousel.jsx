@@ -3,17 +3,21 @@ import { connect } from 'react-redux'
 
 import './image-carousel-style.scss'
 
+import EditImage from '../edit-images-modal/edit-images-modal'
+
 class ImageCarousel extends Component {
     constructor(props) {
         super(props);
         this.state = {
              choosedImage: null,
              x: 0,
-             imageId: 0
+             imageId: 0,
+             show: true
         }
         this.goRight = this.goRight.bind(this);
         this.goLeft = this.goLeft.bind(this);
         this.selectImage = this.selectImage.bind(this);
+        this.DontShow = this.DontShow.bind(this);
     }
 
 //------------- go to right image ---------------
@@ -44,11 +48,17 @@ class ImageCarousel extends Component {
         this.setState({imageId: parseInt(event.target.attributes.value.value) , x})
     }
 
-
+    DontShow(){
+        this.setState({show: false})
+    }
 
     render() {
         return (
             <div className='carousel'>
+
+                { this.state.show ? <EditImage DontShow={this.DontShow} /> : ''}
+
+                { this.props.currentUserAdmin ? <button className='edit' onClick={()=>this.setState({show: !this.state.show})}></button> : ''} 
                 <div className="image">
                 
                 
@@ -88,9 +98,9 @@ class ImageCarousel extends Component {
     }
 }
 
-const mapStatetoProps = ({ item: { images } })=>{
+const mapStatetoProps = ({ item: { images } , user: {currentUserAdmin}})=>{
     return{
-        images
+        images , currentUserAdmin
     }
 }
 

@@ -144,7 +144,7 @@ class Nav extends React.Component{
                         user={this.props.currentUser}
                         image={this.props.currentUserImagePath} 
                         profile={this.setUserForProfile} 
-                        configuration={this.Redirect}
+                        addMore={this.Redirect}
                         LogOut={this.LogOut} 
                         />
 

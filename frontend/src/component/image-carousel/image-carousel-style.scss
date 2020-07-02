@@ -5,6 +5,28 @@ $main-color: #DEDEDE;
 .carousel{
     width: 100%;
     height: auto;
+    position: relative;
+
+    .edit{
+        background: url('./img/edit.svg')no-repeat;
+        background-size: 18px;
+        background-position: center;
+        width: 35px;
+        height: 35px;
+        background-color: white;
+        border: 1px solid $main-color;
+        border-radius: 100%;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        z-index: 3;
+        transition: 0.3s;
+
+        &:hover, &:focus{
+            border: 1px solid $blue-color;
+        }
+    }
 
     .image{
         width: 100%;
