@@ -54,7 +54,7 @@ class ProfilePage extends React.Component {
 <div className="page">
 
     <div className="image-section">
-    <ImageCarousel />
+    <ImageCarousel id={this.props.currentUserArray.id} context='user' />
     </div>
 
     <div className="information-side">

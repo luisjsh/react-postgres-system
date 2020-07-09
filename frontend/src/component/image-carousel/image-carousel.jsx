@@ -12,7 +12,7 @@ class ImageCarousel extends Component {
              choosedImage: null,
              x: 0,
              imageId: 0,
-             show: true
+             show: false
         }
         this.goRight = this.goRight.bind(this);
         this.goLeft = this.goLeft.bind(this);
@@ -56,7 +56,7 @@ class ImageCarousel extends Component {
         return (
             <div className='carousel'>
 
-                { this.state.show ? <EditImage DontShow={this.DontShow} /> : ''}
+                { this.state.show ? <EditImage DontShow={this.DontShow} id={this.props.id} context={this.props.context} /> : ''}
 
                 { this.props.currentUserAdmin ? <button className='edit' onClick={()=>this.setState({show: !this.state.show})}></button> : ''} 
                 <div className="image">

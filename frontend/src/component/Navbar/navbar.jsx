@@ -100,7 +100,7 @@ class Nav extends React.Component{
                 this.props.history.push('/login')
             } else {
             let { userInformation } = await response.json()
-            this.props.setUser(userInformation[0])
+            this.props.setUser(userInformation)
             this.props.history.push('/profile/')
             }
         }).catch( e =>{

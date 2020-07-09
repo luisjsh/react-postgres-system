@@ -11,16 +11,13 @@ const config = require('../config');
 //models 
 const user = require('../models/usuario')
 const userimagens = require('../models/usuarioImagenes')
-const toros = require('../models/toros.model')
-const torosimagenes = require('../models/torosimagenes.model');
-const usuarioImagenes = require('../models/usuarioImagenes');
 
 //--------------------------------------------
 
 router.get('/profile/', tokenVerification, adminVerification , async (req,res)=>{
     let { userId } = req;
     let { status, detail, userInformation } = '';
-    await user.findAll({
+    await user.findOne({
         where: {id: userId},
         include: [{
             model: userimagens
@@ -130,7 +127,6 @@ router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)
     await usuarioImagenes.findOne({
         where: { usuarioid: id }
     }).then( response =>{
-        console.log(response)
         if( response.length > 0){
             
             response.forEach( async ( image ) => {
@@ -143,5 +139,65 @@ router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)
 
 })
 
+router.post('/updateimage', async (req, res)=>{
+    let { tokeepimage , id } = req.body;
+   
+    if(typeof tokeepimage == 'string'){
+        tokeepimage = [{id: 0 , path: tokeepimage}]
+    } else if (typeof tokeepimage == 'object'){
+        tokeepimage = tokeepimage.map( (item, id) =>{
+            return {id , path: item}
+        })
+    }
+    
+    let oldImages = await userimagens.findAll({
+        where: {
+            usuarioid: id
+        }
+    })
+     
+
+    let ItemsToDelete = []
+    
+    if (tokeepimage == undefined){
+        
+        oldImages.map( oldItem =>{
+            ItemsToDelete.push(oldItem)
+        })
+    
+    } else if (oldImages.length != tokeepimage.length){
+        oldImages.map( oldItem =>{
+            tokeepimage.map( newItem  => {
+                if (newItem.path != oldItem.path){
+                    ItemsToDelete.push(oldItem)
+                }
+            })
+        })
+    }
+    
+    
+    ItemsToDelete.map( async item =>{
+        await item.destroy()
+    })
+    
+    req.files.map( async item =>{
+        await userimagens.create({
+            path: '/img/uploads/' + item.filename , usuarioid: id
+        },{
+            fields: ['path', 'usuarioid']
+        })
+    })
+
+    await user.findOne({
+        where: {id},
+        include: [{
+            model: userimagens
+        }]
+    }).then( response =>{
+        res.status(200).json({status: 'done', data: response})
+    })
+    
+    
+})
 
 module.exports = router;

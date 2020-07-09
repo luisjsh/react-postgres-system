@@ -153,7 +153,7 @@ class ItemPage extends React.Component{
         return(
             <div className='item-page'>
                 <div className="profile-section">
-                <ImageCarousel/>
+                <ImageCarousel id={this.props.currentItemArray.id} context='item' />
                 
                     <div className="information-card">
                         

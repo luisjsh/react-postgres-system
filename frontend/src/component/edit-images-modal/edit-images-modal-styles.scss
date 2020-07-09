@@ -12,11 +12,14 @@ $main-color: #DEDEDE;
     display: flex;
 
     .x-button{
+        background: url('./img/x-icon.svg') no-repeat;
+        background-size: 25px;
+        background-position: center;
         position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 30px;
-        height: 30px;
+        top: -10px;
+        right: -10px;
+        width: 40px;
+        height: 40px;
         border-radius: 100%;
         border: 1px solid red;
         background-color: white;
@@ -25,7 +28,8 @@ $main-color: #DEDEDE;
         z-index: 3;
 
         &:focus-within, &:hover{
-            border: 2px solid red;
+           width: 60px;
+           height: 60px;
         }
     }
 
@@ -39,6 +43,7 @@ $main-color: #DEDEDE;
         justify-content: center;
         position: relative;
         overflow: hidden;
+
         img{
             width: 95%;
             max-height: 100%;
@@ -49,7 +54,7 @@ $main-color: #DEDEDE;
         .background{
             width: 100%;
             height: 100%;
-            background-size: 2000%;
+            background-size: 8000%;
             position: absolute;
             z-index: 0;
             -webkit-filter: blur(5px);
@@ -94,16 +99,26 @@ $main-color: #DEDEDE;
             width: 100%;
             height: 60%;
             display: flex;
-            align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+            overflow-y: auto;
+            transition: 0.3s;
+
 
             .no-images{
                 width: 300px;
                 height: 300px;
-                background-color: rosybrown;
             }
             
+            
+
         }
+    }
+    
+    .button-section{
+        width: 100%;
+        height: 17%;
+        background-color: red;
     }
 
 }

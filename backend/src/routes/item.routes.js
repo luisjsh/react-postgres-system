@@ -124,7 +124,7 @@ router.get('/search/family/child/:id', async (req, res)=>{
 router.post('/update', tokenVerification, adminVerification , async (req, res)=>{
 
     let { id , nombre, pelaje, fechanac } = req.body
-    console.log(id)
+
     await toros.findOne({ 
         where: { id }
     }).then( async response => {
@@ -132,10 +132,62 @@ router.post('/update', tokenVerification, adminVerification , async (req, res)=>
         response.pelaje = pelaje;
         response.fechaNac = fechanac;
         response.save();
-        console.log(response)
         res.status(200).json({status: 200, detail:'updated' , data: response})
     })
 
+})
+
+router.post('/updateimage', async (req, res)=>{
+    let { tokeepimage , id } = req.body;
+   
+    if(typeof tokeepimage == 'string'){
+        tokeepimage = [{id: 0 , path: tokeepimage}]
+    } else if (typeof tokeepimage == 'object'){
+        tokeepimage = tokeepimage.map( (item, id) =>{
+            return {id , path: item}
+        })
+    }
+    
+    let oldImages = await torosImage.findAll({
+        where: {
+            torosid: id
+        }
+    })
+     
+
+    let ItemsToDelete = []
+    
+    if (tokeepimage == undefined){
+        
+        oldImages.map( oldItem =>{
+            ItemsToDelete.push(oldItem)
+        })
+    
+    } else if (oldImages.length != tokeepimage.length){
+        oldImages.map( oldItem =>{
+            tokeepimage.map( newItem  => {
+                if (newItem.path != oldItem.path){
+                    ItemsToDelete.push(oldItem)
+                }
+            })
+        })
+    }
+    
+    
+    ItemsToDelete.map( async item =>{
+        await item.destroy()
+    })
+    
+    req.files.map( async item =>{
+        await torosImage.create({
+            path: '/img/uploads/' + item.filename , torosid: id 
+        },{
+            fields: ['path', 'torosid']
+        })
+    })
+
+    res.status(200).json({status: 'done'})
+    
 })
 
 module.exports = router;
