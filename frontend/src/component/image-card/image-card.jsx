@@ -57,6 +57,7 @@ class imageCard extends Component {
         onBlur={this.onHoverLeft}
         onMouseLeave={this.onHoverLeft}
         onClick={this.props.handleClick}
+        title={this.props.nombre}
       >
         <div
           className="cards"
@@ -79,8 +80,8 @@ class imageCard extends Component {
                     ")"
                   : "",
               }}
-            ></div>{" "}
-            <span> {this.props.nombre}</span>{" "}
+            ></div>
+            <span> {this.props.nombre}</span>
             <span> - {this.props.fechanac}</span>
           </div>
           {

@@ -35,6 +35,7 @@ class LogIn extends React.Component {
 
     }
 
+
 //---------- form handler ---------
 
     formHandler ( event ){
@@ -48,7 +49,6 @@ class LogIn extends React.Component {
 
     async submit (event){
         event.preventDefault()
-        
         let formData = new FormData()
         formData.append('correo', this.state.email)
         formData.append('clave', this.state.password)
@@ -93,16 +93,16 @@ class LogIn extends React.Component {
         return(
             <div className='login'>
                 
-                <div className="login-section">
+                <div className="login-section" onKeyDown={ (event)=>{if(event.keyCode == '13'){this.submit(event)}}}>
                     
                     <div className="login-card">
                         <span className='iniciar-sesion'></span>
                         
                         <div className="try" style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                        <ImageAtSide id='mail'>
+                        <ImageAtSide id='mail' title='Correo'>
                             <CustomInput name='email' label={this.state.emailLabel} style={{border: '1px solid '+ this.state.emailBorderColor}} value={this.state.email} onChange={this.formHandler}></CustomInput>
                         </ImageAtSide>
-                        <ImageAtSide id='lock'>
+                        <ImageAtSide id='lock' title='Contraseña'>
                             <CustomInput name='password' label={this.state.passwordLabel} style={{border: '1px solid '+ this.state.passwordBorderColor}} value={this.state.password} onChange={this.formHandler}></CustomInput>
                         </ImageAtSide>
                         </div>

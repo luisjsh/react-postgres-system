@@ -77,9 +77,9 @@ class EditImageModal extends Component {
         formData.append('id' , this.props.id)
 
         switch(this.props.context){
-
+            
             case 'item':
-                
+                console.log(this.props.context)
                 await fetch('http://localhost:4000/item/updateimage', {
                     method: 'POST',
                     body: formData
@@ -88,14 +88,18 @@ class EditImageModal extends Component {
                        await fetch('http://localhost:4000/item/search/profile/' + this.props.id)
                         .then( async responseArray => {
                             let { response } = await responseArray.json()
+                            console.log(response)
                             this.props.updateItemInformation(response)
                             this.props.DontShow()
                         })
         
                 })
-                
+
+                break;
+
             case 'user':
 
+                console.log(this.props.context)
                 await fetch('http://localhost:4000/user/updateimage', {
                     method: 'POST',
                     body: formData
@@ -110,12 +114,13 @@ class EditImageModal extends Component {
                        })
                         .then( async responseArray => {
                             let { userInformation } = await responseArray.json()
-                            console.log(userInformation)
                             this.props.updateItemInformation({ torosimagenes: userInformation.usuariosimagenes })
                             this.props.DontShow()
                         })
         
                 })
+                
+                break;
         }
     }
 
@@ -152,7 +157,7 @@ class EditImageModal extends Component {
                             }
                         </div>
                             <div className="button-section">
-                                <ButtonConfirmation handleClick={this.handleSubmit} />
+                                <ButtonConfirmation handleClick={this.handleSubmit} handleClose={this.props.DontShow}/>
                             </div>
                     </div>
                 </div>

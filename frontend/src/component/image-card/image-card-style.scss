@@ -11,10 +11,9 @@ $main-color: #DEDEDE;
     border-radius: 4px;
     cursor: pointer;
     overflow: hidden;
-
+    
     .card-title{
         width: 100%;
-        text-align: center;
         height: 50px;
         border-bottom: 1px solid $main-color;
         font-size: 23px;
@@ -22,15 +21,27 @@ $main-color: #DEDEDE;
         justify-content: center;
         align-items: center;
         transition: 0.4s;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         .hierro-logo{
             width: 30px;
             height: 30px;
             background-size: cover;
             border-radius: 100% ;
+            border: 1px solid $main-color;
         }
 
         span{
+            text-transform: full-width;
+            height: 99%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            font-size: 20px;
+            text-overflow: ellipsis;
+            max-width:40%;
             margin-left: 10px;
         }
     }

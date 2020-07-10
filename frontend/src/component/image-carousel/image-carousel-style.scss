@@ -6,6 +6,7 @@ $main-color: #DEDEDE;
     width: 100%;
     height: auto;
     position: relative;
+    box-sizing: border-box;
 
     .edit{
         background: url('./img/edit.svg')no-repeat;
@@ -33,10 +34,12 @@ $main-color: #DEDEDE;
         border-radius: 4px;
         border: 1px solid $main-color;
         height: 300px;
-       display: flex;
+        display: flex;
         overflow: hidden;
         position: relative;
         align-items: center;
+        max-width: 10000px;
+        
         
         .slides{
             width: auto;

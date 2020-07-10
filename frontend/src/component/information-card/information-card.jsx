@@ -113,9 +113,9 @@ class informationCard extends Component {
     
                     <div className="information-card">
                         
-                        <ItemInformationCard id='name'><CustomInput type='text' onChange={this.formHandler} name='name' value={this.state.name} placeholder={this.props.currentItemArray.nombre}/> </ItemInformationCard>
+                        <ItemInformationCard id='name' title='Nombre'><CustomInput type='text' onChange={this.formHandler} name='name' value={this.state.name} placeholder={this.props.currentItemArray.nombre}/> </ItemInformationCard>
 
-                        <ItemInformationCard id='hair'>
+                        <ItemInformationCard id='hair' title='Pelaje'>
 
                             <DropdownInput
                                 id='pelaje' 
@@ -150,11 +150,11 @@ class informationCard extends Component {
 
                         </ItemInformationCard>
 
-                        <ItemInformationCard id='sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
+                        <ItemInformationCard id='sexo' title='Sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
                       
-                        <ItemInformationCard id='date'><span>{this.state.currentItemArray.fechanac}</span></ItemInformationCard>
+                        <ItemInformationCard id='date' title='Fecha de nacimiento'><span>{this.state.currentItemArray.fechanac}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='goal'>
+                        <ItemInformationCard id='goal' title='Logros'>
                                 <DropdownSelect  onChange={this.formHandler} name='goal' value={this.state.goal}>
                                     <option>{this.state.goalValue}</option>
                                     { 
@@ -165,7 +165,7 @@ class informationCard extends Component {
                                 </DropdownSelect>
                             </ItemInformationCard>
 
-                        <ItemInformationCard id='notepad'>
+                        <ItemInformationCard id='notepad' title='Notas'>
                                 <TextArea value={this.state.notepad}  onChange={this.formHandler} name='notepad' style={{width: '80%'}}></TextArea>
                         </ItemInformationCard>
 
@@ -180,17 +180,17 @@ class informationCard extends Component {
     
                     <div className="information-card">
     
-                        <ItemInformationCard id='name'><span>{this.state.currentItemArray.nombre}</span></ItemInformationCard>
+                        <ItemInformationCard id='name' title='Nombre'><span>{this.state.currentItemArray.nombre}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='hair'><span>{this.state.pelaje}</span></ItemInformationCard>
+                        <ItemInformationCard id='hair' title='Pelaje'><span>{this.state.pelaje}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
+                        <ItemInformationCard id='sexo' title='Sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
                       
-                        <ItemInformationCard id='date'><span>{this.state.currentItemArray.fechanac}</span></ItemInformationCard>
+                        <ItemInformationCard id='date' title='Fecha de nacimiento'><span>{this.state.currentItemArray.fechanac}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='goal'><span>{this.state.goalValue}</span></ItemInformationCard>
+                        <ItemInformationCard id='goal' title='Logros'><span>{this.state.goalValue}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='notepad'><span className='notepad'>{this.state.notepad}</span></ItemInformationCard>
+                        <ItemInformationCard id='notepad' title='Notas'><span className='notepad'>{this.state.notepad}</span></ItemInformationCard>
 
                         
                     </div>

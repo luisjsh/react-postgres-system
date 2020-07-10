@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import './image-carousel-style.scss'
 
+import Image from './image'
+
 import EditImage from '../edit-images-modal/edit-images-modal'
 
 class ImageCarousel extends Component {
@@ -52,6 +54,11 @@ class ImageCarousel extends Component {
         this.setState({show: false})
     }
 
+
+    componentWillUnmount(){
+        this.props.setItem({torosimagenes: []})
+    }
+
     render() {
         return (
             <div className='carousel'>
@@ -71,7 +78,7 @@ class ImageCarousel extends Component {
                          this.props.images.length > 0 ? 
                         
                         this.props.images.map( ({ id , path })  => (
-                            <img key={id} src={'http://localhost:4000'+ path} className='slides' style={{transform:'translateX('+this.state.x+'%)', zIndex: '-1'}} />
+                            <Image key={id} path={path} reference={this.state.x}/>
                         ))
 
                         :
@@ -104,4 +111,10 @@ const mapStatetoProps = ({ item: { images } , user: {currentUserAdmin}})=>{
     }
 }
 
-export default connect (mapStatetoProps) (ImageCarousel)
+const mapDispatchtoProps = (dispatch) =>(
+    {
+        setItem: (item)=>{ dispatch({ type:'SET_CURRENT_ITEM' , payload:item })}
+    }
+)
+
+export default connect (mapStatetoProps, mapDispatchtoProps) (ImageCarousel)

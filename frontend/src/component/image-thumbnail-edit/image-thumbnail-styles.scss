@@ -16,7 +16,8 @@ $main-color: #DEDEDE;
         max-width: 130px;
         transition: 0.1s;
         cursor: pointer;
-        filter: grayscale(100%);
+        filter: grayscale(40%);
+        transition: filter 0.3s;
 
         &:hover, &:focus-within{
             filter: grayscale(0%);
@@ -32,7 +33,6 @@ $main-color: #DEDEDE;
         max-width: 130px;
         transition: 0.1s;
         cursor: pointer;
-        filter:  blur(0px);
 
         &:hover, &:focus-within{
             border: 2px solid $blue-color;
