@@ -12,9 +12,15 @@ const {tokenVerification, adminVerification} = require('../functions/verificatio
 
 router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
     let { nombre , hierro , hierrocodigo, pelaje, sexo ,fechaNac , logros, notas , madreId , padreId } = req.body;
+    
+    let ChoosedPelaje = await pelajeModel.findOne({
+        where: {
+            nombre: pelaje
+        }
+    })
 
     await toros.create({
-        nombre , hierro, hierrocodigo, pelaje, sexo, fechanac: fechaNac, logros, notas, madreid: madreId, padreid: padreId
+        nombre , hierro, hierrocodigo, pelaje: ChoosedPelaje.id, sexo, fechanac: fechaNac, logros, notas, madreid: madreId, padreid: padreId
     
     },{
      
@@ -33,6 +39,7 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
         
         res.status(200).json({status: 200});    
     }) 
+    
 });
 
 
@@ -123,18 +130,33 @@ router.get('/search/family/child/:id', async (req, res)=>{
 
 router.post('/update', tokenVerification, adminVerification , async (req, res)=>{
 
-    let { id , nombre, pelaje, fechanac } = req.body
+    let { id , nombre, pelaje, fechanac, logro, notas} = req.body
+
+
+    let ChoosedPelaje = await pelajeModel.findOne({
+        where: {
+            nombre: pelaje
+        }
+    })
 
     await toros.findOne({ 
         where: { id }
     }).then( async response => {
         response.nombre = nombre;
-        response.pelaje = pelaje;
+        response.pelajes = ChoosedPelaje.id;
         response.fechaNac = fechanac;
+        response.logros = parseInt(logro);
+        response.notas = notas;
         response.save();
-        res.status(200).json({status: 200, detail:'updated' , data: response})
     })
 
+            
+    await toros.findOne({
+        where: {id},
+        include: [{model: logrosModel}, {model: pelajeModel, as: 'pelajes'}]
+    }).then( response =>{
+        res.status(200).json({status: 200, detail:'updated' , data: response})
+    })
 })
 
 router.post('/updateimage', async (req, res)=>{

@@ -79,7 +79,7 @@ class EditImageModal extends Component {
         switch(this.props.context){
             
             case 'item':
-                console.log(this.props.context)
+                
                 await fetch('http://localhost:4000/item/updateimage', {
                     method: 'POST',
                     body: formData
@@ -88,8 +88,9 @@ class EditImageModal extends Component {
                        await fetch('http://localhost:4000/item/search/profile/' + this.props.id)
                         .then( async responseArray => {
                             let { response } = await responseArray.json()
-                            console.log(response)
+                             
                             this.props.updateItemInformation(response)
+                            
                             this.props.DontShow()
                         })
         
@@ -99,7 +100,7 @@ class EditImageModal extends Component {
 
             case 'user':
 
-                console.log(this.props.context)
+                 
                 await fetch('http://localhost:4000/user/updateimage', {
                     method: 'POST',
                     body: formData
@@ -114,7 +115,9 @@ class EditImageModal extends Component {
                        })
                         .then( async responseArray => {
                             let { userInformation } = await responseArray.json()
+
                             this.props.updateItemInformation({ torosimagenes: userInformation.usuariosimagenes })
+                            this.props.setUserImagePath(userInformation.usuariosimagenes[0].path)
                             this.props.DontShow()
                         })
         
@@ -174,7 +177,8 @@ const mapStatetoProps = ({item: {images} , user: {currentToken}})=>{
 
 const mapDispatchtoProps = ( dispatch )=>(
     {
-        updateItemInformation: (item)=>{ dispatch({ type: 'SET_CURRENT_ITEM', payload: item})}
+        updateItemInformation: (item)=>{ dispatch({ type: 'SET_CURRENT_ITEM', payload: item})},
+        setUserImagePath: (item)=>{ dispatch({type:'SET_IMAGE_PATH' , payload: item})}
     }
 )
 

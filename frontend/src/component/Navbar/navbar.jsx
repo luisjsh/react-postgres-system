@@ -30,7 +30,6 @@ class Nav extends React.Component{
 
      componentDidMount(){
         this.UpdateStatus()
-        console.log(this.props.currentUserImagePath , 'false')
     }
 
 
@@ -43,7 +42,7 @@ class Nav extends React.Component{
 
     async UpdateStatus ( ){
         if ( this.props.currentToken !== null ){
-            console.log(this.props)
+        
             await fetch("http://localhost:4000/user/admin", {
                 method: "GET",
                 headers: {

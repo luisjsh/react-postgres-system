@@ -15,6 +15,13 @@ const userReducer = (state = INITIAL_STATE, action) =>{
                 currentUserArray: action.payload
             }
         
+        case 'SET_IMAGE_PATH':
+            
+            localStorage.setItem('imagepath', action.payload);
+            return {
+                ...state,
+                currentUserImagePath: action.payload
+            }
 
         case 'LOG_IN':
             localStorage.setItem('currentUser', action.payload.name);

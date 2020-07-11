@@ -52,7 +52,7 @@ class AddPage extends React.Component {
     this.Show = this.Show.bind(this);
     this.DontShow = this.DontShow.bind(this);
     this.PhotoChanger = this.PhotoChanger.bind(this);
-    this.GeneticRange = this.GeneticRange.bind(this);
+   /* this.GeneticRange = this.GeneticRange.bind(this);*/
     this.formHandler = this.formHandler.bind(this);
     this.hierroSelectedImage = this.hierroSelectedImage.bind(this);
     this.pelajeSelected = this.pelajeSelected.bind(this);
@@ -161,13 +161,13 @@ class AddPage extends React.Component {
   //----------------------------------------------
 
   //---------------- input range -----------------
-
+/*
   GeneticRange(event) {
     let { value, name } = event.target;
     let results = 100 - value;
     this.setState({ [name]: value, porcentaje: results });
   }
-
+*/
   //----------------------------------------------
 
   async handleSubmitandGoHomepage(event) {
@@ -382,7 +382,7 @@ class AddPage extends React.Component {
                             <button
                               key={id}
                               name="pelaje"
-                              value={id}
+                              value={nombre}
                               onClick={this.pelajeSelected}
                             >
                               {nombre}

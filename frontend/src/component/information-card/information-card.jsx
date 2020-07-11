@@ -9,6 +9,7 @@ import DropdownSelect from '../dropdown-select/dropdown-select'
 import DropdownInput from '../dropdown-with-input-text/dropdown-with-input'
 import TextArea from '../text-area-component/text-area-component'
 import CustomInput from '../custom-input/custom-input'
+import ButtonConfirmation from '../button-confirmation/button-confirmation'
 
 class informationCard extends Component {
     constructor(props) {
@@ -68,12 +69,12 @@ class informationCard extends Component {
     formHandler(event) {
         let { name, value } = event.target;
         this.setState({ [name]: value });
-        console.log(this.state)
     }
 
     async applyUpdateEdit(event) {
         event.preventDefault();
         let formData = new FormData()
+
         formData.append('id' , this.props.currentItemArray.id)
         formData.append('nombre' , this.state.name)
         formData.append('pelaje' , this.state.pelaje )
@@ -90,14 +91,15 @@ class informationCard extends Component {
             }).then( async response => {
                 
                 let {data} = await response.json()
-                this.setState({currentItemArray: data})
+                this.setState({currentItemArray: data, goal:data.logros, goalValue: data.logro.nombre, pelaje:data.pelajes.nombre})
                 this.props.handleClick()
                 this.props.updateInformation(this.props.currentItemArray.id)
                 
                 
             }).catch( async error =>{ console.log(error) } )
+ 
         }
-
+       
         pelajeSelected(event) {
             this.setState({ pelaje: event.target.attributes.value.value });
           }
@@ -135,7 +137,7 @@ class informationCard extends Component {
                                                 <button
                                                   key={id}
                                                   name="pelaje"
-                                                  value={id}
+                                                  value={nombre}
                                                   onClick={this.pelajeSelected}
                                                 >
                                                   {nombre}
@@ -171,7 +173,7 @@ class informationCard extends Component {
 
                             
                         <div className="button-section">
-                        <button onClick={this.props.handleClick} className='cancel'>Cancelar</button><button onClick={this.applyUpdateEdit}> Guardar </button>
+                        <ButtonConfirmation handleClose={this.props.handleClick} handleClick={this.applyUpdateEdit} />
                         </div>
                         
                     </div>

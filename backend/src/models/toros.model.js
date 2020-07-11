@@ -12,7 +12,7 @@ const toros = sequelize.define(
     nombre: { type: Sequelize.TEXT },
     hierro: { type: Sequelize.TEXT },
     hierrocodigo: { type: Sequelize.TEXT },
-    pelaje: { type: Sequelize.TEXT },
+    pelaje: { type: Sequelize.INTEGER },
     sexo: { type: Sequelize.TEXT },
     logros: { type: Sequelize.INTEGER },
     notas: { type: Sequelize.TEXT },

@@ -11,6 +11,7 @@ import itempage from './page/item/itempage';
 import infocard from './page/info-card/info-card';
 import Configuration from './page/configuration/configurationpage'
 import ChangePassword from './component/change-password/changepassword';
+import SearchPage from './page/searchpage/searchpage'
 
 export default class App extends Component {
     render(){
@@ -27,6 +28,7 @@ export default class App extends Component {
                     <Route exact path='/infocard' component={infocard}/>
                     <Route exact path='/configuration' component={Configuration}/>
                     <Route exact path='/changepassword' component={ChangePassword}/>
+                    <Route path='/search/:name' component={SearchPage}></Route>
                 </Switch>
             </div>
             )

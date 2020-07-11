@@ -27,6 +27,7 @@ app.use(multer({ storage: storage }).array("image", 10));
 app.use('/configuration', require('./routes/configuration.routes'))
 app.use('/user', require('./routes/user.routes'))
 app.use('/item', require('./routes/item.routes'))
+app.use('/search', require('./routes/search.routes'))
 
 //static files
 app.use(express.static(path.join(__dirname, "public")));

@@ -66,14 +66,14 @@ class ImageCarousel extends Component {
                 { this.state.show ? <EditImage DontShow={this.DontShow} id={this.props.id} context={this.props.context} /> : ''}
 
                 { this.props.currentUserAdmin ? <button className='edit' onClick={()=>this.setState({show: !this.state.show})}></button> : ''} 
-                <div className="image">
                 
-                
+                <div className="container">
+
                 {this.props.images && this.props.images.length > 1  ? <button id='right' onClick={this.goRight}></button>  : ''}
 
                 
                 {this.props.images  && this.state.x !== 0 ? <button id='left'  onClick={this.goLeft} ></button> : ''}
-                
+                    <div className="images">
                     {
                          this.props.images.length > 0 ? 
                         
@@ -85,7 +85,7 @@ class ImageCarousel extends Component {
 
                         <div className='slides'></div>
                     }
-
+                    </div>
                 </div>
                 {
                     
