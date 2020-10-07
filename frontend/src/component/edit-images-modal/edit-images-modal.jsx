@@ -57,7 +57,7 @@ class EditImageModal extends Component {
 
     DeleteFromArray(id){
         let NewArray = this.state.image.filter( item => {
-            return item.id != id
+            return item.id !== id
         })
         this.setState({currentUrl: this.state.image[0].path , image: NewArray  })
     }
@@ -66,7 +66,7 @@ class EditImageModal extends Component {
         
         let formData = new FormData()
 
-        this.state.image.map( item => {
+        this.state.image.forEach( item => {
             if (item.oldVersion !== undefined) {
                 formData.append('tokeepimage' , item.oldVersion)
 
@@ -124,6 +124,8 @@ class EditImageModal extends Component {
                 })
                 
                 break;
+
+                default: 
         }
     }
 
@@ -134,7 +136,7 @@ class EditImageModal extends Component {
                     <button className='x-button' onClick={this.props.DontShow}>
                     </button>
                     <div className="img-displayed">
-                        <img src={this.state.currentUrl} ></img>
+                        <img src={this.state.currentUrl} alt='bigger image'></img>
                         <div className="background" style={{backgroundImage:' url('+this.state.currentUrl+')'}}></div>
                     </div>
                     <div className="image-controller-section">

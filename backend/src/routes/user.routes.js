@@ -16,7 +16,7 @@ const userimagens = require('../models/usuarioImagenes')
 
 router.get('/profile/', tokenVerification, adminVerification , async (req,res)=>{
     let { userId } = req;
-    let { status, detail, userInformation } = '';
+    let { status, message, userInformation } = '';
     await user.findOne({
         where: {id: userId},
         include: [{
@@ -24,19 +24,19 @@ router.get('/profile/', tokenVerification, adminVerification , async (req,res)=>
         }]
     }).then( response => {
         status = 200;
-        detail = 'success';
+        message = 'success';
         userInformation = response
     }).catch( e => {
         status = 401;
-        detail = 'The user isnt in the database'
+        message = 'The user isnt in the database'
     })
 
-    res.json({ status , detail , userInformation })
+    res.json({ status , message , userInformation })
 })
 
 
 router.get('/admin/', tokenVerification, adminVerification, (req, res)=>{
-    res.json({status: 200, detail: 'admin granted'})
+    res.json({status: 200, message: 'admin granted'})
 })
 
 
@@ -47,16 +47,17 @@ router.post('/add', async (req, res)=>{
     let { correo, contrasena, nombre, admin, primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta } = req.body
     let status = 0;
     let token = null;
-    contrasena = await passwordFunctions.encrypt( contrasena ); 
-    let detail = null;
+    let message = null;
+    contrasena = await passwordFunctions.encrypt( contrasena );
+
     await user.create({
         email: correo , clave: contrasena, nombre: nombre, admin: true , primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta
     },{
         fields: [ 'email', 'clave', 'nombre', 'admin' ,'primerapregunta', 'primerapreguntarespuesta', 'segundapregunta', 'segundapreguntarespuesta' ]
     }).then( async response => {
+        
         let i = 0
         for (i= 0; i<req.files.length; i++){
-
             await userimagens.create({ 
                 path: '/img/uploads/' + req.files[i].filename, usuarioid: response.id
             },{
@@ -66,15 +67,15 @@ router.post('/add', async (req, res)=>{
         }
 
         status= 200
-        detail= 'agregado correctamente'
+        message= 'succedd'
         token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 24  }) //here we initialize the jwt token    
     })  
     .catch( e => {
-        detail= e.original.detail
+        message = 'error db'
         status = 401;
     })    
     
-    res.json({status , token, detail})
+    res.json({status , token, message})
 })
 
 //--------------------  Login  ----------------------
@@ -97,7 +98,7 @@ router.post('/login', async (req, res)=>{
     }
             
     }).catch( e => {
-        status = 'email'
+        status = 'bad db'
     })
 
     res.json({ token , status, userInformation })
@@ -117,7 +118,7 @@ router.post('/changepassword',  async (req,res)=>{
     Item.clave = clave;
     Item.save()
 
-    res.json({status: 200, detail: 'updated'})
+    res.json({status: 200, message: 'updated'})
 })
 
 

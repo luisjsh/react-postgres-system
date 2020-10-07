@@ -38,7 +38,7 @@ class AddPage extends React.Component {
       mother: "",
       father: "",
       url: false,
-      view: false,
+      viewModal: false,
       photos: false,
       x: 0,
       porcentaje: 100,
@@ -49,8 +49,8 @@ class AddPage extends React.Component {
     };
 
     this.handleFile = this.handleFile.bind(this);
-    this.Show = this.Show.bind(this);
-    this.DontShow = this.DontShow.bind(this);
+    this.ShowModal = this.ShowModal.bind(this);
+    this.DontShowModal = this.DontShowModal.bind(this);
     this.PhotoChanger = this.PhotoChanger.bind(this);
    /* this.GeneticRange = this.GeneticRange.bind(this);*/
     this.formHandler = this.formHandler.bind(this);
@@ -65,6 +65,9 @@ class AddPage extends React.Component {
   }
 
   async componentDidMount() {
+    if(this.props.currentUser === 'null' || this.props.currentUser === null) 
+    return this.props.history.push('/')
+    
     await fetch("http://localhost:4000/configuration/gethierro", {
       method: "GET",
       headers: {
@@ -151,16 +154,13 @@ class AddPage extends React.Component {
 
   //---------------- modal section ---------------
 
-  Show() {
-    this.setState({ view: true }); //the modal will appear
+  ShowModal() {
+    this.setState({ viewModal: true }); 
   }
 
-  DontShow() {
-    this.setState({ view: false }); //when executed, the modal will disappear
+  DontShowModal() {
+    this.setState({ viewModal: false }); 
   }
-  //----------------------------------------------
-
-  //---------------- input range -----------------
 /*
   GeneticRange(event) {
     let { value, name } = event.target;
@@ -168,7 +168,6 @@ class AddPage extends React.Component {
     this.setState({ [name]: value, porcentaje: results });
   }
 */
-  //----------------------------------------------
 
   async handleSubmitandGoHomepage(event) {
     event.preventDefault(); 
@@ -219,7 +218,6 @@ class AddPage extends React.Component {
     formData.append("notas", this.state.textarea);
     formData.append("madreId", this.state.madreId);
     formData.append("padreId", this.state.padreId);
-    console.log('asdasd')
     if (this.state.files != null) {
       for (let i = 0; i < this.state.files.length; i++) {
         formData.append("image", this.state.files[i]);
@@ -232,7 +230,7 @@ class AddPage extends React.Component {
       },
       body: formData,
     }).then( response =>{
-      this.DontShow()
+      this.DontShowModal()
       this.setState({ hierro: "",
       nombre: "",
       pelaje: "",
@@ -252,7 +250,7 @@ class AddPage extends React.Component {
       mother: "",
       father: "",
       url: false,
-      view: false,
+      viewModal: false,
       photos: false,
       x: 0,
       porcentaje: 100,
@@ -273,9 +271,6 @@ class AddPage extends React.Component {
 
 
   }
-
-
-
 
   async searchParents(event) {
     let { name, value } = event.target;
@@ -327,17 +322,17 @@ class AddPage extends React.Component {
 
   selectedParentMother(id, nombre, hierro, fechanac, torosimagenes) {
     this.setState({madreId: id, motherArray: [{id, nombre, hierro, fechanac, torosimagenes}]})
+  
   }
 
-
-
   render() {
+    
     return (
       <div className="add-page">
-        {this.state.view ? (
+        {this.state.viewModal ? (
           <USureCard
             handleSubmit={this.handleSubmitandGoHomepage}
-            handleClick={this.DontShow}
+            handleClick={this.DontShowModal}
             handleAddAnother={this.handleSubmitandAddAnother}
           ></USureCard>
         ) : (
@@ -643,7 +638,7 @@ class AddPage extends React.Component {
           </div>
 
           <div className="button-section">
-            <Custombutton color="primary-blue" onClick={this.Show}>
+            <Custombutton color="primary-blue" onClick={this.ShowModal}>
               Guardar
             </Custombutton>
           </div>

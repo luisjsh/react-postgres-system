@@ -9,6 +9,13 @@ $main-color: #DEDEDE;
     height: 100%;
     position: absolute;
 
+    p{
+        padding: 0.1em;
+        font-size: smaller;
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+    }
 
     .inside-card{
         width: 100%;

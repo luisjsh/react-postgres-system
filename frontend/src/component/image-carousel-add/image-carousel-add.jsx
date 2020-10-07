@@ -38,7 +38,7 @@ goRight = () =>{
                 <div className="image-scroll">
                         <div className="image-section">
                                 <div className="image-press-section">
-                                    <a>Presione para introducir la imagen</a>
+                                    <span>Presione para introducir la imagen</span>
                                 </div>
                                 
                         <label htmlFor="file" className='input-file' style={{width: '100%', background:  this.props.url ? 'url('+ this.props.url + ') center center / 100% no-repeat' : '' , border: '1px solid #DEDEDE', borderRadius: '4px' ,height: "350px" }}></label>
@@ -49,7 +49,7 @@ goRight = () =>{
 
                                    {
                                        this.props.photos.map( ({ id, file }) =>(
-                                           <img key={id} src={file} value={file} onClick={this.props.photoChanger} className={this.props.url === file ? 'image-selected' : 'image' } style={{transform:'translateX('+this.state.x+'%)'}}></img>
+                                           <img key={id} alt='from the slide' src={file} value={file} onClick={this.props.photoChanger} className={this.props.url === file ? 'image-selected' : 'image' } style={{transform:'translateX('+this.state.x+'%)'}}></img>
                                       )) 
                                    }
                                 

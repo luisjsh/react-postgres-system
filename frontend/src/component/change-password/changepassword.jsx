@@ -36,7 +36,7 @@ class ChangePassword extends Component {
 //-------------------- on submit -------------------
 
     onSubmit(){
-        if ( this.props.currentUserArray.primerapreguntarespuesta == this.state.primeraPregunta && this.props.currentUserArray.segundapreguntarespuesta == this.state.segundaPregunta ){
+        if ( this.props.currentUserArray.primerapreguntarespuesta === this.state.primeraPregunta && this.props.currentUserArray.segundapreguntarespuesta === this.state.segundaPregunta ){
             this.setState({ validation: true})
         }
     }
@@ -44,7 +44,7 @@ class ChangePassword extends Component {
 //------------------ change password ----------------
 
     async changePassword(){
-        if( this.state.password == this.state.passwordConfirmation){
+        if( this.state.password === this.state.passwordConfirmation){
             let formData = new FormData()
             formData.append('clave', this.state.password)
             formData.append('id', this.props.currentUserArray.id)

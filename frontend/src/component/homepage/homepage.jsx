@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
+import ErrorPage from '../../page/error/errorPage'
 import Card from "../image-card/image-card";
 import "./style.scss";
 
@@ -11,6 +12,8 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loadError: false,
+
       items: false,
       admin: false,
     };
@@ -27,10 +30,21 @@ class HomePage extends React.Component {
       if (this._isMounted)  { 
     await fetch("http://localhost:4000/item/", {
       method: "GET",
-    }).then(async (response) =>
-      this.setState({ items: await response.json() })
+    }).then(async (response) =>{
+      let {message} = await response.json()
+      if(message){
+        this.setState({loadError: true})
+      }  
+      /*this.setState({ items: await response.json() })*/}
     );}
 
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.loadError !== prevState.loadError){ 
+      console.log('they´re diferrent')
+      return true
+    }
   }
 
   handleArrow(e) {
@@ -51,14 +65,21 @@ class HomePage extends React.Component {
     this._isMounted = false;
   }
 
+
   render() {
+    if(this.state.loadError) return (
+        <div className='HomePage'>
+        <ErrorPage/>
+        </div>
+      )
+
     return (
       <div
         className="HomePage"
         onKeyDown={this.handleArrow}
-        style={
-          this.state.items ? { overflow: "visible" } : { overflow: "hidden" }
-        }
+        style={{
+           overflow: this.state.items ? "visible" : "hidden" 
+          }}
       >
         <div className="loader">
           {this.state.items ? (

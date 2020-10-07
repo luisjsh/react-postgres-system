@@ -6,15 +6,18 @@ const user = require('../models/usuario')
 function tokenVerification (req, res, next){
     const token = req.headers['x-access-token'];
 
-    if(!token){
+    if(token === 'null'){
         return res.status(200).json({
             status: 401,
             detail: 'token invalid'
         })
     }
-    
+
+    console.log(token)
+    /*
     const decoded = jwt.verify(token, config.secret, (err, decoded)=>{
         if ( err ) {
+            console.log(err)
             res.status(200).json({
                 status: 401,
                 detail: 'token expired'
@@ -24,10 +27,9 @@ function tokenVerification (req, res, next){
         }
         
     });
-
-    console.log(decoded.id)
+    console.log(decoded)
     req.userId = decoded.id;
-    next()
+    next()*/
 }
 
 

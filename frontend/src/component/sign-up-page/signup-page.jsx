@@ -11,10 +11,12 @@ import CustomInput from '../custom-input/custom-input';
 import SecurityQuestions from '../security-questions-modal/security-questions'
 import ImageAside from '../item-information-card/item-information-card'
 
-class signUpPage extends React.Component {
+class signUpPage extends React.Component {  
     constructor (props){
         super(props);
         this.state={
+            loadError: false, 
+
             url: false,
             view: false,
             photos: false,
@@ -31,14 +33,17 @@ class signUpPage extends React.Component {
             repeatPasswordBorderColor: '#DEDEDE'
         }
 
+        let error = false 
+
         this.handleFile = this.handleFile.bind(this);
         this.PhotoChanger = this.PhotoChanger.bind(this);
         this.formHandler = this.formHandler.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.Show = this.Show.bind(this);
         this.DontShow = this.DontShow.bind(this);
-
     }
+
+
  
     //-----------input type file ----------------
     handleFile (event){
@@ -73,9 +78,9 @@ class signUpPage extends React.Component {
     }
     //-------------------------------------------
 
-    //--------------- onSubmit -----------------
+    //--------------- handleSubmit -----------------
 
-    async onSubmit ( firstQuestion, firstQuestionAnswer, secondQuestion, secondQuestionAnswer ){
+    async handleSubmit ( firstQuestion, firstQuestionAnswer, secondQuestion, secondQuestionAnswer ){
         
         if (this.state.password === this.state.repeatPassword ){
             this.setState({repeatPasswordLabel: 'Las contraseñas coinciden' ,repeatPasswordBorderColor: 'green'})
@@ -100,18 +105,27 @@ class signUpPage extends React.Component {
             method: 'POST',
             body: formData
         }).then ( async ( response ) => {
-            let json = await response.json()
-            if (json.detail.search('llave') >= 0 ){
-                this.setState({emailLabel: 'Por favor introduzca otro correo', inputBorderColor: 'red'})
-            }else {
-                this.setState({emailLabel: 'Correo Valido', inputBorderColor: 'green'})
-                this.props.saveToken(json.token);
-                this.DontShow();
-                this.props.history.push('/')
+            let {message, token} = await response.json()
+            
+            switch(message){
+                case 'succedd':
+                    this.setState({emailLabel: 'Correo Valido', inputBorderColor: 'green'})
+                    this.props.saveToken(token);
+                    this.DontShow();
+                    this.props.history.push('/')
+                    break;
+                
+                case 'llave':
+                    this.setState({emailLabel: 'Por favor introduzca otro correo', inputBorderColor: 'red'})
+                    break;
+
+                case 'error db':
+                    alert('error de servidor')
+                    this.props.history.push('/')
+                    break;
             }
-             
         }).catch( e =>{
-            alert('Error de conexion')
+            console.log('recuerde iniciar el servidor!')
         })
     } else {
         this.setState({repeatPasswordLabel: 'Las contraseñas no coinciden' , repeatPasswordBorderColor: 'red'})
@@ -121,7 +135,8 @@ class signUpPage extends React.Component {
 
     //---------------- modal section ---------------
 
-    Show () {
+    Show (event) {
+        event.preventDefault()
         this.setState({view: true}) //the modal will appear
     } 
     
@@ -132,11 +147,13 @@ class signUpPage extends React.Component {
 
 
     render(){
+
         return(
+            <form onSubmit={this.Show}>
             <div className='signup-page'>
 
                 {
-                this.state.view ? <SecurityQuestions handleClick={this.DontShow} onSubmit={this.onSubmit}></SecurityQuestions>: ''
+                this.state.view ? <SecurityQuestions handleClick={this.DontShow} onSubmit={this.handleSubmit}></SecurityQuestions>: ''
                 }
 
                 <CarouselAdd  photoChanger={this.PhotoChanger} url={this.state.url} handleFile={this.handleFile} photos={this.state.photos}/>
@@ -155,11 +172,11 @@ class signUpPage extends React.Component {
                     </ImageAside>
 
                     <ImageAside id='lock'>
-                        <CustomInput type='password' name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
+                        <CustomInput name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
                     </ImageAside>
 
                     <ImageAside id='lock'>
-                        <CustomInput type='password' name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} style={{border: '1px solid ' + this.state.repeatPasswordBorderColor}}></CustomInput>
+                        <CustomInput name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} style={{border: '1px solid ' + this.state.repeatPasswordBorderColor}}></CustomInput>
                     </ImageAside>
                     
                 {
@@ -185,12 +202,12 @@ class signUpPage extends React.Component {
                 </div>
                 <div className="button-side">
                 <div className="button-pack">
-                <Custombutton color='primary-blue' onClick={this.Show}>Registrarse</Custombutton>
+                <Custombutton color='primary-blue'>Registrarse</Custombutton>
                 </div>
                 </div>
                 </div>
        
-            </div>
+            </div></form>
         )
     }
 }

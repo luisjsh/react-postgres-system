@@ -35,8 +35,8 @@ class Nav extends React.Component{
 
     //----------------- update 4 admin --------------
 
-     componentDidUpdate(){
-        this.UpdateStatus()
+     componentDidUpdate(props){
+        console.log(props)
     }
 
 
@@ -51,8 +51,9 @@ class Nav extends React.Component{
                 },
               })
                 .then(async (response) => {
-                  let { detail } = await response.json();
-    
+                    let { detail } = await response.json();
+                    
+                    console.log(detail)
                   let validated = await validator ( detail , this.props.history, this.props.logOut)
                
                   if (validated) {
@@ -78,13 +79,9 @@ class Nav extends React.Component{
         this.setState({height: '40px'})
     }
 
-    //--------------- LogOut ----------
-
     LogOut(){
         this.props.logOut()
     }
-
-    //--------------- image fetch ----------------------
 
     async setUserForProfile(event){
         await fetch('http://localhost:4000/user/profile/',{

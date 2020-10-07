@@ -9,7 +9,7 @@ function infocard({ image , user , addMore, profile , LogOut }) {
         <div className='infocard'>
             <div className="inside-card">
                     {
-                         image == false || image == 'false'   ? 
+                         image === false || image === 'false'   ? 
                         
                         <div className='no-picture'>
 
@@ -23,7 +23,10 @@ function infocard({ image , user , addMore, profile , LogOut }) {
                     }
             </div>
 
-            <span>{user}</span>
+            <p>{
+                user === 'null' || 
+                user === undefined || 
+                user === false ? 'Usuario no ha iniciado sesión' : user}</p>
             
             <div className="below-card">
 

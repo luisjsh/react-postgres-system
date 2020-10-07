@@ -3,7 +3,7 @@ const INITIAL_STATE = {
     currentUserArray: null,
     currentUserAdmin: false,
     currentUserImagePath: localStorage.getItem('imagepath'),
-    currentToken: localStorage.getItem('token'),
+    currentToken: localStorage.getItem('token')
 }
 
 const userReducer = (state = INITIAL_STATE, action) =>{
@@ -44,7 +44,7 @@ const userReducer = (state = INITIAL_STATE, action) =>{
         case 'LOG_OUT':
             localStorage.setItem('currentUser', null);
             localStorage.setItem('imagepath', null);
-            localStorage.setItem('token', null);
+            localStorage.setItem('token', '');
             return{
                 currentUser: null,
                 currentUserImagePath: null

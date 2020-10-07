@@ -44,9 +44,13 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
 
 
 router.get('/', async (req, res)=>{
+    try{
     await toros.findAll({
         include: [{model: torosImage}]
     }).then( response => res.status(200).json({status: 200, response}))
+    } catch(e){
+        res.status(200).json({message: 'problem db'})
+    }
 })
 
 

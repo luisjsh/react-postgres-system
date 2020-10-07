@@ -29,10 +29,8 @@ class LogIn extends React.Component {
     //---- Redirect ----
 
     Redirect(event){
-
         let value = event.target.attributes.value.value;
         this.props.history.push('/'+value)
-
     }
 
 
@@ -58,59 +56,61 @@ class LogIn extends React.Component {
         }).then( async response =>{
             let responsejson = await response.json()
 
-              if ( responsejson.status.search('password approved') >= 0 ){
-                  
+            switch(responsejson.status){
+                
+                case 'password approved':
+                    let userInformation = {
+                        id: responsejson.userInformation.id,
+                        name: responsejson.userInformation.nombre,
+                        token: responsejson.token,
+                        path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
+                    }
+                        this.props.login(userInformation);
+                        this.props.history.push('/')
+                break;
 
-                let userInformation = {
-                    id: responsejson.userInformation.id,
-                    name: responsejson.userInformation.nombre,
-                    token: responsejson.token,
-                    path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
-                }
+                case 'wrong':
+                    this.setState({passwordLabel: 'Clave invalida', passwordBorderColor: 'red'})
+                    break;
 
+                case 'email':
+                    this.setState({emailLabel: 'Correo invalido', emailBorderColor: 'red'})
+                    break;
+                
+                    case 'bad db':
+                        alert('Error de servidor');
+                    break;
 
-                  this.props.login(userInformation);
-                  this.props.history.push('/')
-
-              } else if (  responsejson.status.search('wrong') >= 0 ){
-
-                  this.setState({passwordLabel: 'Clave invalida', passwordBorderColor: 'red'})
-
-              } else if (  responsejson.status.search('email') >= 0 ){
-
-                  this.setState({emailLabel: 'Correo invalido', emailBorderColor: 'red'})
-
-              }
+                default: 
+            }
             }).catch( error => {
                 alert('Error de Conexion')
             })
     }
 
-//---------------------------------
-
-
     render(){
         return(
+            <form onSubmit={this.submit}>
             <div className='login'>
                 
-                <div className="login-section" onKeyDown={ (event)=>{if(event.keyCode == '13'){this.submit(event)}}}>
+                <div className="login-section" onKeyDown={ (event)=>{if(event.keyCode === '13'){this.submit(event)}}}>
                     
                     <div className="login-card">
                         <span className='iniciar-sesion'></span>
                         
                         <div className="try" style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                         <ImageAtSide id='mail' title='Correo'>
-                            <CustomInput name='email' label={this.state.emailLabel} style={{border: '1px solid '+ this.state.emailBorderColor}} value={this.state.email} onChange={this.formHandler}></CustomInput>
+                            <CustomInput name='email' type='email' label={this.state.emailLabel} style={{border: '1px solid '+ this.state.emailBorderColor}} value={this.state.email} onChange={this.formHandler}></CustomInput>
                         </ImageAtSide>
                         <ImageAtSide id='lock' title='Contraseña'>
-                            <CustomInput name='password' label={this.state.passwordLabel} style={{border: '1px solid '+ this.state.passwordBorderColor}} value={this.state.password} onChange={this.formHandler}></CustomInput>
+                            <CustomInput name='password' type='password' label={this.state.passwordLabel} style={{border: '1px solid '+ this.state.passwordBorderColor}} value={this.state.password} onChange={this.formHandler}></CustomInput>
                         </ImageAtSide>
                         </div>
 
                         <div className="captchap">
 
                         </div>
-                        <CustomButton value='login' color='primary-blue' onClick={this.submit}>Iniciar Sesión</CustomButton>
+                        <CustomButton value='login' color='primary-blue'>Iniciar Sesión</CustomButton>
                     </div>
                     
                     <span> Recuperar contraseña </span>
@@ -118,6 +118,7 @@ class LogIn extends React.Component {
                 </div>
 
             </div>
+            </form>
         )
     }
 }

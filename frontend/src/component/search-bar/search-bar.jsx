@@ -19,7 +19,11 @@ class searchBar extends Component {
         this.fetchResults = this.fetchResults.bind(this)
     }
 
-//--------------- handle the navigation with arrow keys -------------
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.cursor !== this.state.cursor) return true
+    }
+
 
    handlePress(e){
 
@@ -79,7 +83,7 @@ class searchBar extends Component {
             <div className='searchbar' onKeyDown={this.handlePress}>
                 <div className='search-inputs' > 
                     <div className="search">
-                        <input type="text" name='searchbar' onChange={this.formHandler} onKeyDown={(e)=>{ if(e.keyCode =='13'){this.handleEnterKeyPress(this.state.searchbar)} }} value={this.state.searchbar} ref={ this.handleFocus } tabIndex={0}/>
+                        <input type="text" name='searchbar' onChange={this.formHandler} onKeyDown={(e)=>{ if(e.keyCode ==='13'){this.handleEnterKeyPress(this.state.searchbar)} }} value={this.state.searchbar} ref={ this.handleFocus } tabIndex={0}/>
                     </div>
                     <div className="deleate-them" onClick={ ()=>this.setState({searchbar: '' , result: []}) } tabIndex={0}>
 
@@ -92,7 +96,7 @@ class searchBar extends Component {
                 <div className="search-results">
                     {
                         this.state.result.map( (item, id) =>(
-                            <div key={item.id} className='result' tabIndex={0} onClick={(e)=>{ e.preventDefault(); this.handleEnterKeyPress(item.nombre) }}  onKeyDown={(e)=>{ if(e.keyCode =='13'){this.handleEnterKeyPress(item.nombre)} }} ref={ cursor === id ? this.handleFocus : ''}>
+                            <div key={item.id} className='result' tabIndex={0} onClick={(e)=>{ e.preventDefault(); this.handleEnterKeyPress(item.nombre) }}  onKeyDown={(e)=>{ if(e.keyCode ==='13'){this.handleEnterKeyPress(item.nombre)} }} ref={ cursor === id ? this.handleFocus : ''}>
                                 { item.nombre }
                             </div>
                         ))

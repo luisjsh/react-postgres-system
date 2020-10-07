@@ -2,18 +2,6 @@ import React, { Component } from "react";
 
 import "./image-card-style.scss";
 
-/*
-
-ALWAYS REMEMBER TO SEND THE NEXT DATA WHEN RENDERED:
-
- - hierro
- - nombre
- - fechanac
- - imagenes
-
-
-*/
-
 class imageCard extends Component {
   constructor(props) {
     super(props);
@@ -86,9 +74,10 @@ class imageCard extends Component {
           </div>
           {
             this.props.imagenes[0] !== undefined ?
-            <div className="image" style={{background: 'url(http://localhost:4000' + this.props.imagenes[0].path + ')'}}>
+            <div className="image" alt='image-array' style={{background: 'url(http://localhost:4000' + this.props.imagenes[0].path + ')'}}>
             <img
             className="card-image"
+            alt='inside the card'
             loading="lazy"
             src={"http://localhost:4000" + this.props.imagenes[0].path} />
 

@@ -1,19 +1,41 @@
+import store from '../redux/store'
 
-function validator (  detail , history , logOut ) {
-     if ( detail.search('tokeninvalid') !== -1 || detail.search('token expired') !== -1){
+function validator (  detail , history ) {
+    switch(detail){
+
+        case 'token invalid':
+            store.dispatch(logOut())
+            /*
+            history.push('/login')
+            alert('Por favor vuelva a iniciar sesion')*/
+            break;
+
+        case 'token expired':
+            store.dispatch(logOut())
+            /*
+            history.push('/login')
+            alert('Por favor vuelva a iniciar sesion')*/
+            return 
+
+        case 'problem db':
+            alert('error')
+        break;
         
-        if ( history.location.pathname != '/login'){
-            console.log('asdasd')
-            logOut();
-        }
+        case 'not allowed':
+            return
 
-     } else if( detail.search('not allowed') !== -1 ){
-        return false
+        case 'admin granted':
+            return
+            
+        default:
+            
+    }
+}
 
-     } else if ( detail.search('admin granted') !== -1) {
-         return true
-     }
-
-     }
+const logOut = ()=>{
+    return { 
+       type: 'LOG_OUT'
+    }
+}
 
 export default validator;
