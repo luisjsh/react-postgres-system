@@ -3,29 +3,37 @@ import store from '../redux/store'
 function validator (  detail , history ) {
     switch(detail){
 
+        case 'error de conexion':
+            setBadNotification('Error de conexion')
+            break;
+
         case 'token invalid':
             store.dispatch(logOut())
-            /*
             history.push('/login')
-            alert('Por favor vuelva a iniciar sesion')*/
+            setBadNotification('Por favor vuelva a iniciar sesion')
             break;
 
         case 'token expired':
             store.dispatch(logOut())
-            /*
             history.push('/login')
-            alert('Por favor vuelva a iniciar sesion')*/
+            setBadNotification('Por favor vuelva a iniciar sesion')
             return 
 
         case 'problem db':
-            alert('error')
-        break;
+            setBadNotification('Error con la base de datos')
+            break;
         
+        case "user not registered":
+            store.dispatch(logOut())
+            history.push('/login')
+            break;
+
         case 'not allowed':
             return
 
         case 'admin granted':
-            return
+            store.dispatch(setAdmin())
+            break;
             
         default:
             
@@ -35,6 +43,19 @@ function validator (  detail , history ) {
 const logOut = ()=>{
     return { 
        type: 'LOG_OUT'
+    }
+}
+
+const setBadNotification = (message) => {
+    return {
+        type: 'SET_BAD_NOTIFICATION',
+        payload: message
+    }
+}
+
+const setAdmin = ()=>{
+    return {
+        type: 'ADMIN'
     }
 }
 

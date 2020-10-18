@@ -36,8 +36,10 @@ router.post('/hierros', tokenVerification, adminVerification, async (req, res)=>
         codigo: hierroCode, path: '/img/uploads/' + filename
     },{
         fields: [ 'codigo' , 'path']
-    }).then( response => res.status(200).json({status: 200})) .catch( e => res.status(400))
-
+    }).then( response =>{
+        res.status(200).json({status: 200})}) .catch( e => res.status(400))
+    
+        
 })
 
 router.get('/getparticularhierro/:id', async(req, res)=>{

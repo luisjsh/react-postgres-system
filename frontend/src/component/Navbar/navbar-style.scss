@@ -114,19 +114,20 @@ $main-color: #DEDEDE;
 
 .navbar{
     width: 100%;
-    height: 40px;
     position: fixed;
     top: 0.15rem;
-    display: flex;
-    justify-content: space-around;  
+    display: grid;
+    grid-template-columns: .4fr 2fr .4fr;
+    align-items: center;
+    justify-items: center;
     z-index: 3;
 
     .logo{
         background: url('./IMG/logo.svg') no-repeat;
         background-position: center;
-        background-size: 50px;
+        background-size: 40px;
         width: 100px;
-        height: 120%;
+        height: 100%;
         cursor: pointer;
     }
 
@@ -180,7 +181,6 @@ $main-color: #DEDEDE;
             background: url('./IMG/name-icon.svg') no-repeat;
             background-size: 40px;
             background-position: center;
-            margin-top: 10px;
             height: 40px;
             width: 40px;
             border: 1px solid $main-color;

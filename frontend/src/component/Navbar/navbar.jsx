@@ -52,15 +52,8 @@ class Nav extends React.Component{
               })
                 .then(async (response) => {
                     let { detail } = await response.json();
-                    
-                    console.log(detail)
-                  let validated = await validator ( detail , this.props.history, this.props.logOut)
-               
-                  if (validated) {
-                      
-                    this.props.admin();
-                  }
-    
+                    validator(detail , this.props.history, this.props.logOut)
+                   
                 })
                 .catch((e) => console.log("ERROR"));
             }
@@ -92,7 +85,7 @@ class Nav extends React.Component{
             }
         } ).then(async response =>{
             if (response.status === 401 ){
-                alert('Por favor vuelva a iniciar sesion')
+                this.props.setBadNotification('Por favor vuelva a iniciar sesion')
                 this.props.history.push('/login')
             } else {
             let { userInformation } = await response.json()
@@ -209,6 +202,7 @@ const mapStatetoProps = ({user: {currentUser , currentUserAdmin, currentUserImag
 const mapDispatchtoProps = ( dispatch )=>(
     {
         admin: () => dispatch({ type: "ADMIN" }),
+        setBadNotification: (message) =>dispatch({type:'SET_BAD_NOTIFICATION', payload: message }),
         logOut: ()=>{dispatch({type:'LOG_OUT'})},
         setUser: user =>{dispatch({type:'SET_CURRENT_USER' , payload: user})}
     }

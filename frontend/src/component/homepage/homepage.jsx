@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
+import Notification from '../notification/notification'
+
 import ErrorPage from '../../page/error/errorPage'
 import Card from "../image-card/image-card";
 import "./style.scss";
@@ -25,19 +27,19 @@ class HomePage extends React.Component {
   //----------------- Admin validation ----------------------------
 
   async componentDidMount() {
-
-    this._isMounted = true; 
-      if (this._isMounted)  { 
     await fetch("http://localhost:4000/item/", {
       method: "GET",
     }).then(async (response) =>{
-      let {message} = await response.json()
+      let {message, fetchedData} = await response.json()
+
       if(message){
         this.setState({loadError: true})
       }  
-      /*this.setState({ items: await response.json() })*/}
-    );}
-
+      if(fetchedData) this.setState({ items: fetchedData })}
+    ).catch( e=>{
+      this.props.setBadNotification('error de conexion')
+      this.setState({loadError: true})
+    })
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -84,7 +86,7 @@ class HomePage extends React.Component {
         <div className="loader">
           {this.state.items ? (
             <div className="cards-section">
-              {this.state.items.response.map(
+              {this.state.items.map(
                 ({ id, nombre, hierro, torosimagenes, fechanac}) => (
                   <Card
                     key={id}
@@ -129,6 +131,7 @@ const mapStatetoProps = ({
 };
 
 const mapDispatchtoProps = (dispatch) => ({
+  setBadNotification: (message) =>dispatch({type:'SET_BAD_NOTIFICATION', payload: message }),
   admin: () => dispatch({ type: "ADMIN" }),
   setItem: (itemData) =>
     dispatch({ type: "SET_CURRENT_ITEM", payload: itemData }),

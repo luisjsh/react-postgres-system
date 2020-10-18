@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 
-
 import './search-bar-style.scss'
+
+import CustomInput from '../custom-input/custom-input'
 
 class searchBar extends Component {
     constructor(props) {
@@ -82,12 +83,8 @@ class searchBar extends Component {
         return (
             <div className='searchbar' onKeyDown={this.handlePress}>
                 <div className='search-inputs' > 
-                    <div className="search">
-                        <input type="text" name='searchbar' onChange={this.formHandler} onKeyDown={(e)=>{ if(e.keyCode ==='13'){this.handleEnterKeyPress(this.state.searchbar)} }} value={this.state.searchbar} ref={ this.handleFocus } tabIndex={0}/>
-                    </div>
-                    <div className="deleate-them" onClick={ ()=>this.setState({searchbar: '' , result: []}) } tabIndex={0}>
-
-                    </div>
+                    <CustomInput handleClick={ ()=>console.log('omg i cant believe this, they pressed me!')}/>
+                    
                     <div className="search-icon" tabIndex={0}>
 
                     </div>

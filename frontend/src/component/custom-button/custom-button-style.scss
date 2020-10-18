@@ -53,7 +53,7 @@ $button-radius: 4px;
     .secundary-blue{
         @extend %button;
         background-color: white;
-        border: 1px solid $button-blue;
+        border: 1px solid white;
         color: $button-blue;
         outline: none;
         width: 100%;
@@ -66,7 +66,7 @@ $button-radius: 4px;
     .secundary-red{
         @extend %button;
         background-color: white;
-        border: 1px solid red;
+        border: 1px solid white;
         color: red;
         transition: .3s;
         width: 100%;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {withRouter} from 'react-router-dom'
 
 import "./configurationPage-styles.scss";
 import CustomInput from "../custom-input/custom-input";
@@ -20,7 +21,6 @@ class configurationPage extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  //-------------- handle file ----------------------
   handleFile(event) {
     if (event.target.files[0] !== undefined) {
       let url = URL.createObjectURL(event.target.files[0]);
@@ -28,17 +28,13 @@ class configurationPage extends Component {
     }
   }
 
-  //---------------- input-form ----------------------
-
   formHandler(event) {
     let { name, value } = event.target;
     this.setState({ [name]: value });
   }
 
-  //------------------ submit handler --------------------
-
   async submit(event) {
-    let { name } = event.target;
+    let {name} = event.target;
 
     if (name === "pelaje") {
       if (this.state.pelajeCode.length > 3) {
@@ -68,7 +64,7 @@ class configurationPage extends Component {
             "x-access-token": this.props.currentToken,
           },
           body: formData,
-        }).then((response) => alert("Agregado exitosamente"));
+        }).then((response) => this.props.history.push("/"));
       }
     }
   }
@@ -160,4 +156,5 @@ const mapStatetoProps = ({
     currentToken,
   };
 };
-export default connect(mapStatetoProps)(configurationPage);
+
+export default connect(mapStatetoProps)(withRouter(configurationPage));

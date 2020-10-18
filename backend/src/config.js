@@ -1,5 +1,3 @@
-const config = {
-    secret: 'my secret text'
+module.exports = {
+    secret: 'shhh dont tell anyone'
 } 
-
-module.exports = config;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 
+import Notification from './component/notification/notification'
+
 import homepage from './page/homepage/homepage'
 import Nav from './component/Navbar/navbar'
 import LogIn from './page/login/login';
@@ -12,12 +14,14 @@ import infocard from './page/info-card/info-card';
 import Configuration from './page/configuration/configurationpage'
 import ChangePassword from './component/change-password/changepassword';
 import SearchPage from './page/searchpage/searchpage'
+import AddItemPage from './page/add-item/add-item';
 
 export default class App extends Component {
     render(){
         return (
             <div>
                 <Nav/>
+                <Notification />
                 <Switch>
                     <Route exact path='/' component={homepage} />
                     <Route exact path='/login' component={LogIn}/>
@@ -29,6 +33,7 @@ export default class App extends Component {
                     <Route exact path='/configuration' component={Configuration}/>
                     <Route exact path='/changepassword' component={ChangePassword}/>
                     <Route path='/search/:name' component={SearchPage}></Route>
+                    <Route exact path='/add/res' component={AddItemPage}/>
                 </Switch>
             </div>
             )

@@ -7,23 +7,16 @@ $focus-color: #0E8FFF;
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 20px 0;
 
     &:focus-within, &:hover{
 
-        select{
-            border: 1px solid $focus-color;
-        }
-
         label{
-            font-size: 18px;
-            color: $focus-color;
+            color: black;
           }
         }
     
 
     label {
-        position: absolute;
         font-size: 16px;
         font-weight: normal;
         left: 5px;
@@ -33,18 +26,18 @@ $focus-color: #0E8FFF;
     }
 
     select {
-        background: none;
-        background-color: white;
-        color: grey;
-        font-size: 18px;
-        padding: 0px 0px 0px 5px;
+        background-color: #F2F2F2;
+        padding: .8em;
+        font-weight: bold;
         height: 40px;
         display: block;
         width: 100%;
-        border: 1px solid $main-color;
-        margin: 25px 0;
-        border-radius: 4px;
+        border: none;
+        border-radius: 10px;
 
+        &:hover {
+            background: #aaaaaa;
+          }
 
         select-list {
             position: absolute;

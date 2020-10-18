@@ -5,31 +5,23 @@ const user = require('../models/usuario')
 
 function tokenVerification (req, res, next){
     const token = req.headers['x-access-token'];
-
-    if(token === 'null'){
+    if(token === 'null' || token === ''){
         return res.status(200).json({
             status: 401,
             detail: 'token invalid'
         })
     }
-
-    console.log(token)
-    /*
-    const decoded = jwt.verify(token, config.secret, (err, decoded)=>{
-        if ( err ) {
-            console.log(err)
-            res.status(200).json({
-                status: 401,
-                detail: 'token expired'
-            })
-        } else if ( decoded ){
-            return decoded
-        }
-        
-    });
-    console.log(decoded)
-    req.userId = decoded.id;
-    next()*/
+    
+    let decodedToken
+    try {
+    decodedToken = jwt.verify(token, config.secret);
+    }catch(err){
+        return res.status(200).json({
+            detail: "token invalid"
+        })
+    }
+    req.userId = decodedToken.id;
+    next()
 }
 
 
@@ -42,6 +34,8 @@ async function adminVerification ( req, res, next ){
         } else {
              res.status(200).json({ status: 401, detail: 'not allowed'}) 
             }
+    }).catch(e =>{
+        res.status(200).json({ detail: "user not registered"})
     })
 }
 

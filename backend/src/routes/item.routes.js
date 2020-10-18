@@ -11,34 +11,106 @@ const pelajeModel = require('../models/usefull-model/pelaje.model')
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
 
 router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
-    let { nombre , hierro , hierrocodigo, pelaje, sexo ,fechaNac , logros, notas , madreId , padreId } = req.body;
-    
-    let ChoosedPelaje = await pelajeModel.findOne({
-        where: {
-            nombre: pelaje
-        }
-    })
+    let { 
+        nombre , 
+        hierro , 
+        hierrocodigo, 
+        tatuaje, 
+        pelaje, 
+        sexo, 
+        encaste, 
+        fechaNac , 
+        //logros, 
+        notas , 
+        madreId , 
+        padreId ,
+        tientaDia,
+        tientaResultado,
+        tientaTentadoPor,
+        tientaLugar,
+        tientaCapa,
+        tientaCaballo,
+        tientaMuleta
+        } = req.body;
 
-    await toros.create({
-        nombre , hierro, hierrocodigo, pelaje: ChoosedPelaje.id, sexo, fechanac: fechaNac, logros, notas, madreid: madreId, padreid: padreId
-    
-    },{
-     
-        fields: ['nombre','hierro','hierrocodigo', 'pelaje', 'sexo' ,'fechanac', 'logros', 'notas', 'madreid', 'padreid']
-    
-    }).then( async response =>{
+
+    let ChoosedPelaje
+
+    try{
+        ChoosedPelaje = await pelajeModel.findOne({
+            where: {
+                nombre: pelaje
+            }
+        })
+    } catch(e){
+        res.status(200).json({message: 'problem db'})
+    }
+
+    try{
+        await toros.create({
+            nombre , 
+            hierro,
+            hierrocodigo,
+            tatuaje, 
+            pelaje: ChoosedPelaje.id ? ChoosedPelaje.id : 0, 
+            encaste, 
+            sexo, 
+            fechanac: fechaNac, 
+            //logros, 
+            notas, 
+            madreid: madreId, 
+            padreid: padreId,
+            tientadia: tientaDia,
+            tientaresultado: tientaResultado,
+            tientatentadopor: tientaTentadoPor,
+            tientalugar: tientaLugar,
+            tientacapa: tientaCapa,
+            tientacaballo: tientaCaballo,
+            tientamuleta: tientaMuleta
         
-        let i = 0;
-        for ( i=0 ; i<req.files.length; i++){
-            await torosImage.create({ 
-                path: '/img/uploads/' + req.files[i].filename, torosid: response.id
-            },{
-                fields: [ 'path' , 'torosid']
-            })
-        }
+        },{
         
-        res.status(200).json({status: 200});    
-    }) 
+            fields: [
+                'nombre',
+                'hierro',
+                'hierrocodigo', 
+                'pelaje', 
+                'tatuaje',
+                'sexo' ,
+                'fechanac', 
+                //'logros', 
+                'notas', 
+                'madreid', 
+                'padreid',
+                'tientadia',
+                'tientaresultado',
+                'tientatentadopor',
+                'tientalugar',
+                'tientacapa',
+                'tientacaballo',
+                'tientamuleta'
+            ]
+        
+        }).then( async response =>{
+            
+            if(req.files){
+                let i = 0;
+                for ( i=0 ; i<req.files.length; i++){
+                    await torosImage.create({ 
+                        path: '/img/uploads/' + req.files[i].filename, torosid: response.id
+                    },{
+                        fields: [ 'path' , 'torosid']
+                    })
+                }
+                res.status(200).json({status: 200})
+            }
+            
+            res.status(200).json({status: 200});    
+        })
+
+    } catch(e){
+        res.status(200).json({message: 'problem db'})
+    } 
     
 });
 
@@ -47,8 +119,12 @@ router.get('/', async (req, res)=>{
     try{
     await toros.findAll({
         include: [{model: torosImage}]
-    }).then( response => res.status(200).json({status: 200, response}))
+    }).then( response => {
+        console.log(response)
+        res.status(200).json({status: 200, fetchedData: response})
+    })
     } catch(e){
+        console.log(e)
         res.status(200).json({message: 'problem db'})
     }
 })

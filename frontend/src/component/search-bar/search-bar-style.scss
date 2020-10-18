@@ -3,35 +3,23 @@
 $blue-color: #0E8FFF;
 
 %deleate-them-search-icon{
-    width: 10%;
-    height: 100%;
-    cursor: pointer;
+    width: 60px;
+    height: 40px;
+    border-radius: 8px;
     transition: 0.5 ease;
-    &:hover{
-        background-color: #dedede;
-    }
-
+    cursor: pointer;
 }
 
 
 .searchbar{
     position: relative;
-    width: 60%;
-    height: 70%;
-    top: 0.60rem;
+    width: 100%;
     z-index: 3;  
-    background-color: white;
-    border: 1px solid #dedede;
     border-radius: 4px;
     transition: 1s;
     
 
-    &:hover{  
-        border: 1px solid $blue-color;
-    }
-
     &:focus-within{
-        border: 1px solid $blue-color;
         .search-results{
             display: block;
         }
@@ -40,30 +28,22 @@ $blue-color: #0E8FFF;
     .search-inputs{
         display: flex;
         flex-direction: row;
+        align-items: center;
         width: 100%;
         height: 100%;
 
-        .search{
-        width: 80%;
-        height: 100%;
-            input{
-                width: 100%;
-                height: 80%;
-                border: none;
-                outline: none;
-            }
-        }
 
-        .deleate-them{
-            background: url('./deleatethem.svg') center no-repeat;
-            background-size: 18px;
-            @extend %deleate-them-search-icon;
-        }
 
         .search-icon{
             background: url('./searchinputs.svg') center no-repeat;
             background-size: 18px;
+            background-color: #0E8FFF;
             @extend %deleate-them-search-icon;
+            transition: .3s;
+
+            &:hover, :focus {
+                transform: scaleY(1.2);
+            }
         }
     }
 
