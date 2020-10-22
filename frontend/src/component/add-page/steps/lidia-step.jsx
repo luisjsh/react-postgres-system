@@ -3,14 +3,15 @@ import React, {useState} from 'react'
 import {
     Page,
     SectionWithTitle,
-    BirthSectionTitle
+    BirthSectionTitle,
+    ButtonSection
 } from './lidia-step-styles'
 
 import ConfirmationCard from '../../confirmation-card/confirmation-card'
 import CustomInput from '../../custom-input/custom-input'
 import CustomButton from '../../custom-button/custom-button'
 
-function LidiaStep({updateState, handleClickConfirmation}) {
+function LidiaStep({updateState, handleClickConfirmation, goBack}) {
     const [Data, setData] = useState({
         temptedBy: '',
         result: '',
@@ -74,9 +75,20 @@ function LidiaStep({updateState, handleClickConfirmation}) {
                     <CustomInput name='withCrutch' value={Data.withCrutch} handleChange={handleForm} label='Con la muleta (opcional)'/>
                 </SectionWithTitle>
 
-                <CustomButton 
-                    color='primary-blue' 
-                    >Guardar</CustomButton>
+                <ButtonSection>
+                    
+                    <CustomButton 
+                        color='primary-blue' 
+                        gridArea='submit'
+                        >Guardar</CustomButton>
+
+                <CustomButton
+                    onClick={goBack} 
+                    color='secundary-blue' 
+                    gridArea='back'
+                    >Volver</CustomButton>
+
+                </ButtonSection>
             </Page>
         </form>
     )

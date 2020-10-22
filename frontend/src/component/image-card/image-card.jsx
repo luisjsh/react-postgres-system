@@ -46,13 +46,14 @@ class imageCard extends Component {
         onMouseLeave={this.onHoverLeft}
         onClick={this.props.handleClick}
         title={this.props.nombre}
-      >
+        >
         <div
           className="cards"
           aria-label={this.props.nombre}
           aria-required="true"
           tabIndex={1}
-        >
+          style={{animationDelay: this.props.animationDelay ? `.${ this.props.animationDelay }0 s`: '0'}}
+          >
           <div
             className="card-title"
             style={{

@@ -20,7 +20,7 @@ const toros = sequelize.define(
     notas: { type: Sequelize.TEXT },
     madreid: { type: Sequelize.INTEGER },
     padreid: { type: Sequelize.INTEGER },
-    fechanac: { type: Sequelize.DATE },
+    fechanac: { type: Sequelize.TEXT },
     tientadia: {type: Sequelize.TEXT},
     tientaresultado: {type: Sequelize.TEXT},
     tientatentadopor: {type: Sequelize.TEXT},

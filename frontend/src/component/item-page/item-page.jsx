@@ -44,6 +44,7 @@ class ItemPage extends React.Component{
                 let { response } = await responseArray.json()
                 this.setState({currentItemArray: response , id: id })
                 this.props.setItem(response)
+                console.log(response)
             })
 
         await fetch(
@@ -149,7 +150,7 @@ class ItemPage extends React.Component{
     }
       //---------------- input-form ----------------------
 
-    render(){   
+      render(){   
         return(
             <div className='item-page'>
                 <div className="profile-section">

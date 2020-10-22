@@ -2,11 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import Notification from '../notification/notification'
+import "./style.scss";
 
 import ErrorPage from '../../page/error/errorPage'
 import Card from "../image-card/image-card";
-import "./style.scss";
 
 class HomePage extends React.Component {
   _isMounted = false;
@@ -85,7 +84,7 @@ class HomePage extends React.Component {
       >
         <div className="loader">
           {this.state.items ? (
-            <div className="cards-section">
+            <div className="card-section">
               {this.state.items.map(
                 ({ id, nombre, hierro, torosimagenes, fechanac}) => (
                   <Card

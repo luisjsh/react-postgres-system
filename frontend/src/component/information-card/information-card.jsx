@@ -62,7 +62,8 @@ class informationCard extends Component {
         await fetch('http://localhost:4000/item/search/profile/' + id)
         .then( async responseArray => {
             let { response } = await responseArray.json()
-            this.setState({currentItemArray: response , id: id , name: response.nombre, pelaje: response.pelajes.nombre, goal: response.logros ,goalValue: response.logro.nombre, notepad: response.notas})
+            console.log(response.nombre)
+            this.setState({currentItemArray: response , id: id , name: response.nombre, pelaje: response.pelajes.nombre, notepad: response.notas})
         })
     }
 
@@ -156,17 +157,7 @@ class informationCard extends Component {
                       
                         <ItemInformationCard id='date' title='Fecha de nacimiento'><span>{this.state.currentItemArray.fechanac}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='goal' title='Logros'>
-                                <DropdownSelect  onChange={this.formHandler} name='goal' value={this.state.goal}>
-                                    <option>{this.state.goalValue}</option>
-                                    { 
-                                        this.props.goals.response.map( ({id,nombre}) => (
-                                        <option key={id} value={id}>{nombre}</option>
-                                        ))
-                                    }
-                                </DropdownSelect>
-                            </ItemInformationCard>
-
+                    
                         <ItemInformationCard id='notepad' title='Notas'>
                                 <TextArea value={this.state.notepad}  onChange={this.formHandler} name='notepad' style={{width: '80%'}}></TextArea>
                         </ItemInformationCard>
@@ -184,13 +175,12 @@ class informationCard extends Component {
     
                         <ItemInformationCard id='name' title='Nombre'><span>{this.state.currentItemArray.nombre}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='hair' title='Pelaje'><span>{this.state.pelaje}</span></ItemInformationCard>
+                        <ItemInformationCard id='hair' title='Pelaje'><span>{this.state.pelajes}</span></ItemInformationCard>
 
                         <ItemInformationCard id='sexo' title='Sexo'><span>{this.state.currentItemArray.sexo}</span></ItemInformationCard>
                       
                         <ItemInformationCard id='date' title='Fecha de nacimiento'><span>{this.state.currentItemArray.fechanac}</span></ItemInformationCard>
 
-                        <ItemInformationCard id='goal' title='Logros'><span>{this.state.goalValue}</span></ItemInformationCard>
 
                         <ItemInformationCard id='notepad' title='Notas'><span className='notepad'>{this.state.notepad}</span></ItemInformationCard>
 

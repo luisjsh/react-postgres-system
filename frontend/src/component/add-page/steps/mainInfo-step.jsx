@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 
+import '../add-page-styles.scss'
+
 import CustomInput from "../../custom-input/custom-input";
 import Custombutton from "../../custom-button/custom-button";
 import PhotoCarousel from "../../image-carousel-add/image-carousel-add";
@@ -8,7 +10,15 @@ import DropdownInput from '../../dropdown-with-input-text/dropdown-with-input'
 import DropdownSelect from '../../dropdown-select/dropdown-select'
 
 
-function MainInfoStep({hierroInformation, pelajeInformation, fatherArray, motherArray, handleClick, updateState}){
+function MainInfoStep({
+    hierroInformation,
+    pelajeInformation, 
+    searchParents, 
+    fatherArray, 
+    motherArray, 
+    handleClick,
+    updateClickedParent,
+    updateState}){
 
     const [Data, setData] = useState({
       hierro: "",
@@ -16,7 +26,6 @@ function MainInfoStep({hierroInformation, pelajeInformation, fatherArray, mother
       pelaje: "",
       padreId: 0,
       madreId: 0,
-      files: {},
       sexo: "Hembra",
       encaste: '',
       tatuaje: '',
@@ -27,21 +36,27 @@ function MainInfoStep({hierroInformation, pelajeInformation, fatherArray, mother
       mother: "",
       father: "",
       hierroDropdownSelectedImage: false,
-      hierroDropdownSelected: false
+      hierroDropdownSelected: false,
+      x: 0,
+      porcentaje: 100,
+      porcentajeInput: 0
     })
     
     const [image, setImage] = useState({
         url: false,
-        photos: false,
-        x: 0,
-        porcentaje: 100,
-        porcentajeInput: 0
+        files: {},
+        photos: false
     })
 
     const [Date, setDate] = useState({
         day: '',
         month: '',
         year: ''
+    })
+
+    const [parentForm, setParentForm] = useState({
+        mother: '',
+        father: ''
     })
     
     const formHandler = (event) =>{
@@ -55,7 +70,8 @@ function MainInfoStep({hierroInformation, pelajeInformation, fatherArray, mother
     }
 
     const pelajeSelected = (event) =>{
-        setData({ pelaje: event.target.attributes.value.value });
+        event.preventDefault()
+        setData({ ...Data, pelaje: event.target.attributes.value.value });
     }
 
     const handleFile = (event) =>{
@@ -77,17 +93,9 @@ function MainInfoStep({hierroInformation, pelajeInformation, fatherArray, mother
 
 
     const PhotoChanger = (event) =>{
-        setImage({ ...image, url: event.target.attributes.value.value }); 
+        setData({ ...Data, url: event.target.attributes.value.value }); 
     }
 
-
-    const selectedParentFather = (id, nombre, hierro, fechanac, torosimagenes) => {
-        setData({...Data, padreId: id, fatherArray: [{id, nombre, hierro, fechanac, torosimagenes}]})
-      }
-    
-    const selectedParentMother = (id, nombre, hierro, fechanac, torosimagenes) =>{
-        setData({...Data, madreId: id, motherArray: [{id, nombre, hierro, fechanac, torosimagenes}]})
-    }
     
     const hierroSelectedImage = (event) =>{
         let { name, value } = event.target;
@@ -98,25 +106,44 @@ function MainInfoStep({hierroInformation, pelajeInformation, fatherArray, mother
         });
     }
 
+    const handleFormParents = (event) =>{
+        let {name, value} = event.target
+        setParentForm({...parentForm, [name]:value})
+        searchParents(name, value)
+    }
+
+    const selectedParentFather = (id, nombre, hierro, fechanac, torosimagenes) => {
+        setData({...Data, padreId: id})
+        updateClickedParent('fatherArray', [{id, nombre, hierro, fechanac, torosimagenes}])    
+    }
+    
+    const selectedParentMother = (id, nombre, hierro, fechanac, torosimagenes) =>{
+        setData({...Data, madreId: id})
+        updateClickedParent('motherArray', [{id, nombre, hierro, fechanac, torosimagenes}])    
+
+    }
+
     const handleSubmit = (event)=>{
         event.preventDefault()
-        handleClick()
         updateState('firstStep', 
-            {...Data,
-                fechaNac: `${Date.day}-${Date.month}-${Date.year}`
-            })
+        {...Data,
+            files: {
+                ...image.files
+            },
+            fechaNac: `${Date.day}-${Date.month}-${Date.year}`
+        })
+        handleClick()
         
     }
     
-
 return (
     <form onSubmit={handleSubmit}>
         <div className="add-page">
             <PhotoCarousel
-            photoChanger={PhotoChanger}
-            url={image.url}
-            handleFile={handleFile}
-            photos={image.photos}
+                photoChanger={PhotoChanger}
+                url={image.url}
+                handleFile={handleFile}
+                photos={image.photos}
             />
 
             <div className="card-information">
@@ -137,6 +164,7 @@ return (
                     onChange={formHandler}
                     labelName='Pelaje' 
                     value={Data.pelaje}
+                    autoComplete='off'
                     required
                     >
                     {pelajeInformation
@@ -150,7 +178,7 @@ return (
                                 name="pelaje"
                                 value={nombre}
                                 onClick={pelajeSelected}
-                                >
+                                    >
                                 {nombre}
                                 </button>
                             ) : (
@@ -198,13 +226,14 @@ return (
                                     }
                                     style={{
                                     background:
-                                        "url(http://localhost:4000" + path + ")",
+                                        "url(http://localhost:4000" + path + ") center center / 70% no-repeat",
+                                    backgroundColor: '#d4d4d4'
                                     }}
                                     onClick={hierroSelectedImage}
                                 />
                                 )
                             )
-                            : ""}
+                                : ""}
                         </div>
                     </div>
 
@@ -223,8 +252,8 @@ return (
                     <CustomInput name='tatuaje' value={Data.tatuaje} handleChange={formHandler} label='Tatuaje' required/>
 
                     <DropdownSelect labelName='Sexo' onChange={formHandler} name='sexo' value={Data.sexo} required>
-                    <option value="Hembra">Hembra</option>
-                    <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                        <option value="Macho">Macho</option>
                     </DropdownSelect>
 
             </div>
@@ -233,19 +262,20 @@ return (
                 <div className="mother">
                 <h3>Madre</h3>
 
-                    <CustomInput paddingWrapper='0' handleClick={ ()=>console.log('omg i cant believe it')}/>
+                    <CustomInput name='mother' value={parentForm.mother} paddingWrapper='0' handleChange={handleFormParents} handleClick={ ()=>console.log('omg i cant believe it')}/>
             
                 <div className="cards-result">
                     <div className="parents-card">
                     {motherArray
                         ? motherArray.map(
-                            ({ id, nombre, hierro, fechanac, torosimagenes }) => (
+                            ({ id, nombre, hierro, fechanac, torosimagenes }, i) => (
                             <ImageCard
                                 key={id}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
                                 imagenes={torosimagenes}
+                                animationDelay={i}
                                 handleClick={()=>selectedParentMother(id, nombre, hierro, fechanac, torosimagenes)}
                             />
                             )
@@ -257,8 +287,7 @@ return (
 
                 <div className="father">
                 <h3>Padre</h3>
-                <CustomInput paddingWrapper='0' handleClick={ ()=>console.log('omg i cant believe it')}/>
-
+                <CustomInput name='father' value={parentForm.father} paddingWrapper='0' handleChange={handleFormParents} handleClick={ ()=>console.log('omg i cant believe it')}/>
 
                 <div className="cards-result">
                     <div className="parents-card">

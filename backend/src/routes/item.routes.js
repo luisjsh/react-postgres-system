@@ -36,15 +36,18 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
 
     let ChoosedPelaje
 
+
     try{
         ChoosedPelaje = await pelajeModel.findOne({
             where: {
                 nombre: pelaje
             }
-        })
+        }).catch( e => res.status(200).json({message: 'problem pelaje'}))
     } catch(e){
-        res.status(200).json({message: 'problem db'})
+        res.status(200).json({message: 'problem pelaje'})
     }
+
+    if(!ChoosedPelaje) return res.status(200).json({message: 'problem pelaje'})
 
     try{
         await toros.create({
@@ -102,10 +105,13 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
                         fields: [ 'path' , 'torosid']
                     })
                 }
-                res.status(200).json({status: 200})
+                res.status(200).json({message: 'succeeded'})
             }
-            
-            res.status(200).json({status: 200});    
+            else {
+            res.status(200).json({message: 'succeeded'});
+            }    
+        }).catch( e =>{
+            res.status(200).json({message: 'problem db'})
         })
 
     } catch(e){
