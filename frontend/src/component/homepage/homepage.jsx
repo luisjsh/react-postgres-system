@@ -1,115 +1,81 @@
-import React from "react";
+import React, {useState, useRef, useCallback} from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import useSearchWithPagination from '../../functions/paginator'
 
 import "./style.scss";
 
 import ErrorPage from '../../page/error/errorPage'
 import Card from "../image-card/image-card";
 
-class HomePage extends React.Component {
-  _isMounted = false;
+function HomePage ({history}) {
+  const [pageNumber, setPageNumber] = useState(1)
+  const {loading, error, items, hasMore} = useSearchWithPagination('', pageNumber)
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadError: false,
+  
+  console.log(items)
 
-      items: false,
-      admin: false,
-    };
-    this.handleRef = React.createRef();
-    this.handleArrow = this.handleArrow.bind(this);
-    this.Redirect = this.Redirect.bind(this);
-  }
+  const observer = useRef()
 
-  //----------------- Admin validation ----------------------------
-
-  async componentDidMount() {
-    await fetch("http://localhost:4000/item/", {
-      method: "GET",
-    }).then(async (response) =>{
-      let {message, fetchedData} = await response.json()
-
-      if(message){
-        this.setState({loadError: true})
-      }  
-      if(fetchedData) this.setState({ items: fetchedData })}
-    ).catch( e=>{
-      this.props.setBadNotification('error de conexion')
-      this.setState({loadError: true})
+  const lastItemReferred = useCallback(node => {
+    /*if (loading) return
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      console.log(entries)
+      if (entries[0].isIntersecting && hasMore) {
+        setPageNumber(prevPageNumber => prevPageNumber + 1)
+      }
     })
-  }
+    if(node) observer.current.observe(node)*/
+  }, [loading, hasMore])
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.state.loadError !== prevState.loadError){ 
-      console.log('they´re diferrent')
-      return true
-    }
-  }
-
-  handleArrow(e) {
-    if (e.keyCode === 39) {
-    } else if (e.keyCode === 37) {
-      console.log("left arrow");
-    }
-  }
-
-  //---- Redirect ----
-
-  Redirect(event) {
-    let value = event.target.attributes.value.value;
-    this.props.history.push("/" + value);
-  }
-
-  componentWillUnmount(){
-    this._isMounted = false;
-  }
-
-
-  render() {
-    if(this.state.loadError) return (
-        <div className='HomePage'>
-        <ErrorPage/>
+  return (
+    <div className="HomePage" >
+      <div className='loader'>
+        <div className="card-section">
+        {
+          items.map( ({ id, nombre, hierro, torosimagenes, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
+            if (items.length === index + 1) {
+              return <div
+              key={id}
+              ref={lastItemReferred}
+              hierro={hierro}
+              nombre='the last one'
+              animationDelay={index}
+              fechanac={fechanac.slice(2, 4)}
+              imagenes={torosimagenes}
+              tientaDia={tientadia}
+              tientaResultado={tientaresultado}
+              tientaTentadoPor={tientatentadopor}
+              tientaLugar={tientalugar}
+              handleClick={() => {
+                history.push('/item/'+ id )
+              }}/>
+            } else {
+              return <Card
+              key={id}
+              hierro={hierro}
+              nombre={nombre}
+              animationDelay={index}
+              fechanac={fechanac.slice(2, 4)}
+              imagenes={torosimagenes}
+              tientaDia={tientadia}
+              tientaResultado={tientaresultado}
+              tientaTentadoPor={tientatentadopor}
+              tientaLugar={tientalugar}
+              handleClick={() => {
+                history.push('/item/'+ id )
+              }} />
+            
+            }})
+        }
         </div>
-      )
-
-    return (
-      <div
-        className="HomePage"
-        onKeyDown={this.handleArrow}
-        style={{
-           overflow: this.state.items ? "visible" : "hidden" 
-          }}
-      >
-        <div className="loader">
-          {this.state.items ? (
-            <div className="card-section">
-              {this.state.items.map(
-                ({ id, nombre, hierro, torosimagenes, fechanac}) => (
-                  <Card
-                    key={id}
-                    hierro={hierro}
-                    nombre={nombre}
-                    fechanac={fechanac.slice(2, 4)}
-                    imagenes={torosimagenes}
-                    handleClick={() => {
-                        this.props.history.push('/item/'+ id )
-                    }}
-                  />
-                )
-              )}
-
-    
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
+        {loading && 'loading...'}
       </div>
-    );
-  }
+    </div>
+  );
 }
+
 
 const mapStatetoProps = ({
   user: {

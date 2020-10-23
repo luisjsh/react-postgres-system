@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
+import styled from 'styled-components'
 
 import Notification from './component/notification/notification'
 
@@ -16,25 +17,33 @@ import ChangePassword from './component/change-password/changepassword';
 import SearchPage from './page/searchpage/searchpage'
 import AddItemPage from './page/add-item/add-item';
 
+const Display = styled.div`
+    grid-template-areas: "navbar" "page";
+    width: 100%;
+    height: 100%;
+`
+
 export default class App extends Component {
     render(){
         return (
             <div>
-                <Nav/>
                 <Notification />
-                <Switch>
-                    <Route exact path='/' component={homepage} />
-                    <Route exact path='/login' component={LogIn}/>
-                    <Route path='/profile' component={profilePage}/>
-                    <Route path='/add-res' component={Addpage}/>
-                    <Route exact path='/signup' component={signup}/>
-                    <Route path='/item/:id' component={itempage}/>
-                    <Route exact path='/infocard' component={infocard}/>
-                    <Route exact path='/configuration' component={Configuration}/>
-                    <Route exact path='/changepassword' component={ChangePassword}/>
-                    <Route path='/search/:name' component={SearchPage}></Route>
-                    <Route exact path='/add/res' component={AddItemPage}/>
-                </Switch>
+                <Display>
+                    <Nav/>
+                    <Switch>
+                        <Route exact path='/' component={homepage} />
+                        <Route exact path='/login' component={LogIn}/>
+                        <Route path='/profile' component={profilePage}/>
+                        <Route path='/add-res' component={Addpage}/>
+                        <Route exact path='/signup' component={signup}/>
+                        <Route path='/item/:id' component={itempage}/>
+                        <Route exact path='/infocard' component={infocard}/>
+                        <Route exact path='/configuration' component={Configuration}/>
+                        <Route exact path='/changepassword' component={ChangePassword}/>
+                        <Route path='/search/:name' component={SearchPage}></Route>
+                        <Route exact path='/add/res' component={AddItemPage}/>
+                    </Switch>
+                </Display>
             </div>
             )
         }

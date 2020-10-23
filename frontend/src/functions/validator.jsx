@@ -32,6 +32,7 @@ function validator (  detail , history ) {
             return
 
         case 'admin granted':
+            console.log('admin')
             store.dispatch(setAdmin())
             break;
             

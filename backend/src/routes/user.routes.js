@@ -36,7 +36,7 @@ router.get('/profile/', tokenVerification, adminVerification , async (req,res)=>
 
 
 router.get('/admin/', tokenVerification, adminVerification, (req, res)=>{
-    res.json({status: 200, message: 'admin granted'})
+    res.json({status: 200, detail: 'admin granted'})
 })
 
 

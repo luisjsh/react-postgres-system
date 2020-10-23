@@ -52,6 +52,7 @@ class Nav extends React.Component{
               })
                 .then(async (response) => {
                     let { detail } = await response.json();
+                    console.log(detail)
                     validator(detail , this.props.history, this.props.logOut)
                    
                 })
@@ -101,7 +102,7 @@ class Nav extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className='grid-area'>
                 <nav className='navbar'>
                     <div className="logo" value='' onClick={this.Redirect} tabIndex={0}>
 

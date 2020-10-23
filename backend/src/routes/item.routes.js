@@ -121,16 +121,22 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
 });
 
 
-router.get('/', async (req, res)=>{
+router.get('/:pageNumber', async (req, res)=>{
+    let {pageNumber} = req.params
+    let limit = 10;
+
     try{
-    await toros.findAll({
-        include: [{model: torosImage}]
-    }).then( response => {
-        console.log(response)
-        res.status(200).json({status: 200, fetchedData: response})
-    })
+        await toros.count().then( async count =>{
+            let pages = Math.ceil(count / limit)
+            let offset = limit * (pageNumber - 1)
+            await toros.findAll({
+                include: [{model: torosImage}],
+                limit,
+                offset
+            }).then( response =>  res.status(200).json({fetchedData: response, pages}))
+        })
+
     } catch(e){
-        console.log(e)
         res.status(200).json({message: 'problem db'})
     }
 })

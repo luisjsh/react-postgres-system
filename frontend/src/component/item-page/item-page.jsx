@@ -181,6 +181,9 @@ class ItemPage extends React.Component{
 
                             ''
                         }
+
+                            <InformationCard />
+
                     </div>
                 </div>
 
@@ -192,8 +195,6 @@ class ItemPage extends React.Component{
                             <span className='title-span'>Padres</span>
                             <div className="card">
                                 {
-
-                                    // the first validation if its false, the function wont run
                                     this.state.parents ? 
 
                                      this.state.parents.response ? 
