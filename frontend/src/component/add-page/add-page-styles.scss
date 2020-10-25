@@ -26,18 +26,6 @@ $main-color: #DEDEDE;
     flex-direction: column;
     align-items: center;
 
-    h3 {
-        font-size: 26px;
-        transition: 0.4s;
-    }
-
-    &:hover,
-    &:focus-within {
-        h3 {
-            color: $blue-color;
-        }
-    }
-
     .search-bar {
         width: 95%;
         height: 30px;
@@ -89,20 +77,17 @@ $main-color: #DEDEDE;
     }
 
     .cards-result {
-        display: flex;
         width: 100%;
         height: 100%;
         justify-content: center;
-        align-items: center;
         z-index: 0;
         overflow: scroll;
         transition: 0.3s;
-        
+
         .parents-card {
-            display: flex;
-            flex-direction: column;
-            width: 90%;
-            height: 90%;
+            display: grid;
+            padding: 1em;
+            grid-gap: 1em;
             align-items: center;
             margin-top: 10px;
 
@@ -164,7 +149,7 @@ $main-color: #DEDEDE;
         width: 100%;
         height: fit-content;
 
-        h3 {
+        .h3 {
             font-size: 26px;
             margin: 0;
             font-weight: bold;
@@ -173,7 +158,7 @@ $main-color: #DEDEDE;
 
         &:hover,
         &:focus-within {
-            h3 {
+            .h3 {
                 color: $blue-color;
             }
         }
@@ -369,7 +354,35 @@ $main-color: #DEDEDE;
 }
 
 
-
+@media (max-width: 1024px){
+    .add-page{
+        .card-information{
+            .family-choose{
+                display: block;
+                padding: 1em;
+                .mother{
+                    width: 100%;
+                    .cards-result{
+                        .parents-card{
+                            display: grid;
+                            grid-gap: 1em;
+                        }
+                    }
+                }
+                
+                .father{
+                    width:100%;
+                    .cards-result{
+                        .parents-card{
+                            display: grid;
+                            grid-gap: 1em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 @include media ('<=tablet') {
     body {
@@ -393,19 +406,6 @@ $main-color: #DEDEDE;
                     padding: 1em;
                     margin-top: 2vh;
                     width: 100%;
-
-                    .first-half-form {
-                        width: 50%;
-                        transition: 0.3s;
-                    }
-
-                    .second-half {
-                        width: 50%;
-
-                        .sex-section {
-                            width: 100%;
-                        }
-                    }
                 }
 
                 .button-section {

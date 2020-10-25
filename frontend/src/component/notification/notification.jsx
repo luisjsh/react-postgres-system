@@ -5,8 +5,7 @@ import reactDOM from 'react-dom'
 import {
     Page, 
     NotificationWrapper, 
-    NotificationText, 
-    LeftSideForNotification} from './notification-styles'
+    NotificationText } from './notification-styles'
 
 
 function Notification({notificationData, setNotification}) {

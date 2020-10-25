@@ -99,12 +99,8 @@ class LogIn extends React.Component {
                         <span className='iniciar-sesion'></span>
                         
                         <div className="try" style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                        <ImageAtSide id='mail' title='Correo'>
-                            <CustomInput name='email' type='email' label={this.state.emailLabel} style={{border: '1px solid '+ this.state.emailBorderColor}} value={this.state.email} onChange={this.formHandler}></CustomInput>
-                        </ImageAtSide>
-                        <ImageAtSide id='lock' title='Contraseña'>
-                            <CustomInput name='password' type='password' label={this.state.passwordLabel} style={{border: '1px solid '+ this.state.passwordBorderColor}} value={this.state.password} onChange={this.formHandler}></CustomInput>
-                        </ImageAtSide>
+                            <CustomInput name='email' type='email' label={this.state.emailLabel} value={this.state.email} onChange={this.formHandler}></CustomInput>
+                            <CustomInput name='password' type='password' label={this.state.passwordLabel} value={this.state.password} onChange={this.formHandler}></CustomInput>
                         </div>
 
                         <div className="captchap">

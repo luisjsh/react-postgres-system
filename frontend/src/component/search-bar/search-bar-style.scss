@@ -33,17 +33,16 @@ $blue-color: #0E8FFF;
         height: 100%;
 
 
-
         .search-icon{
             background: url('./searchinputs.svg') center no-repeat;
             background-size: 18px;
             background-color: #0E8FFF;
-            @extend %deleate-them-search-icon;
-            transition: .3s;
-
-            &:hover, :focus {
-                transform: scaleY(1.2);
-            }
+            transition: 1s;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
+            border-radius: 10px;
+            cursor: pointer;
         }
     }
 

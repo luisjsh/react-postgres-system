@@ -4,6 +4,7 @@ import styled from 'styled-components'
 const SecundaryTitle = styled.h3`
   font-weight: bold;
   font-size: 1em;
+  text-align: left;
 `
 
 const P = styled.p`

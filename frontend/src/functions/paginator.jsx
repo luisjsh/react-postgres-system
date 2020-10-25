@@ -27,7 +27,7 @@ function Paginator(title, pageNumber) {
             setItems(prevItems =>{
                 return [...new Set([...prevItems, ...res.data.fetchedData])]
             })
-            setHasMore(res.data.pages > 0)
+            setHasMore(res.data.pages > pageNumber)
             setLoading(false)
         }).catch( e => {
             if(axios.isCancel(e)) return

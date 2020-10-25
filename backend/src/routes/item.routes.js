@@ -95,7 +95,6 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
             ]
         
         }).then( async response =>{
-            
             if(req.files){
                 let i = 0;
                 for ( i=0 ; i<req.files.length; i++){
@@ -144,12 +143,16 @@ router.get('/:pageNumber', async (req, res)=>{
 
 router.get('/search/profile/:id', async (req, res)=>{
     let { id } = req.params;
+    try{
     await toros.findOne({
         where: {
             id 
         },
-        include: [{model: torosImage} , {model: logrosModel}, {model: pelajeModel, as: 'pelajes'}]
+        include: [{model: torosImage}, {model: pelajeModel, as: 'pelajes'}]
     }).then( response => res.status(200).json({status: 200, response}))
+    } catch(e){
+        res.status(200).json({detail: 'problem db'})
+    }
 })
 
 
@@ -188,7 +191,6 @@ router.get('/search/family/parents/:id', async (req, res)=>{
                 include:
                 [{ model: torosImage}]
             }).then( response => {
-                
                 res.status(200).json({status: 200, detail: 'no-grandpa', response})
             })
         } else {
@@ -210,6 +212,7 @@ router.get('/search/family/child/:id', async (req, res)=>{
         }]
 
     }).then( async answer => {
+        console.log(answer)
         answer.length > 0 ?
             res.status(200).json({ status: 200, detail: 'has childs', responseArray: answer})
         :
@@ -220,27 +223,55 @@ router.get('/search/family/child/:id', async (req, res)=>{
 
 //------------------------------ UPDATE ----------------------------------------------------
 
-router.post('/update', tokenVerification, adminVerification , async (req, res)=>{
+router.post('/update', /*tokenVerification, adminVerification , */async (req, res)=>{
 
-    let { id , nombre, pelaje, fechanac, logro, notas} = req.body
-
-
-    let ChoosedPelaje = await pelajeModel.findOne({
-        where: {
-            nombre: pelaje
+    let { 
+        id , 
+        nombre, 
+        pelaje, 
+        fechanac, 
+        logro, 
+        notas, 
+        encaste,
+        tatuaje,   
+        tientaDia,
+        tientaResultado,
+        tientaTentadoPor,
+        tientaLugar,
+        tientaCapa,
+        tientaCaballo,
+        tientaMuleta} = req.body
+ 
+        let ChoosedPelaje
+        try {
+            ChoosedPelaje = await pelajeModel.findOne({
+                where: {
+                    nombre: pelaje
+                }
+            })
+        } catch(e){
+            res.status(200).json({detail: 'problem db'})
         }
-    })
 
-    await toros.findOne({ 
-        where: { id }
-    }).then( async response => {
-        response.nombre = nombre;
-        response.pelajes = ChoosedPelaje.id;
-        response.fechaNac = fechanac;
-        response.logros = parseInt(logro);
-        response.notas = notas;
-        response.save();
-    })
+        await toros.findOne({ 
+            where: { id }
+        }).then( async response => {
+            response.nombre = nombre;
+            response.pelajes = ChoosedPelaje.id;
+            response.fechaNac = fechanac;
+            response.logros = parseInt(logro);
+            response.notas = notas;
+            response.encaste = encaste
+            response.tatuaje = tatuaje
+            response.tientaDia = tientaDia
+            response.tientaresultado = tientaResultado
+            response.tientatentadopor = tientaTentadoPor
+            response.tientalugar = tientaLugar
+            response.tientacapa = tientaCapa
+            response.tientacaballo = tientaCaballo
+            response.tienta,muleta = tientaMuleta
+            response.save()
+        })
 
             
     await toros.findOne({

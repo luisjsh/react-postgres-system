@@ -110,9 +110,15 @@ $blue-color: #0E8FFF;
 
 @include media ('<=tablet'){
     .signup-page{
+        .above-all{
+          padding: 1em;
+          width: 100%;
+        }
+
         .information-section{
-            width: 100%;
-            .button-side{
+          padding: 1em;
+          width: 100%;
+          .button-side{
                 margin-bottom: 8vh;
             }
         }

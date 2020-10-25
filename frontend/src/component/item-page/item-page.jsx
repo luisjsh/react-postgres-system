@@ -62,25 +62,26 @@ class ItemPage extends React.Component{
    
                 let { detail ,  response } = await responseArray.json()
                 
+                
                 if (detail.search('no-parents') !== -1 ){
                     
                     this.setState({parents: {response: false} , grandpa: {response: false}})
 
-
+                    
                 }   else if ( detail.search('no-grandpa') !== -1){
-
+                    
                     this.setState({parents:  { response } , grandpa: { response: false}})
                 }
-            
+                
             })
 
-
-         await fetch('http://localhost:4000/item/search/family/child/' + id).then( async response => {
-             let { detail , responseArray } = await response.json()
             
-             if (detail.search('has childs') !== -1){
-               
-                this.setState({ childs: {response: responseArray} })
+            await fetch('http://localhost:4000/item/search/family/child/' + id).then( async response => {
+                let { detail , responseArray } = await response.json()
+                
+                if (detail.search('has childs') !== -1){
+                    
+                    this.setState({ childs: {response: responseArray} })
 
                 let i=0;
                 let grandChildArr = [];
@@ -181,9 +182,6 @@ class ItemPage extends React.Component{
 
                             ''
                         }
-
-                            <InformationCard />
-
                     </div>
                 </div>
 

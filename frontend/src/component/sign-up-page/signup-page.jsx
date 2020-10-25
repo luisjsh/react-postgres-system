@@ -163,21 +163,13 @@ class signUpPage extends React.Component {
                 <div className="information">
                     <div className="input-section">
                     
-                    <ImageAside id='name'>
                         <CustomInput name='name' onChange={this.formHandler} value={this.state.name} label='Nombre'></CustomInput>
-                    </ImageAside>
                     
-                    <ImageAside id='mail'>
-                        <CustomInput type='email' name='email' onChange={this.formHandler} value={this.state.email} label={this.state.emailLabel} style={{border: '1px solid '+ this.state.inputBorderColor}}></CustomInput>
-                    </ImageAside>
+                        <CustomInput type='email' name='email' onChange={this.formHandler} value={this.state.email} label={this.state.emailLabel} ></CustomInput>
 
-                    <ImageAside id='lock'>
                         <CustomInput name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
-                    </ImageAside>
 
-                    <ImageAside id='lock'>
-                        <CustomInput name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} style={{border: '1px solid ' + this.state.repeatPasswordBorderColor}}></CustomInput>
-                    </ImageAside>
+                        <CustomInput name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} ></CustomInput>
                     
                 {
                     this.props.currentUserAdmin ? 

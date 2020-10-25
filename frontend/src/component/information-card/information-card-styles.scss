@@ -11,12 +11,12 @@ $main-color: #DEDEDE;
 }
 
 .information-card{
-    width: 100%;
+    padding: .4em;
+    margin-top: 10px;
     height: auto;
     display: flex;
+    border-radius: 10px;
     flex-direction: column;
-    border: 1px solid #dedede;
-    border-radius: 4px;
     text-align: center;
     font-size: 25px;
 
@@ -29,6 +29,7 @@ $main-color: #DEDEDE;
 
         span{
             display: flex;
+            font-weight: bold;
         }
 
         .admin-privileges{

@@ -279,20 +279,20 @@ $main-color: #DEDEDE;
             background-position: center ;
             height: 60px;
             width: 60px;
-            border-radius: 100%;
+            border-radius: 10px;
             border: none;
             background-color: #0E8FFF;
+            box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
             position: fixed;
             right: 20px;
             bottom: 20px;
             cursor: pointer;
-            transition: 0.4s;
-            box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
+            z-index: 3;
             transition: 0.4s;
 
             &:hover, &:focus{
                 width: 100px;
-                height: 100px;
+                border-radius: 10px;
             }
 
             &:active {

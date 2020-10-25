@@ -41,7 +41,7 @@ goRight = () =>{
                                     <span>Presione para introducir la imagen</span>
                                 </div>
                                 
-                        <label htmlFor="file" className='input-file' style={{width: '100%', background:  this.props.url ? 'url('+ this.props.url + ') center center / 100% no-repeat' : '#f2f2f2', borderRadius: '4px' ,height: "350px" }}></label>
+                        <label htmlFor="file" className='input-file' style={{width: '100%', background:  this.props.url ? 'url('+ this.props.url + ') center center / 100% no-repeat' : '#f2f2f2', borderRadius: '10px' ,height: "350px" }}></label>
                         <input type='file' id='file' onChange={this.props.handleFile} multiple />
                         <div className='images'>
                             {

@@ -53,8 +53,9 @@ $main-color: #DEDEDE;
             left: 0;
         }
         .card{
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: 2fr 2fr;
+            grid-gap: 1em;
             @extend %empty;
 
         } 

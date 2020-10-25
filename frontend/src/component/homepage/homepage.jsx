@@ -12,22 +12,19 @@ function HomePage ({history}) {
   const [pageNumber, setPageNumber] = useState(1)
   const {loading, error, items, hasMore} = useSearchWithPagination('', pageNumber)
 
-  
-  console.log(items)
-
   const observer = useRef()
 
   const lastItemReferred = useCallback(node => {
-    /*if (loading) return
+    if (loading) return
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
-      console.log(entries)
       if (entries[0].isIntersecting && hasMore) {
         setPageNumber(prevPageNumber => prevPageNumber + 1)
       }
     })
-    if(node) observer.current.observe(node)*/
+    if(node) observer.current.observe(node)
   }, [loading, hasMore])
+
 
   return (
     <div className="HomePage" >
@@ -37,36 +34,41 @@ function HomePage ({history}) {
           items.map( ({ id, nombre, hierro, torosimagenes, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
             if (items.length === index + 1) {
               return <div
-              key={id}
               ref={lastItemReferred}
-              hierro={hierro}
-              nombre='the last one'
-              animationDelay={index}
-              fechanac={fechanac.slice(2, 4)}
-              imagenes={torosimagenes}
-              tientaDia={tientadia}
-              tientaResultado={tientaresultado}
-              tientaTentadoPor={tientatentadopor}
-              tientaLugar={tientalugar}
-              handleClick={() => {
-                history.push('/item/'+ id )
-              }}/>
-            } else {
-              return <Card
               key={id}
-              hierro={hierro}
-              nombre={nombre}
-              animationDelay={index}
-              fechanac={fechanac.slice(2, 4)}
-              imagenes={torosimagenes}
-              tientaDia={tientadia}
-              tientaResultado={tientaresultado}
-              tientaTentadoPor={tientatentadopor}
-              tientaLugar={tientalugar}
-              handleClick={() => {
-                history.push('/item/'+ id )
-              }} />
-            
+              >
+                <Card
+                hierro={hierro}
+                nombre={nombre}
+                animationDelay={index}
+                fechanac={fechanac.slice(2, 4)}
+                imagenes={torosimagenes}
+                tientaDia={tientadia}
+                tientaResultado={tientaresultado}
+                tientaTentadoPor={tientatentadopor}
+                tientaLugar={tientalugar}
+                handleClick={() => {
+                  history.push('/item/'+ id )
+                }}/>
+                </div>
+            } else {
+              return <div
+              key={id}
+              >
+                  <Card
+                hierro={hierro}
+                nombre={nombre}
+                animationDelay={index}
+                fechanac={fechanac.slice(2, 4)}
+                imagenes={torosimagenes}
+                tientaDia={tientadia}
+                tientaResultado={tientaresultado}
+                tientaTentadoPor={tientatentadopor}
+                tientaLugar={tientalugar}
+                handleClick={() => {
+                  history.push('/item/'+ id )
+                }} />
+              </div>
             }})
         }
         </div>

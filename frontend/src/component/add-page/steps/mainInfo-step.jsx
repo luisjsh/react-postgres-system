@@ -147,7 +147,7 @@ return (
             />
 
             <div className="card-information">
-            <h3>Informacion</h3>
+            <h3 className='h3'>Informacion</h3>
             <div className="information-enter">
                  
                <CustomInput
@@ -260,7 +260,7 @@ return (
 
             <div className="family-choose">
                 <div className="mother">
-                <h3>Madre</h3>
+                <h3 className='h3'>Madre</h3>
 
                     <CustomInput name='mother' value={parentForm.mother} paddingWrapper='0' handleChange={handleFormParents} handleClick={ ()=>console.log('omg i cant believe it')}/>
             
@@ -268,13 +268,17 @@ return (
                     <div className="parents-card">
                     {motherArray
                         ? motherArray.map(
-                            ({ id, nombre, hierro, fechanac, torosimagenes }, i) => (
+                            ({ id, nombre, hierro, fechanac, torosimagenes,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
                                 imagenes={torosimagenes}
+                                tientaDia={tientadia}
+                                tientaResultado={tientaresultado}
+                                tientaTentadoPor={tientatentadopor}
+                                tientaLugar={tientalugar}
                                 animationDelay={i}
                                 handleClick={()=>selectedParentMother(id, nombre, hierro, fechanac, torosimagenes)}
                             />
@@ -286,21 +290,24 @@ return (
                 </div>
 
                 <div className="father">
-                <h3>Padre</h3>
+                <h3 className='h3'>Padre</h3>
                 <CustomInput name='father' value={parentForm.father} paddingWrapper='0' handleChange={handleFormParents} handleClick={ ()=>console.log('omg i cant believe it')}/>
 
                 <div className="cards-result">
                     <div className="parents-card">
                     {fatherArray
                         ? fatherArray.map(
-                            ({ id, nombre, hierro, fechanac, torosimagenes }) => (
+                        ({ id, nombre, hierro, fechanac, torosimagenes,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
-                                id={id}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
                                 imagenes={torosimagenes}
+                                tientaDia={tientadia}
+                                tientaResultado={tientaresultado}
+                                tientaTentadoPor={tientatentadopor}
+                                tientaLugar={tientalugar}
                                 handleClick={()=>selectedParentFather(id, nombre, hierro, fechanac, torosimagenes)}
                             />
                             )

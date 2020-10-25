@@ -182,12 +182,12 @@ class AddPage extends React.Component {
             body: formData,
           }).then( async response =>{
             let {message} = await response.json()
-            console.log(message)
+
             switch(message){
 
               case 'succeeded':
                 this.props.setGoodNotification('Agregado exitosamente')
-                this.props.history('/')
+                this.props.history.push('/')
                 break;
 
               case 'problem db':
@@ -197,16 +197,21 @@ class AddPage extends React.Component {
               case 'problem pelaje':
                 this.props.setBadNotification('El pelaje agregado es incorrecto')
                 this.setState({step: 'first'})
+                break;
+
             default:
-              return 
+              return ''
             }
           })
     } catch(e){
+      console.log(e)
       this.props.setBadNotification('Error de conexión')
     }
   }
 
   render() {
+
+    console.log(this.props)
     if (this.state.step === 'first') return (
       <MainInfo 
         hierroInformation={this.state.hierroInformation}
