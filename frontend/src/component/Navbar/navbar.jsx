@@ -147,7 +147,7 @@ class Nav extends React.Component{
                     
                     
                     <button className='profile-info' value='login' onClick={this.Redirect}>
-                        Iniciar Sesion
+                        Iniciar Sesión
                     </button>
 
                     } 

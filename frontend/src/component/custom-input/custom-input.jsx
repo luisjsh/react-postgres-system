@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import styled from "styled-components";
 
 import X_Icon from "../img/icon/X-icon.svg";
@@ -121,11 +121,20 @@ function CustomInput({
   paddingWrapper,
   ...otherProps
 }) {
+
+  let observer = useRef()
+
+  const handleClickDeleteFromInput = (event)=>{
+    event.preventDefault()
+    handleClick(event)
+    observer.current.focus()
+  }
+
   return (
     <Wrapper paddingWrapper={paddingWrapper} margin={comment && "0 0 1.4em 0"}>
       {label ? <Label>{label}</Label> : ""}
-      <Input name={name} onChange={handleChange} {...otherProps}></Input>
-      {handleClick && <DeleteDataFromInput onClick={handleClick} />}
+      <Input name={name} ref={observer} onChange={handleChange} {...otherProps}></Input>
+      {handleClick && <DeleteDataFromInput name={name} onClick={handleClickDeleteFromInput} />}
       {comment && <Comment>{comment}</Comment>}
         {/*
       {loading === "" && <Loading />}

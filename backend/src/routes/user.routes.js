@@ -78,10 +78,10 @@ router.post('/add', async (req, res)=>{
     res.json({status , token, message})
 })
 
-//--------------------  Login  ----------------------
 router.post('/login', async (req, res)=>{
     let { correo , clave } = req.body
     let { token , status, userInformation } = ''
+    try{
     await user.findOne({
         where: {email: correo },
         include: [{
@@ -98,9 +98,11 @@ router.post('/login', async (req, res)=>{
     }
             
     }).catch( e => {
-        status = 'bad db'
+        status = 'email wrong'
     })
-
+    } catch (e){
+        status = 'bad db'
+    }
     res.json({ token , status, userInformation })
 })
 

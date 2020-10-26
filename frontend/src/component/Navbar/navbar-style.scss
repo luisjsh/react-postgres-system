@@ -136,15 +136,14 @@ $main-color: #DEDEDE;
 
 
         .profile-info{
-            width: 10%;
-            height: 100%;
-            border-radius: 4px;
-            margin-top: 10px;
+            padding: 1em 2em;
+            border-radius: 10px;
             text-align: center;
             background-color: $blue-color;
             color: white;
-            border: 1px solid $blue-color;
-            transition: 0.6s;
+            font-weight: bold;
+            transition: .3s;
+            border:none;
             cursor: pointer;
             &:hover{
                 color: $blue-color;
@@ -163,7 +162,6 @@ $main-color: #DEDEDE;
             }
 
             .info{
-                margin-top: 10px;
                 height: 40px;
                 width: 40px;
                 border: 1px solid $main-color;

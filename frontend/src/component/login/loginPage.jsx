@@ -2,12 +2,10 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-
 import './login-style.scss'
 
 import CustomInput from '../custom-input/custom-input';
 import CustomButton from '../custom-button/custom-button';
-import ImageAtSide from '../item-information-card/item-information-card'
 
 class LogIn extends React.Component {
     constructor(props){
@@ -26,7 +24,6 @@ class LogIn extends React.Component {
         this.formHandler = this.formHandler.bind(this)
     }
 
-    //---- Redirect ----
 
     Redirect(event){
         let value = event.target.attributes.value.value;
@@ -34,7 +31,6 @@ class LogIn extends React.Component {
     }
 
 
-//---------- form handler ---------
 
     formHandler ( event ){
         let { name, value } = event.target
@@ -42,50 +38,52 @@ class LogIn extends React.Component {
     }
 
 
-
-//-------- on submit --------------
-
     async submit (event){
         event.preventDefault()
         let formData = new FormData()
         formData.append('correo', this.state.email)
         formData.append('clave', this.state.password)
-        await fetch('http://localhost:4000/user/login', {
-            method: 'POST',
-            body: formData
-        }).then( async response =>{
-            let responsejson = await response.json()
+        try{
+            await fetch('http://localhost:4000/user/login', {
+                method: 'POST',
+                body: formData
+            }).then( async response =>{
+                let responsejson = await response.json()
 
-            switch(responsejson.status){
-                
-                case 'password approved':
-                    let userInformation = {
-                        id: responsejson.userInformation.id,
-                        name: responsejson.userInformation.nombre,
-                        token: responsejson.token,
-                        path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
-                    }
+                switch(responsejson.status){
+                    
+                    case 'password approved':
+                        let userInformation = {
+                            id: responsejson.userInformation.id,
+                            name: responsejson.userInformation.nombre,
+                            token: responsejson.token,
+                            path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
+                        }
+                        this.props.setGoodNotification('Sesión iniciada de manera exitosa')
                         this.props.login(userInformation);
                         this.props.history.push('/')
-                break;
-
-                case 'wrong':
-                    this.setState({passwordLabel: 'Clave invalida', passwordBorderColor: 'red'})
                     break;
 
-                case 'email':
-                    this.setState({emailLabel: 'Correo invalido', emailBorderColor: 'red'})
-                    break;
-                
+                    case 'password wrong':
+                        this.props.setBadNotification('La contraseña ingresada no coincide con la asociada al correo')    
+                        break;
+
+                    case 'email wrong':
+                        this.props.setBadNotification('El correo introducido no se encuentra registrado')
+                        break;
+                    
                     case 'bad db':
-                        alert('Error de servidor');
-                    break;
+                        this.props.setBadNotification('Error de servidor');
+                        break;
 
-                default: 
-            }
-            }).catch( error => {
-                alert('Error de Conexion')
-            })
+                    default: 
+                }
+                }).catch( () => {
+                    this.props.setBadNotification('Error de conexión')
+                })
+        } catch(e){
+            this.props.setBadNotification('Error de conexión')
+        }
     }
 
     render(){
@@ -121,7 +119,9 @@ class LogIn extends React.Component {
 
 const mapDispatchtoProps = ( dispatch )=>(
     {
-        login: (token)=>{ dispatch({ type: 'LOG_IN', payload: token})}
+        login: (token)=>{ dispatch({ type: 'LOG_IN', payload: token})},
+        setBadNotification: (message)=>{ dispatch({ type: 'SET_BAD_NOTIFICATION', payload: message})},
+        setGoodNotification: (message)=>{ dispatch({ type: 'SET_GOOD_NOTIFICATION', payload: message})}
     }
 )
 

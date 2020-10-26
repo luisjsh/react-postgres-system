@@ -112,6 +112,12 @@ function MainInfoStep({
         searchParents(name, value)
     }
 
+    const handleClickParents = (event) =>{
+        let {name} = event.target
+        setParentForm({...parentForm, [name]:''})
+        searchParents(name, '')
+    }
+
     const selectedParentFather = (id, nombre, hierro, fechanac, torosimagenes) => {
         setData({...Data, padreId: id})
         updateClickedParent('fatherArray', [{id, nombre, hierro, fechanac, torosimagenes}])    
@@ -192,9 +198,9 @@ return (
                     <div className="birth-date">
                         <p>Fecha de nacimiento</p>
                         <div className='birth-grid'>
-                        <CustomInput name='day' value={Date.day} handleChange={handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]" required/>
-                        <CustomInput name='month' value={Date.month} handleChange={handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]" required/>
-                        <CustomInput name='year' value={Date.year} handleChange={handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]" required/>
+                        <CustomInput name='day' value={Date.day} handleChange={handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]{2}" required/>
+                        <CustomInput name='month' value={Date.month} handleChange={handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]{2}" required/>
+                        <CustomInput name='year' value={Date.year} handleChange={handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]{4}" required/>
                         </div>
                     </div>
 
@@ -262,7 +268,12 @@ return (
                 <div className="mother">
                 <h3 className='h3'>Madre</h3>
 
-                    <CustomInput name='mother' value={parentForm.mother} paddingWrapper='0' handleChange={handleFormParents} handleClick={ ()=>console.log('omg i cant believe it')}/>
+                    <CustomInput 
+                        name='mother' 
+                        value={parentForm.mother} 
+                        paddingWrapper='0' 
+                        handleChange={handleFormParents} 
+                        handleClick={handleClickParents}/>
             
                 <div className="cards-result">
                     <div className="parents-card">
@@ -291,7 +302,12 @@ return (
 
                 <div className="father">
                 <h3 className='h3'>Padre</h3>
-                <CustomInput name='father' value={parentForm.father} paddingWrapper='0' handleChange={handleFormParents} handleClick={ ()=>console.log('omg i cant believe it')}/>
+                <CustomInput 
+                    name='father' 
+                    value={parentForm.father} 
+                    paddingWrapper='0' 
+                    handleChange={handleFormParents} 
+                    handleClick={handleClickParents}/>
 
                 <div className="cards-result">
                     <div className="parents-card">
