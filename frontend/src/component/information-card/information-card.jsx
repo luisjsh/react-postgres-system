@@ -21,7 +21,6 @@ class informationCard extends Component {
                 name: '',
                 fechanac: '',
                 goal: '',
-                notepad: '',
                 pelaje: '',
                 tientadia: '',
                 tientaresultado: '',
@@ -71,8 +70,7 @@ class informationCard extends Component {
         await fetch('http://localhost:4000/item/search/profile/' + id)
         .then( async responseArray => {
             let { response } = await responseArray.json()
-            console.log(response)
-            response && this.setState({currentItemArray: response , id: id , name: response.nombre, pelaje: response.pelajes.nombre, notepad: response.notas})
+            response && this.setState({currentItemArray: response , id: id , name: response.nombre, pelaje: response.pelajes.nombre})
         })
     }
 
@@ -216,8 +214,6 @@ class informationCard extends Component {
                         <SecundaryText id='sexo' title='Sexo:'><span>{this.state.currentItemArray.sexo}</span></SecundaryText>
                       
                         <SecundaryText id='date' title='Fecha de nacimiento:'><span>{this.state.currentItemArray.fechanac}</span></SecundaryText>
-
-                        <SecundaryText title='Notas:'>{this.state.notepad}</SecundaryText>
 
                         <h4>Datos de la tienta</h4>
                         

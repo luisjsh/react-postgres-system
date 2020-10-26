@@ -4,6 +4,7 @@ import {
   Card,
   CardHeader,
   CardNoImage,
+  CardImage,
   CardSection,
   HeaderWrapper,
   HeaderWrapperBottom,
@@ -94,17 +95,15 @@ class ImageCard extends Component {
           <CardSection>
           {
             this.props.imagenes[0] !== undefined ?
-            <div className="image" alt='image-array' style={{background: 'url(http://localhost:4000' + this.props.imagenes[0].path + ')'}}>
-            <img
-            className="card-image"
-            alt='inside the card'
-            loading="lazy"
-            src={"http://localhost:4000" + this.props.imagenes[0].path} />
-
-            </div>
-             : <CardNoImage 
+              <CardImage 
+                path={this.props.imagenes[0].path}
                 hovered={this.state.hovered}
               />
+             : 
+             
+              <CardNoImage 
+                  hovered={this.state.hovered}
+                />
           }</CardSection>
         </Card>
     );

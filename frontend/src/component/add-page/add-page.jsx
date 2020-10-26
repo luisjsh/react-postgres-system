@@ -204,14 +204,11 @@ class AddPage extends React.Component {
             }
           })
     } catch(e){
-      console.log(e)
       this.props.setBadNotification('Error de conexión')
     }
   }
 
   render() {
-
-    console.log(this.props)
     if (this.state.step === 'first') return (
       <MainInfo 
         hierroInformation={this.state.hierroInformation}

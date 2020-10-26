@@ -1,8 +1,7 @@
+import React from 'react'
 import styled, {keyframes} from 'styled-components'
 
 import NoImageIcon from './IMG/no-image.svg'
-
-import SecundaryText from '../secundary-text/secundary-text'
 
 export const Appear = keyframes`
   0%{
@@ -95,3 +94,43 @@ export const Span = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
 `
+
+const Wrapper = styled.div`
+  position: relative;
+  height: ${props => props.hovered ? '0' : '320px'};
+  border-radius: 10px;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+`
+
+const BlurredBackground = styled.div`
+  background: url(http://localhost:4000${props => props.path ? props.path : ''}) no-repeat;
+  background-size: 15000%;
+  position: absolute; 
+  background-color: red;
+  width: 100%;
+  border-radius: 10px;
+  height: 100%;
+  transition: .3s;
+  `
+  
+  const Img = styled.img`
+  height: ${props => props.hovered ? '0' : 'auto'};
+  max-width: 93%;
+  max-height: 95%;
+  border-radius: 10px;
+  transition: .3s;
+  z-index: 1;
+`
+
+
+export const CardImage = ({path, hovered})=>{
+  return(
+    <Wrapper hovered={hovered}>
+      <BlurredBackground path={path} />
+      <Img src={`http://localhost:4000${path}`} loading='lazy'/>
+    </Wrapper>
+  )
+}
