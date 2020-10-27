@@ -62,12 +62,11 @@ router.post('/add', async (req, res)=>{
                 path: '/img/uploads/' + req.files[i].filename, usuarioid: response.id
             },{
                 fields: [ 'path' , 'usuarioid']
-            }).then( response => console.log('succeed'))
-
+            })
         }
 
         status= 200
-        message= 'succedd'
+        message= 'succeed'
         token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 24  }) //here we initialize the jwt token    
     })  
     .catch( e => {

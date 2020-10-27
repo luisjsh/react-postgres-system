@@ -45,7 +45,6 @@ class signUpPage extends React.Component {
 
 
  
-    //-----------input type file ----------------
     handleFile (event){
 
         if( event.target.files !== undefined){
@@ -100,35 +99,38 @@ class signUpPage extends React.Component {
                 }
         }
 
-
-        await fetch('http://localhost:4000/user/add',{
-            method: 'POST',
-            body: formData
-        }).then ( async ( response ) => {
-            let {message, token} = await response.json()
-            
-            switch(message){
-                case 'succedd':
-                    this.setState({emailLabel: 'Correo Valido', inputBorderColor: 'green'})
-                    this.props.saveToken(token);
-                    this.DontShow();
-                    this.props.history.push('/')
-                    break;
+        try{
+            await fetch('http://localhost:4000/user/add',{
+                method: 'POST',
+                body: formData
+            }).then ( async ( response ) => {
+                let {message, token} = await response.json()
                 
-                case 'llave':
-                    this.setState({emailLabel: 'Por favor introduzca otro correo', inputBorderColor: 'red'})
-                    break;
+                switch(message){
+                    case 'succeed':
+                        this.props.setGoodNotification('Cuenta creada exitosamente')
+                        this.props.saveToken(token);
+                        this.DontShow();
+                        this.props.history.push('/')
+                        break;
+                    
+                    case 'llave':
+                        this.props.setBadNotification('Por favor introduzca otro correo')
+                        break;
 
-                case 'error db':
-                    alert('error de servidor')
-                    this.props.history.push('/')
-                    break;
-            }
-        }).catch( e =>{
-            console.log('recuerde iniciar el servidor!')
-        })
+                    case 'error db':
+                        this.props.setBadNotification('error de servidor')
+                        this.props.history.push('/')
+                        break;
+                }
+            }).catch( e =>{
+                this.props.setBadNotification('Error de conexión con el servidor')
+            }) 
+        }catch(e){
+            this.props.setBadNotification('Error de conexión con el servidor')
+        }
     } else {
-        this.setState({repeatPasswordLabel: 'Las contraseñas no coinciden' , repeatPasswordBorderColor: 'red'})
+        this.props.setBadNotification('Las contraseñas no coinciden')
     }
     }
 
@@ -174,7 +176,6 @@ class signUpPage extends React.Component {
                 {
                     this.props.currentUserAdmin ? 
 
-                    <ImageAside id='admin'>
                         <div className="admin-section">
                             <span>Administrador</span>
                             <div className='switch'>
@@ -182,7 +183,6 @@ class signUpPage extends React.Component {
                                 <label htmlFor='switch-1' className="switch-label"></label>
                             </div>
                         </div>
-                    </ImageAside>
 
                     :
 
@@ -206,7 +206,9 @@ class signUpPage extends React.Component {
 
 const mapDispatchtoProps = (dispatch) =>(
     {
-        saveToken: (token) => {dispatch({ type:'SAVE-TOKEN' , payload: token})}
+        saveToken: (token) => {dispatch({ type:'SAVE-TOKEN' , payload: token})},
+        setGoodNotification: (message) =>{dispatch({ type:'SET_GOOD_NOTIFICATION', payload: message})},
+        setBadNotification: (message) =>{dispatch({ type:'SET_BAD_NOTIFICATION', payload: message})}
     }
 )
 

@@ -17,7 +17,7 @@ const toros = sequelize.define(
     encaste: {type: Sequelize.TEXT},
     sexo: { type: Sequelize.TEXT },
     //logros: { type: Sequelize.INTEGER },
-    notas: { type: Sequelize.TEXT },
+    //notas: { type: Sequelize.TEXT },
     madreid: { type: Sequelize.INTEGER },
     padreid: { type: Sequelize.INTEGER },
     fechanac: { type: Sequelize.TEXT },

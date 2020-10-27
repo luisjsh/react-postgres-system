@@ -126,6 +126,7 @@ function CustomInput({
 
   const handleClickDeleteFromInput = (event)=>{
     event.preventDefault()
+    event.target.value=''
     handleClick(event)
     observer.current.focus()
   }

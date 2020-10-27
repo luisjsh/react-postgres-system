@@ -221,17 +221,15 @@ router.get('/search/family/child/:id', async (req, res)=>{
     })
 })
 
-//------------------------------ UPDATE ----------------------------------------------------
-
 router.post('/update', /*tokenVerification, adminVerification , */async (req, res)=>{
 
     let { 
         id , 
         nombre, 
         pelaje, 
-        fechanac, 
-        logro, 
-        notas, 
+        fechaNac, 
+        //logros, 
+        //notas, 
         encaste,
         tatuaje,   
         tientaDia,
@@ -256,20 +254,21 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
         await toros.findOne({ 
             where: { id }
         }).then( async response => {
+            console.log(response.fechanac, response.tientadia)
             response.nombre = nombre;
             response.pelajes = ChoosedPelaje.id;
-            response.fechaNac = fechanac;
-            response.logros = parseInt(logro);
-            response.notas = notas;
+            response.fechanac = fechaNac;
+        //  response.logros = parseInt(logro);
+        //  response.notas = notas;
             response.encaste = encaste
             response.tatuaje = tatuaje
-            response.tientaDia = tientaDia
+            response.tientadia = tientaDia
             response.tientaresultado = tientaResultado
             response.tientatentadopor = tientaTentadoPor
             response.tientalugar = tientaLugar
             response.tientacapa = tientaCapa
             response.tientacaballo = tientaCaballo
-            response.tienta,muleta = tientaMuleta
+            response.tientamuleta = tientaMuleta
             response.save()
         })
 
@@ -278,7 +277,7 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
         where: {id},
         include: [{model: logrosModel}, {model: pelajeModel, as: 'pelajes'}]
     }).then( response =>{
-        res.status(200).json({status: 200, detail:'updated' , data: response})
+        res.status(200).json({status: 200, detail:'updated' , response: response})
     })
 })
 

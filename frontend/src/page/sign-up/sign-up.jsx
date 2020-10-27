@@ -3,9 +3,7 @@ import React from 'react'
 import SignUpPage from '../../component/sign-up-page/signup-page'
 
 const signup = () =>(
-    <div>
-        <SignUpPage></SignUpPage>
-    </div>
+        <SignUpPage/>
 )
 
 export default signup

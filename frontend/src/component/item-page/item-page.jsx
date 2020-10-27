@@ -15,8 +15,6 @@ class ItemPage extends React.Component{
         this.state = {
 
             edit: false,
-            hairInformation: false,
-            goalInformation:false,
             //edit-values
             name: '',
             pelaje: '',
@@ -33,9 +31,24 @@ class ItemPage extends React.Component{
         this.handleEdit = this.handleEdit.bind(this)
     }
 
-    async componentDidMount(){
+    componentDidMount(){
         this.setState({ verifyUpdate : this.props.currentItemArray , id: this.props.match.params.id})
         this.updateInformation(this.props.match.params.id)
+    }
+
+    async componentDidUpdate(prevProps, prevState){
+        if(prevState.edit !== this.state.edit) {
+            try{
+                await fetch('http://localhost:4000/item/search/profile/' + this.props.match.params.id)
+                    .then( async responseArray => {
+                        let { response } = await responseArray.json()
+                        this.setState({currentItemArray: response , id: this.props.match.params.id })
+                        this.props.setItem(response)
+                    })
+            }catch(e){
+                this.props.setBadNotification('Error de conexión al actualizar la información del perfil')
+            }
+        }
     }
 
     async updateInformation(id){
@@ -44,18 +57,8 @@ class ItemPage extends React.Component{
                 let { response } = await responseArray.json()
                 this.setState({currentItemArray: response , id: id })
                 this.props.setItem(response)
-                console.log(response)
             })
 
-        await fetch(
-            "http://localhost:4000/configuration/getparticularhierro/" +
-              this.state.currentItemArray.hierro,
-            {
-              method: "GET",
-            }
-          ).then(async (hierroResponse) =>
-            this.setState({ hierro: await hierroResponse.json() })
-          );
 
         await fetch('http://localhost:4000/item/search/family/parents/'+ id)
             .then( async responseArray => {
@@ -116,38 +119,7 @@ class ItemPage extends React.Component{
     
 
     async handleEdit(){
-        if (this.state.hairInformation == false || this.state.goalInformation == false){
-        await fetch("http://localhost:4000/configuration/getpelaje", {
-            method: "GET",
-            headers: {
-              "x-access-token": this.props.currentToken,
-            },
-          })
-            .then(async (response) => {
-              this.setState({ hairInformation: await response.json() });
-            })
-            .catch((e) => alert("error de conexion"));
-
-
-          await fetch("http://localhost:4000/configuration/logros", {
-            method: "GET",
-            headers: {
-              "x-access-token": this.props.currentToken,
-            },
-          })
-            .then(async (response) => {
-              this.setState({ goalInformation: await response.json() });
-            })
-            .catch((e) => alert("error de conexion"));
-            
-            this.setState({edit: !this.state.edit})
-
-        } else {
-
-            this.setState({edit: !this.state.edit})
-        }
-
-   
+        this.setState({edit: !this.state.edit})  
     }
       //---------------- input-form ----------------------
 
@@ -176,7 +148,7 @@ class ItemPage extends React.Component{
                         {
                             this.state.currentItemArray ?
                             
-                            <InformationCard id={this.state.id} edit={this.state.edit} hair={this.state.hairInformation} goals={this.state.goalInformation} handleClick={()=>this.setState({edit: !this.state.edit})}  updateInformation={this.updateInformation} />
+                            <InformationCard id={this.state.id} edit={this.state.edit} handleClick={()=>this.setState({edit: !this.state.edit})}  updateInformation={this.updateInformation} />
 
                             :
 
@@ -295,8 +267,8 @@ class ItemPage extends React.Component{
 }
 
 const mapDispatchtoProps = (dispatch) => ({
-    setItem: (itemData) =>
-      dispatch({ type: "SET_CURRENT_ITEM", payload: itemData }),
+    setItem: (itemData) => dispatch({ type: "SET_CURRENT_ITEM", payload: itemData }),
+    setBadNotification: (message) => dispatch({ type: 'SET_BAD_NOTIFICATION', payload: message})
 });
   
 const mapStatetoProps = ({

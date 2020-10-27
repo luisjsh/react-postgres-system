@@ -50,7 +50,6 @@ CREATE TABLE IF NOT EXISTS toros(
     pelaje integer REFERENCES pelajes(id),
     sexo text,
     fechanac text,
-    notas text,
     encaste text,
     madreid integer,
     padreid integer,

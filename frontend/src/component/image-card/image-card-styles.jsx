@@ -107,12 +107,12 @@ const Wrapper = styled.div`
 
 const BlurredBackground = styled.div`
   background: url(http://localhost:4000${props => props.path ? props.path : ''}) no-repeat;
-  background-size: 15000%;
+  background-size: 10000%;
   position: absolute; 
-  background-color: red;
   width: 100%;
-  border-radius: 10px;
   height: 100%;
+  border-radius: 10px;
+  filter: contrast(0.5);
   transition: .3s;
   `
   

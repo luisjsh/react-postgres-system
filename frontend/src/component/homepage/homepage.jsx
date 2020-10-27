@@ -8,7 +8,7 @@ import "./style.scss";
 import ErrorPage from '../../page/error/errorPage'
 import Card from "../image-card/image-card";
 
-function HomePage ({history}) {
+function HomePage ({history, setBadNotification}) {
   const [pageNumber, setPageNumber] = useState(1)
   const {loading, error, items, hasMore} = useSearchWithPagination('', pageNumber)
 
@@ -25,6 +25,7 @@ function HomePage ({history}) {
     if(node) observer.current.observe(node)
   }, [loading, hasMore])
 
+  if(error) setBadNotification('Error de conexión')
 
   return (
     <div className="HomePage" >
