@@ -16,6 +16,8 @@ class informationCard extends Component {
 
         this.state = {
                 name: '',
+                encaste: '',
+                tatuaje: '',
                 fechanac: {
                     day: '',
                     month: '',
@@ -54,7 +56,7 @@ class informationCard extends Component {
         this.handleUpdateandMount(id)
     }
 
-    async componentDidUpdate(){     
+    async componentDidUpdate(prevProps){     
       if(this.props.id !== this.state.id){
         this.setState({id: this.props.id})
         this.handleUpdateandMount(this.props.id)
@@ -71,6 +73,7 @@ class informationCard extends Component {
             })
             .catch((e) => this.props.setBadNotification("Error de Conexión"));
       }
+      if(prevProps.edit !== this.props.edit && !this.props.edit) this.handleUpdateandMount(this.props.id)
     }
 
     async handleUpdateandMount(id){
@@ -162,6 +165,8 @@ class informationCard extends Component {
                         currentItemArray: response,
                         name: response.nombre, 
                         pelaje: response.pelajes.nombre,
+                        encaste: response.encaste,
+                        tatuaje: response.tatuaje,
                         fechanac: {
                             day: fechaNac[2],
                             month: fechaNac[1],
@@ -264,6 +269,11 @@ class informationCard extends Component {
                                 <CustomInput name='day' value={this.state.fechanac.day} handleChange={this.handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]{2}" />
                             </div>
                         </div>
+                        
+                        <CustomInput label='Encaste' type='text' handleClick={this.formHandler} onChange={this.formHandler} name='encaste' value={this.state.encaste} />
+                        
+                        <CustomInput label='Tatuaje' type='text' handleClick={this.formHandler} onChange={this.formHandler} name='tatuaje' value={this.state.tatuaje} />
+                        
                                 <h4>Datos de la tienta</h4>
 
                             
@@ -300,9 +310,13 @@ class informationCard extends Component {
 
                         <SecundaryText title='Pelaje:'>{this.state.currentItemArray.pelaje}</SecundaryText>
 
-                        <SecundaryText id='sexo' title='Sexo:'><span>{this.state.currentItemArray.sexo}</span></SecundaryText>
+                        <SecundaryText title='Sexo:'><span>{this.state.currentItemArray.sexo}</span></SecundaryText>
                       
-                        <SecundaryText id='date' title='Fecha de nacimiento:'><span>{this.state.currentItemArray.fechanac}</span></SecundaryText>
+                        <SecundaryText title='Encaste:'><span>{this.state.currentItemArray.encaste}</span></SecundaryText>
+                        
+                        <SecundaryText title='Tatuaje:'><span>{this.state.currentItemArray.tatuaje}</span></SecundaryText>
+                        
+                        <SecundaryText title='Fecha de nacimiento:'><span>{this.state.currentItemArray.fechanac}</span></SecundaryText>
 
                         <h4>Datos de la tienta</h4>
                         

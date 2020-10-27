@@ -33,10 +33,8 @@ class Nav extends React.Component{
     }
 
 
-    //----------------- update 4 admin --------------
-
-     componentDidUpdate(props){
-        console.log(props)
+     componentDidUpdate(prevProps){
+        if(prevProps.currentToken !== this.props.currentToken) this.UpdateStatus()
     }
 
 
@@ -52,11 +50,10 @@ class Nav extends React.Component{
               })
                 .then(async (response) => {
                     let { detail } = await response.json();
-                    console.log(detail)
                     validator(detail , this.props.history, this.props.logOut)
                    
                 })
-                .catch((e) => console.log("ERROR"));
+                .catch(() => this.props.setBadNotification("Error de conexión"))
             }
     }
 
@@ -94,7 +91,7 @@ class Nav extends React.Component{
             this.props.history.push('/profile/')
             }
         }).catch( e =>{
-            console.log(e)
+            this.props.setBadNotification(e)
         })
     }
 
