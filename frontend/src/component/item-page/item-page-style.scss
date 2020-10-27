@@ -113,8 +113,15 @@ $main-color: #DEDEDE;
         
         
         .parents-section{
-            @extend %sections;    
-    }
+            display: grid;
+            
+            
+            .card{
+                display: grid;
+                grid-template-columns: 2fr 2fr;
+                grid-gap: 1em;
+            }
+        }
     }
 
 
@@ -158,8 +165,22 @@ $main-color: #DEDEDE;
         .results-side{
             width: 100%;
 
+            .parents-section{
+                margin: 0;
+            }
+
             .main-title{
                 display: none;
+            }
+        }
+
+        .cards-carousel{
+            padding: 0;
+            margin: 0;
+            
+            .cards-section{
+                margin: 0;
+                padding: 1em;
             }
         }
     }

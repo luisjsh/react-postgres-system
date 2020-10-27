@@ -58,8 +58,10 @@ $main-color: #DEDEDE;
             left: 0;
         }
         .card{
-            display: flex;
-            flex-direction: row;
+            padding: 1em;
+            display: grid;
+            grid-auto-flow: column;
+            grid-gap: 1em;
             transition: 0.5s ease;
             max-width: 120%;
             @extend %empty;

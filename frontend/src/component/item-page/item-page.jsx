@@ -160,66 +160,68 @@ class ItemPage extends React.Component{
                 <div className="results-side">
                     <span className='main-title'>{this.state.currentItemArray.nombre}</span>
 
-                    <div className="parents-section">
-                        <div className="cards-section">
-                            <span className='title-span'>Padres</span>
-                            <div className="card">
-                                {
-                                    this.state.parents ? 
+                    <CardCarousel title='Padres' itemArray={this.state.parents.response}>
+                    {
+                                   this.state.parents ? 
 
-                                     this.state.parents.response ? 
-                                        
-                                     this.state.parents.response.map( ({id, nombre, hierro, torosimagenes , fechanac}) =>(
-                                                    <ImageCard
-                                                    key={id}
-                                                    hierro={hierro}
-                                                    nombre={nombre}
-                                                    fechanac={fechanac.slice(2, 4)}
-                                                    imagenes={torosimagenes}
-                                                    handleClick={() => {
-                                                        this.updateInformation(id);
-                                                        this.props.history.push('/item/'+id)
-                                                    }}
-                                                />
-                                     ))
-                                    : <div className='no-response'> </div> 
-                                    
-                                     :
+                                   this.state.parents.response ? 
+                                      
+                                   this.state.parents.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                                  <ImageCard
+                                                  key={id}
+                                                  hierro={hierro}
+                                                  nombre={nombre}
+                                                  fechanac={fechanac.slice(2, 4)}
+                                                  animationDelay={index}
+                                                  imagenes={torosimagenes} 
+                                                  tientaDia={tientadia}
+                                                  tientaResultado={tientaresultado}
+                                                  tientaTentadoPor={tientatentadopor}
+                                                  tientaLugar={tientalugar}
+                                                  handleClick={() => {
+                                                      this.updateInformation(id);
+                                                      this.props.history.push('/item/'+id)
+                                                  }}
+                                              />
+                                   ))
+                                  : <div className='no-response'> </div> 
+                                  
+                                   :
 
-                                    ''
-                                }
-                            </div>
-                        </div>
-                        <div className="cards-section"> 
-                            <span className='title-span'>Abuelos</span>
-                            <div className="card" style={{marginLeft: '10px'}}>
-                                {
-                                    this.state.grandpa ? 
-
-                                        this.state.grandpa.response ? ' ' : <div className='no-response'> </div>
-
-                                    :
-
-                                    ''
-                                }
-                            </div>
-                        </div>
+                                  ''
+                        }
+                    </CardCarousel>
+                    <CardCarousel title='Abuelos' itemArray={this.state.childs.response}>
+                    
+                                      {
+                                        this.state.grandpa ? 
+    
+                                            this.state.grandpa.response ? ' ' : <div className='no-response'> </div>
+    
+                                        :
+    
+                                        ''
+                                    }
                         
-                    </div>
-                
+                    </CardCarousel>
                     <CardCarousel title='Hijos' itemArray={this.state.childs.response}>
                     {
                                     this.state.childs ? 
 
                                         this.state.childs.response ? 
                                         
-                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , fechanac}) =>(
+                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
                                             nombre={nombre}
                                             fechanac={fechanac.slice(2, 4)}
+                                            animationDelay={index}
                                             imagenes={torosimagenes}
+                                            tientaDia={tientadia}
+                                            tientaResultado={tientaresultado}
+                                            tientaTentadoPor={tientatentadopor}
+                                            tientaLugar={tientalugar}
                                             handleClick={() => {
                                                 this.updateInformation(id);
                                                 this.props.history.push('/item/'+id)
@@ -239,13 +241,18 @@ class ItemPage extends React.Component{
 
                                         this.state.grandChilds.response ? 
                                         
-                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , fechanac}) =>(
+                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
                                             nombre={nombre}
                                             fechanac={fechanac.slice(2, 4)}
                                             imagenes={torosimagenes}
+                                            animationDelay={index}
+                                            tientaDia={tientadia}
+                                            tientaResultado={tientaresultado}
+                                            tientaTentadoPor={tientatentadopor}
+                                            tientaLugar={tientalugar}
                                             handleClick={() => {
                                                 this.updateInformation(id);
                                                 this.props.history.push('/item/'+ id)

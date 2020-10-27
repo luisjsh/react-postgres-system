@@ -7,7 +7,7 @@ class cardsCarousel extends Component {
         super(props)
 
         this.state = {
-                 x: 0
+                x: 0
         }
 
         this.goRight = this.goRight.bind(this);
@@ -19,9 +19,11 @@ class cardsCarousel extends Component {
 //------------- go to right image ---------------
 
     goRight(){
-        if ( (this.props.itemArray.length *  - 25) + 25 < this.state.x ) {
+        
+        let moveDependingOnPx = window.innerWidth < 490 ? 325 : 300
 
-           let x = this.state.x - 25;
+        if ( (this.props.itemArray.length *  - moveDependingOnPx) + moveDependingOnPx < this.state.x ) {
+           let x = this.state.x - moveDependingOnPx;
             this.setState({x : x})
         }
     }
@@ -41,19 +43,18 @@ class cardsCarousel extends Component {
                 <div className='cards-carousel'>
                     <div className="cards-section" >
                     <span className='title-span'>{this.props.title}</span>
-                        <div className="card" style={{transform:'translateX('+this.state.x+'%)'}}>
+                        <div className="card" style={{transform:'translateX('+this.state.x+'px)'}}>
                             {this.props.children}
                     </div>
                     </div>
                         {
-                        this.state.x !== 0 ? <button id='goLeft' onClick={this.goLeft}></button> : ''
+                            this.state.x !== 0  ? <button id='goLeft' onClick={this.goLeft}></button> : ''
                         }
                         {
                          this.props.itemArray !== undefined  ? 
                         
-                           this.props.itemArray.length > 1 ? <button id='goRight' onClick={this.goRight}></button>  : ''
-                        
-                             
+                           this.props.itemArray.length > 1 ?
+                                <button id='goRight' onClick={this.goRight}></button>  : ''
                             : ''
                         }
                 </div>  

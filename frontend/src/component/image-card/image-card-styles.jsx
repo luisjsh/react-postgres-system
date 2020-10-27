@@ -5,7 +5,7 @@ import NoImageIcon from './IMG/no-image.svg'
 
 export const Appear = keyframes`
   0%{
-    transform: translateY(20px);
+    transform: translateY(30px);
     opacity: 0;
   }
 
