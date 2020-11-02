@@ -15,7 +15,6 @@ import infocard from './page/info-card/info-card';
 import Configuration from './page/configuration/configurationpage'
 import ChangePassword from './component/change-password/changepassword';
 import SearchPage from './page/searchpage/searchpage'
-import AddItemPage from './page/add-item/add-item';
 
 const Display = styled.div`
     grid-template-areas: "navbar" "page";
@@ -28,11 +27,11 @@ export default class App extends Component {
         return (
             <div>
                 <Notification />
-                <Display>
-                    <Nav/>
-                    <Switch>
-                        <Route exact path='/' component={homepage} />
+                <Switch>
                         <Route exact path='/login' component={LogIn}/>
+                    <Display>
+                        <Nav/>
+                        <Route exact path='/' component={homepage} />
                         <Route path='/profile' component={profilePage}/>
                         <Route path='/add-res' component={Addpage}/>
                         <Route exact path='/signup' component={signup}/>
@@ -41,9 +40,8 @@ export default class App extends Component {
                         <Route exact path='/configuration' component={Configuration}/>
                         <Route exact path='/changepassword' component={ChangePassword}/>
                         <Route path='/search/:name' component={SearchPage}></Route>
-                        <Route exact path='/add/res' component={AddItemPage}/>
-                    </Switch>
-                </Display>
+                    </Display>
+                </Switch>
             </div>
             )
         }

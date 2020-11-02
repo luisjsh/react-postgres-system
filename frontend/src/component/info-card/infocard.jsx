@@ -1,10 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 
 import './infocard-styles.scss'
 
-function infocard({ image , user , addMore, profile , LogOut }) {
+function infocard({ image , user , addMore, currentUserAdmin, profile , LogOut, history }) {
     return (
         <div className='infocard'>
             <div className="inside-card">
@@ -31,14 +32,17 @@ function infocard({ image , user , addMore, profile , LogOut }) {
             <div className="below-card">
 
                     <button onClick={profile}>Perfil</button>
-                    <div className='dropdown'>
+                    {currentUserAdmin && <div className='dropdown'>
 
                         <button className='dropdown-button'>Mas Opciones <div className='arrow'></div></button>
 
                         <div className='displayed-dropdown'>
                             <button value='configuration' onClick={addMore}>Agregar pelaje / hierro</button>
+                            <button onClick={
+                                ()=>history.push('/signup')
+                            }>Registrar otro</button>
                         </div>
-                    </div>
+                    </div>}
                     
                     <div className="log-out" onClick={LogOut}></div>
             </div>      
@@ -46,9 +50,9 @@ function infocard({ image , user , addMore, profile , LogOut }) {
     )
 }
 
-const mapStatetoProps = ({user: {currentUser , currentUserImagePath}}) =>{
+const mapStatetoProps = ({user: {currentUser, currentUserAdmin , currentUserImagePath}}) =>{
     return ({
-        currentUser, currentUserImagePath
+        currentUser, currentUserAdmin, currentUserImagePath
     })
 }
 
@@ -57,4 +61,4 @@ const mapDispatchtoProps = ( dispatch )=>(
         logOut: ()=>{dispatch({type:'LOG_OUT'})}
     }
 )
-export default  connect (mapStatetoProps, mapDispatchtoProps) (infocard);
+export default  connect (mapStatetoProps, mapDispatchtoProps) (withRouter(infocard));

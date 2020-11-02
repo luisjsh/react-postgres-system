@@ -2,17 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
+import validator from '../../functions/validator'
 
+import './item-page-style.scss'
+
+import ConfirmationCard from '../confirmation-card/confirmation-card'
 import ImageCarousel from '../image-carousel/image-carousel'
 import ImageCard from '../image-card/image-card'
 import CardCarousel from '../cards-carousel/cards-carousel'
 import InformationCard from '../information-card/information-card'
-import './item-page-style.scss'
 
 class ItemPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            confirmation: false,
 
             edit: false,
             //edit-values
@@ -21,7 +25,7 @@ class ItemPage extends React.Component{
             fechanac: '',
 
             currentItemArray: false,
-            grandpa: false,
+            grandParents: false,
             parents: false,
             childs: false,
             grandChilds: false
@@ -29,6 +33,7 @@ class ItemPage extends React.Component{
 
         this.updateInformation = this.updateInformation.bind(this);
         this.handleEdit = this.handleEdit.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
     }
 
     componentDidMount(){
@@ -37,7 +42,10 @@ class ItemPage extends React.Component{
     }
 
     async componentDidUpdate(prevProps, prevState){
-        if(prevState.edit !== this.state.edit) {
+        
+        if(this.props.match.params.id !== prevProps.match.params.id) this.updateInformation(this.props.match.params.id)
+
+        if(prevState.edit !== this.state.edit ) {
             try{
                 await fetch('http://localhost:4000/item/search/profile/' + this.props.match.params.id)
                     .then( async responseArray => {
@@ -54,34 +62,36 @@ class ItemPage extends React.Component{
     async updateInformation(id){
         await fetch('http://localhost:4000/item/search/profile/' + id)
             .then( async responseArray => {
-                let { response } = await responseArray.json()
-                this.setState({currentItemArray: response , id: id })
-                this.props.setItem(response)
-            })
+                let { response, detail } = await responseArray.json()
 
+                if(detail){
+                    validator(detail, this.props.history)
+                } 
+                
+                if (response){
+                    this.setState({currentItemArray: response , id: id })
+                    this.props.setItem(response)
+                }
+            })
 
         await fetch('http://localhost:4000/item/search/family/parents/'+ id)
             .then( async responseArray => {
-   
-                let { detail ,  response } = await responseArray.json()
+                let { parents , grandParents , detail} = await responseArray.json()
                 
-                
-                if (detail.search('no-parents') !== -1 ){
-                    
-                    this.setState({parents: {response: false} , grandpa: {response: false}})
+                if(detail) validator(detail, this.props.history)
 
-                    
-                }   else if ( detail.search('no-grandpa') !== -1){
-                    
-                    this.setState({parents:  { response } , grandpa: { response: false}})
+                if(parents || grandParents){
+                    this.setState({
+                        parents: parents.length > 0 ? parents : false,
+                        grandParents: grandParents.length > 0 ? grandParents : false
+                    })
                 }
-                
             })
 
             
             await fetch('http://localhost:4000/item/search/family/child/' + id).then( async response => {
                 let { detail , responseArray } = await response.json()
-                
+
                 if (detail.search('has childs') !== -1){
                     
                     this.setState({ childs: {response: responseArray} })
@@ -121,28 +131,58 @@ class ItemPage extends React.Component{
     async handleEdit(){
         this.setState({edit: !this.state.edit})  
     }
-      //---------------- input-form ----------------------
+
+    async handleDelete(){
+        await fetch("http://localhost:4000/item/destroy/"+this.props.match.params.id, {
+      method: "GET",
+      headers: {
+        "x-access-token": this.props.currentToken,
+      },
+    })
+      .then(async (response) => {
+        let {message} = await response.json()
+        
+        if(message === 'succesfully'){
+          this.props.setGoodNotification('Eliminado exitosamente')
+          this.setState({confirmation: !this.state.confirmation})
+          this.props.history.push('/')
+        }
+
+        if(message === 'no entry'){
+          this.props.setBadNotification('El pelaje introducido no se encuentra en la base de datos')
+          this.setState({confirmation: !this.state.confirmation})
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+        this.setState({confirmation: !this.state.confirmation})
+        this.props.setBadNotification("Error de conexion")});
+    }
 
       render(){   
         return(
             <div className='item-page'>
+                {this.state.confirmation && 
+                    <ConfirmationCard 
+                        handleClick={()=>this.setState({confirmation: !this.state.confirmation})}
+                        handleSubmit={this.handleDelete}
+                />}
                 <div className="profile-section">
                 <ImageCarousel id={this.props.currentItemArray.id} context='item' />
                 
                     <div className="information-card">
                         
                         <div className="information-title">
-                        <span>{this.props.currentItemArray.nombre} 
+                        <span>{this.props.currentItemArray.nombre}</span>
                         {
-                            this.props.currentUserAdmin ? 
-                            <div className='admin-privileges'>
+                            this.props.currentUserAdmin &&
                                 <button className='edit' onClick={this.handleEdit}></button>
-                            </div>
+                        }
 
-                            : 
-
-                            ''
-                        }</span>
+                        {
+                            this.props.currentUserAdmin &&
+                                <button className='erase' onClick={()=>this.setState({confirmation: !this.state.confirmation})}></button>
+                        }
                         </div>
                         
                         {
@@ -164,9 +204,7 @@ class ItemPage extends React.Component{
                     {
                                    this.state.parents ? 
 
-                                   this.state.parents.response ? 
-                                      
-                                   this.state.parents.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                   this.state.parents.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                   <ImageCard
                                                   key={id}
                                                   hierro={hierro}
@@ -184,23 +222,32 @@ class ItemPage extends React.Component{
                                                   }}
                                               />
                                    ))
-                                  : <div className='no-response'> </div> 
-                                  
-                                   :
-
-                                  ''
-                        }
+                                   : <div className='no-response'> </div> 
+                                }
                     </CardCarousel>
                     <CardCarousel title='Abuelos' itemArray={this.state.childs.response}>
-                    
-                                      {
-                                        this.state.grandpa ? 
-    
-                                            this.state.grandpa.response ? ' ' : <div className='no-response'> </div>
-    
-                                        :
-    
-                                        ''
+                                    {
+                                          this.state.grandParents ? 
+                                               this.state.grandParents.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                                <ImageCard
+                                                key={id}
+                                                hierro={hierro}
+                                                nombre={nombre}
+                                                fechanac={fechanac.slice(2, 4)}
+                                                animationDelay={index}
+                                                imagenes={torosimagenes} 
+                                                tientaDia={tientadia}
+                                                tientaResultado={tientaresultado}
+                                                tientaTentadoPor={tientatentadopor}
+                                                tientaLugar={tientalugar}
+                                                handleClick={() => {
+                                                    this.updateInformation(id);
+                                                    this.props.history.push('/item/'+id)
+                                                    }}
+                                                />
+                                            ))
+
+                                        : <div className='no-response'> </div> 
                                     }
                         
                     </CardCarousel>
@@ -275,7 +322,8 @@ class ItemPage extends React.Component{
 
 const mapDispatchtoProps = (dispatch) => ({
     setItem: (itemData) => dispatch({ type: "SET_CURRENT_ITEM", payload: itemData }),
-    setBadNotification: (message) => dispatch({ type: 'SET_BAD_NOTIFICATION', payload: message})
+    setBadNotification: (message) => dispatch({ type: 'SET_BAD_NOTIFICATION', payload: message}),
+    setGoodNotification: (message) => dispatch({ type:'SET_GOOD_NOTIFICATION' , payload: message})
 });
   
 const mapStatetoProps = ({

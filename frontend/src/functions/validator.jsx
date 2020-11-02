@@ -4,23 +4,23 @@ function validator (  detail , history ) {
     switch(detail){
 
         case 'error de conexion':
-            setBadNotification('Error de conexion')
+            store.dispatch(setBadNotification('Error de conexion'))
             break;
 
         case 'token invalid':
             store.dispatch(logOut())
+            store.dispatch(setBadNotification('Por favor vuelva a iniciar sesion'))
             history.push('/login')
-            setBadNotification('Por favor vuelva a iniciar sesion')
             break;
 
         case 'token expired':
             store.dispatch(logOut())
+            store.dispatch(setBadNotification('Por favor vuelva a iniciar sesion'))
             history.push('/login')
-            setBadNotification('Por favor vuelva a iniciar sesion')
             return 
 
         case 'problem db':
-            setBadNotification('Error con la base de datos')
+            store.dispatch(setBadNotification('Error con la base de datos'))
             break;
         
         case "user not registered":
@@ -31,8 +31,12 @@ function validator (  detail , history ) {
         case 'not allowed':
             return
 
+        case 'isnt on db':
+            store.dispatch(setBadNotification('El contenido no se encuentra registrado en la base de datos'))
+            history.push('/')
+            break;
+
         case 'admin granted':
-            console.log('admin')
             store.dispatch(setAdmin())
             break;
             

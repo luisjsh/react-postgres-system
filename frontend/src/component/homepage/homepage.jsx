@@ -5,7 +5,6 @@ import useSearchWithPagination from '../../functions/paginator'
 
 import "./style.scss";
 
-import ErrorPage from '../../page/error/errorPage'
 import Card from "../image-card/image-card";
 
 function HomePage ({history, setBadNotification}) {

@@ -12,18 +12,6 @@ const appear = keyframes`
     }
 `;
 
-
-const disappear = keyframes`
-    0%{
-      opacity: 1;
-    }
-
-    100%{
-      opacity: 0;
-      transform: translateY(1em);
-    }
-`;
-
 export const Page = styled.div`
   display: flex;
   position: fixed;

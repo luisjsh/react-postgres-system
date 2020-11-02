@@ -44,37 +44,75 @@ router.get('/admin/', tokenVerification, adminVerification, (req, res)=>{
 //-------------------  Adding ----------------------
 
 router.post('/add', async (req, res)=>{
-    let { correo, contrasena, nombre, admin, primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta } = req.body
-    let status = 0;
-    let token = null;
-    let message = null;
-    contrasena = await passwordFunctions.encrypt( contrasena );
-
-    await user.create({
-        email: correo , clave: contrasena, nombre: nombre, admin: true , primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta
-    },{
-        fields: [ 'email', 'clave', 'nombre', 'admin' ,'primerapregunta', 'primerapreguntarespuesta', 'segundapregunta', 'segundapreguntarespuesta' ]
-    }).then( async response => {
-        
-        let i = 0
-        for (i= 0; i<req.files.length; i++){
-            await userimagens.create({ 
-                path: '/img/uploads/' + req.files[i].filename, usuarioid: response.id
-            },{
-                fields: [ 'path' , 'usuarioid']
-            })
-        }
-
-        status= 200
-        message= 'succeed'
-        token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 24  }) //here we initialize the jwt token    
-    })  
-    .catch( e => {
-        message = 'error db'
-        status = 401;
-    })    
+    let { 
+        correo, 
+        contrasena, 
+        nombre,
+        admin, 
+        primerapregunta, 
+        primerapreguntarespuesta, 
+        segundapregunta, 
+        segundapreguntarespuesta } = req.body
     
-    res.json({status , token, message})
+
+    admin = admin === 'true' ? true : false;
+
+    contrasena = await passwordFunctions.encrypt( contrasena );
+    try{
+        await user.create({
+            email: correo , 
+            clave: contrasena, 
+            nombre: nombre, 
+            admin, 
+            primerapregunta, 
+            primerapreguntarespuesta, 
+            segundapregunta, 
+            segundapreguntarespuesta
+        },{
+            fields: 
+            [ 'email', 
+            'clave', 
+            'nombre', 
+            'admin' ,
+            'primerapregunta', 
+            'primerapreguntarespuesta', 
+            'segundapregunta', 
+            'segundapreguntarespuesta' ]
+
+        }).then( async response => {
+            let i = 0
+            for (i= 0; i<req.files.length; i++){
+                await userimagens.create({ 
+                    path: '/img/uploads/' + req.files[i].filename, usuarioid: response.id
+                },{
+                    fields: [ 'path' , 'usuarioid']
+                })
+            }
+        })
+
+    }catch(e){
+        res.status(200).json({mesage: 'error db'})
+    }
+
+
+    try{
+        let searchUser = await user.findOne({
+            where: {
+                email: correo, clave: contrasena
+            },
+            include: [{
+                model: userimagens
+            }]
+        })
+            
+        token = jwt.sign({id: searchUser.id}, config.secret, { expiresIn: 60 * 60 * 24  })
+
+        res.status(200).json({message: 'succeed', user: searchUser, token})
+        
+    }catch(e){
+        res.status(200).json({message: 'error db'})
+    }
+  
 })
 
 router.post('/login', async (req, res)=>{

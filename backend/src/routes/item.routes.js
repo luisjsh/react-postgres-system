@@ -33,9 +33,7 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
         tientaMuleta
         } = req.body;
 
-
     let ChoosedPelaje
-
 
     try{
         ChoosedPelaje = await pelajeModel.findOne({
@@ -107,10 +105,10 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
                 res.status(200).json({message: 'succeeded'})
             }
             else {
-            res.status(200).json({message: 'succeeded'});
+                res.status(200).json({message: 'succeeded'});
             }    
-        }).catch( e =>{
-            res.status(200).json({message: 'problem db'})
+        }).catch( () =>{
+        res.status(200).json({message: 'problem db'})
         })
 
     } catch(e){
@@ -149,7 +147,10 @@ router.get('/search/profile/:id', async (req, res)=>{
             id 
         },
         include: [{model: torosImage}, {model: pelajeModel, as: 'pelajes'}]
-    }).then( response => res.status(200).json({status: 200, response}))
+    }).then( response => {
+            if(!response) res.status(200).json({detail: 'isnt on db'})
+            if(response) res.status(200).json({response})
+        })
     } catch(e){
         res.status(200).json({detail: 'problem db'})
     }
@@ -176,27 +177,44 @@ router.post('/searchforParent', tokenVerification, adminVerification , async (re
 
 router.get('/search/family/parents/:id', async (req, res)=>{
    let { id } = req.params
-    
-    await toros.findOne({
+
+   await toros.findOne({
         where: { id }
     }).then( async response => {
-
         let {madreid , padreid} = response;
-
+        let grandPaWrapper = [ ]
+        
         if ( madreid > 0 || padreid > 0){
+            
             await toros.findAll({
                 where: {
-                        [Op.or]: [ {id: parseInt(padreid)},{ id: parseInt(madreid)} ]
+                    [Op.or]: [ {id: parseInt(padreid)},{ id: parseInt(madreid)} ]
                 },
                 include:
                 [{ model: torosImage}]
-            }).then( response => {
-                res.status(200).json({status: 200, detail: 'no-grandpa', response})
+
+            }).then(async parentsArray =>{
+
+                for(let i = 0; i<parentsArray.length; i++){ 
+                    let {madreid, padreid} = parentsArray[i]
+                    if ( madreid > 0 || padreid > 0){
+                        let grandpa = await toros.findAll({
+                            where: {
+                                [Op.or]: [ {id: parseInt(padreid)},{ id: parseInt(madreid)} ]
+                            },
+                            include:
+                            [{ model: torosImage}]
+                        }) 
+                        grandPaWrapper = [...grandPaWrapper, ...grandpa]
+                    }
+                }  
+                res.status(200).json({parents: parentsArray, grandParents: grandPaWrapper})
             })
-        } else {
-            res.status(200).json({status: 200, detail: 'no-parents' , response})
         }
-    })
+        res.status(200).json({parents: [], grandParents: []})
+        
+    }).catch((e)=>{
+        res.status(200).json({detail: 'isnt on db'})})
 })
 
 
@@ -212,7 +230,6 @@ router.get('/search/family/child/:id', async (req, res)=>{
         }]
 
     }).then( async answer => {
-        console.log(answer)
         answer.length > 0 ?
             res.status(200).json({ status: 200, detail: 'has childs', responseArray: answer})
         :
@@ -254,9 +271,9 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
         await toros.findOne({ 
             where: { id }
         }).then( async response => {
-            console.log(response.fechanac, response.tientadia)
+
             response.nombre = nombre;
-            response.pelajes = ChoosedPelaje.id;
+            response.pelaje = ChoosedPelaje.id;
             response.fechanac = fechaNac;
         //  response.logros = parseInt(logro);
         //  response.notas = notas;
@@ -332,6 +349,23 @@ router.post('/updateimage', async (req, res)=>{
 
     res.status(200).json({status: 'done'})
     
+})
+
+router.get('/destroy/:id', tokenVerification, adminVerification , async (req, res)=>{
+    let {id} = req.params
+
+    try{
+        await toros.destroy({
+            where: {
+                id
+            }
+        }).then( async (response)=>{
+            if(response === 1 ) res.status(200).json({message: 'succesfully'})
+            if(response === 0 ) res.status(200).json({message: 'no entry'})
+        })
+    }catch(e){
+        res.status(200).json({message: 'error db'})
+    }
 })
 
 module.exports = router;

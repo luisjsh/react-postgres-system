@@ -94,7 +94,7 @@ class LogIn extends React.Component {
                 <div className="login-section" onKeyDown={ (event)=>{if(event.keyCode === '13'){this.submit(event)}}}>
                     
                     <div className="login-card">
-                        <span className='iniciar-sesion'></span>
+                        <span className='iniciar-sesion'>Iniciar Sesión</span>
                         
                         <div className="try" style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                             <CustomInput name='email' type='email' label={this.state.emailLabel} value={this.state.email} onChange={this.formHandler}></CustomInput>

@@ -10,13 +10,13 @@ $main-color: #DEDEDE;
 
     .edit{
         background: url('./img/edit.svg')no-repeat;
-        background-size: 18px;
+        background-size: 25px;
         background-position: center;
-        width: 35px;
-        height: 35px;
-        background-color: white;
-        border: 1px solid $main-color;
-        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        background-color: #beedff;
+        border: 1px solid #beedff;
+        border-radius: 10px;
         position: absolute;
         right: 10px;
         top: 10px;

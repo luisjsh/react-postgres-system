@@ -42,11 +42,11 @@ const userReducer = (state = INITIAL_STATE, action) =>{
             }
 
         case 'LOG_OUT':
-            localStorage.setItem('currentUser', null);
+            localStorage.setItem('currentUser', 'userNotLoged');
             localStorage.setItem('imagepath', null);
             localStorage.setItem('token', '');
             return{
-                currentUser: null,
+                currentUser: 'userNotLoged',
                 currentUserImagePath: null
             }
 

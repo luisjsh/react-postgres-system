@@ -152,7 +152,6 @@ $main-color: #DEDEDE;
         }
 
         .info-section{
-            width: 6%;
 
             
             &:hover, &:focus-within{
@@ -202,14 +201,16 @@ $main-color: #DEDEDE;
                 display: none;
                 width: 250px;
                 height: 400px;
+                padding: 0;
+                z-index: 3;
                 position: absolute;
                 background-color: white;
-                border: 1px solid $main-color;
                 border-radius: 4px;
                 margin-top: 1vh;
                 transition: 0.4s;
                 animation: informationcard 0.3s forwards;
                 right: 20px;
+                box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
                 
                 
                 .inside-card{
@@ -309,24 +310,28 @@ $main-color: #DEDEDE;
         justify-content: center;
 
         .logo{
-            display: none;
-        }
-
-        .search-bar{
-            width: 93%;
+            padding: .4em;
+            width: 40px;
         }
 
         .profile-info{
-            display: none;
+            display: block;
         }
 
         .info-section{
-            display: none;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+
+            .no-image{
+                width: 40px;
+            }
         }
 
     }
     .navbar-bottom{
-        display: flex;
+        display: none;
         justify-content: space-around;
         height: 40px;
 

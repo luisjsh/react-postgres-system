@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
+import { debounce } from 'lodash'
+
+import validator from '../../functions/validator'
 
 import './search-bar-style.scss'
 
@@ -12,53 +15,83 @@ class searchBar extends Component {
         this.state = {
                 searchbar: '',
                 cursor: 0,
-                 result: []
+                result: false
         }
         this.handleFocus = React.createRef();
         this.handlePress = this.handlePress.bind(this);
         this.formHandler = this.formHandler.bind(this);
         this.fetchResults = this.fetchResults.bind(this)
+        this.fetchData = this.fetchData.bind(this)
+        this.handleEnterKeyPress = this.handleEnterKeyPress.bind(this)
     }
 
+
+    /*    componentDidMount(){
+        document.addEventListener('onkeydown', ()=>{
+            console.log('pressed!')
+        })
+    }*/
+
+    handlePress(e){
+        let { cursor } = this.state
+
+            if (e.keyCode === 38 ){
+                e.preventDefault()
+                if( this.state.cursor > 0){ 
+                let less = cursor - 1
+                this.setState({cursor: less})
+                }
+                this.handleFocus.current.focus()
+
+            } else if ( e.keyCode === 40){
+                e.preventDefault()
+                if ( this.state.cursor < this.state.result.length-1){ //if the result.length its equal to cursor ill cause an error, cursor always has to be lower
+                    let plus = cursor + 1
+                    this.setState({cursor: plus})
+                }
+                    this.handleFocus.current.focus()
+                
+            }
+    }
 
     componentDidUpdate(prevProps, prevState){
-        if(prevState.cursor !== this.state.cursor) return true
-    }
-
-
-   handlePress(e){
-
-    let { cursor } = this.state
-
-        if (e.keyCode === 38 ){
-            e.preventDefault()
-            if( this.state.cursor > 0){ 
-            let less = cursor - 1
-            this.setState({cursor: less})
-            }
-            this.handleFocus.current.focus()
-
-        } else if ( e.keyCode === 40){
-            e.preventDefault()
-            if ( this.state.cursor < this.state.result.length-1){ //if the result.length its equal to cursor ill cause an error, cursor always has to be lower
-                let plus = cursor + 1
-                this.setState({cursor: plus})
-            }
-                this.handleFocus.current.focus()
-            
+    
+        if(prevState.searchbar !== this.state.searchbar){
+           this.fetchData()
         }
     }
 
-   
+    fetchData = debounce(async ()=>{
+        if(this.state.searchbar.length > 0){
+            await fetch('http://localhost:4000/search/'+this.state.searchbar).then( async searchResult =>{
+                let {response, detail} = await  searchResult.json()
+
+                if(detail) validator(detail, this.props.history)
+
+                if(response){
+                    if(response.length === 0) this.setState({result: false})
+                    if(response.length > 0) this.setState({result: response})
+                } 
+            })
+        }
+
+        if(this.state.searchbar.length === 0) this.setState({result: false})
+    }, 300)
+
     formHandler(event) {
+        event.preventDefault()
         let { name, value } = event.target;
-        this.fetchResults(value)
         this.setState({ [name]: value });
     }
 
-    handleEnterKeyPress(value){
-        this.props.history.push('/search/'+value)
+    handleEnterKeyPress(event){
+        event.preventDefault()
+        this.props.history.push('/search/'+this.state.searchbar)
+        this.setState({ result: false })
     }
+
+
+   
 
     async fetchResults(value){
 
@@ -82,23 +115,38 @@ class searchBar extends Component {
         let {cursor} = this.state
         return (
             <div className='searchbar' onKeyDown={this.handlePress}>
-                <div className='search-inputs' > 
-                    <CustomInput handleClick={ ()=>console.log('omg i cant believe this, they pressed me!')}/>
+                <form  onSubmit={this.handleEnterKeyPress} className='search-inputs' > 
+                    <CustomInput 
+                        name='searchbar' 
+                        value={this.state.searchbar} 
+                        handleChange={this.formHandler} 
+                        autoComplete='off'/>
                     
-                    <div className="search-icon" tabIndex={0}>
+                    <button className="search-icon" tabIndex={0}>
 
+                    </button>
+                </form>
+
+                <div 
+                    className="search-results" 
+                    >
+                        { this.state.result && this.state.result.map( (item, id) =>(
+                                <button 
+                                    key={item.id} 
+                                    className='result' 
+                                    tabIndex={0} 
+                                    onClick={()=>{
+                                        this.props.history.push('/item/'+item.id) 
+                                        this.setState({result: false})
+                                    }}  
+                                    ref={ cursor === id && this.handleFocus }>
+                                    
+                                    { item.nombre }
+                                
+                                </button>
+                            ))  
+                        }
                     </div>
-                </div>
-
-                <div className="search-results">
-                    {
-                        this.state.result.map( (item, id) =>(
-                            <div key={item.id} className='result' tabIndex={0} onClick={(e)=>{ e.preventDefault(); this.handleEnterKeyPress(item.nombre) }}  onKeyDown={(e)=>{ if(e.keyCode ==='13'){this.handleEnterKeyPress(item.nombre)} }} ref={ cursor === id ? this.handleFocus : ''}>
-                                { item.nombre }
-                            </div>
-                        ))
-                    }
-                </div>
             </div>
         )
     }

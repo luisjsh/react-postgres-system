@@ -28,7 +28,7 @@ function Notification({notificationData, setNotification}) {
                 {
                     notificationData ? 
                     notificationData.map( ({id, name, type})=>(
-                        <NotificationWrapper appear={showNotification} key={id}  >
+                        <NotificationWrapper appear={showNotification} key={id}>
                             <NotificationText type={type}>
                                 {name}
                             </NotificationText>

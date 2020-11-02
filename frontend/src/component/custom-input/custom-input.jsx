@@ -50,39 +50,6 @@ const Label = styled.label`
   }
 `;
 
-const Round = styled.div`
-  position: absolute;
-  right: -2.2em;
-  background: white;
-  border-radius: 100%;
-  width: 35px;
-  height: 35px;
-`;
-/*
-const Loading = styled(Round)`
-  background-image: url(${LoadingIcon});
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  animation: ${rotate} 1s linear infinite;
-`; 
-
-const Valid = styled(Round)`
-  background: green;
-  background-image: url(${VerifiedIcon});
-  background-size: 50%;
-  background-position: center;
-  background-repeat: no-repeat;
-`;
-
-const Invalid = styled(Round)`
-  background: red;
-  background-image: url(${InvalidIcon});
-  background-size: 80%;
-  background-position: center;
-  background-repeat: no-repeat;
-`;*/
-
 const Comment = styled.span`
   position: absolute;
   left: 0;
@@ -137,11 +104,6 @@ function CustomInput({
       <Input name={name} ref={observer} onChange={handleChange} {...otherProps}></Input>
       {handleClick && <DeleteDataFromInput name={name} onClick={handleClickDeleteFromInput} />}
       {comment && <Comment>{comment}</Comment>}
-        {/*
-      {loading === "" && <Loading />}
-      {loading === "invalid" && <Invalid />}
-      {loading === "valid" && <Valid />} 
-        */}
     </Wrapper>
   );
 }

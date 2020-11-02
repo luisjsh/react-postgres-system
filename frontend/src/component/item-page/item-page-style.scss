@@ -76,38 +76,40 @@ $main-color: #DEDEDE;
     .results-side{
         width: 60%;
         
+        .main-title{
+            font-weight: bold;
+        }
+
         span{
             font-size: 26px;
-            display: flex;
         }
-            .admin-privileges{
-                margin: 0 10px;
-
-                .edit{
-                    background: url('./img/edit.svg') no-repeat;
-                    background-size: 15px;
-                    background-position: center;
-                    @extend %admin-privileges;
-                    &:hover, &:focus {
-                        -webkit-box-shadow: 0px 0px 0px 7px $blue-color;
-                        -moz-box-shadow: 0px 0px 0px 2px $blue-color;
-                        box-shadow: 0px 0px 0px 2px $blue-color;
-                    }
-                }
-
-                .erase{
-                    background: url('./img/trash-can.svg') no-repeat;
-                    background-size: 15px;
-                    background-position: center;    
-                    @extend %admin-privileges;   
-                    
-                    &:hover, &:focus {
-                        -webkit-box-shadow: 0px 0px 0px 7px red;
-                        -moz-box-shadow: 0px 0px 0px 2px red;
-                        box-shadow: 0px 0px 0px 2px red;
-                    }
+        
+        .admin-privileges{
+            .edit{
+                background: url('./img/edit.svg') no-repeat;
+                background-size: 15px;
+                background-position: center;
+                @extend %admin-privileges;
+                &:hover, &:focus {
+                    -webkit-box-shadow: 0px 0px 0px 7px $blue-color;
+                    -moz-box-shadow: 0px 0px 0px 2px $blue-color;
+                    box-shadow: 0px 0px 0px 2px $blue-color;
                 }
             }
+
+            .erase{
+                background: url('./img/trash-can.svg') no-repeat;
+                background-size: 15px;
+                background-position: center;    
+                @extend %admin-privileges;   
+                
+                &:hover, &:focus {
+                    -webkit-box-shadow: 0px 0px 0px 7px red;
+                    -moz-box-shadow: 0px 0px 0px 2px red;
+                    box-shadow: 0px 0px 0px 2px red;
+                }
+            }
+        }
 
         
         

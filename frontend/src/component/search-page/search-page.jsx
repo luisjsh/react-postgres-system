@@ -46,13 +46,18 @@ class SearchPage extends Component {
           {this.state.result ? (
             <div className="cards-section">
               {this.state.result.response.map(
-                ({ id, nombre, hierro, torosimagenes, fechanac}) => (
+                ({ id, nombre, hierro, torosimagenes, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => (
                     <Card
                     key={id}
                     hierro={hierro}
                     nombre={nombre}
+                    animationDelay={index}
                     fechanac={fechanac.slice(2, 4)}
                     imagenes={torosimagenes}
+                    tientaDia={tientadia}
+                    tientaResultado={tientaresultado}
+                    tientaTentadoPor={tientatentadopor}
+                    tientaLugar={tientalugar}
                     handleClick={() => {
                         this.props.history.push('/item/'+ id )
                     }}

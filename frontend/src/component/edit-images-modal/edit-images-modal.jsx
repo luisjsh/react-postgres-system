@@ -83,7 +83,7 @@ class EditImageModal extends Component {
                 await fetch('http://localhost:4000/item/updateimage', {
                     method: 'POST',
                     body: formData
-                    }).then( async response =>{
+                    }).then( async () =>{
 
                        await fetch('http://localhost:4000/item/search/profile/' + this.props.id)
                         .then( async responseArray => {
@@ -104,7 +104,7 @@ class EditImageModal extends Component {
                 await fetch('http://localhost:4000/user/updateimage', {
                     method: 'POST',
                     body: formData
-                    }).then( async response =>{
+                    }).then( async () =>{
 
                        await fetch('http://localhost:4000/user/profile/', {
                         method: "GET",
@@ -115,9 +115,8 @@ class EditImageModal extends Component {
                        })
                         .then( async responseArray => {
                             let { userInformation } = await responseArray.json()
-
                             this.props.updateItemInformation({ torosimagenes: userInformation.usuariosimagenes })
-                            this.props.setUserImagePath(userInformation.usuariosimagenes[0].path)
+                            this.props.setUserImagePath(userInformation.usuariosimagenes.length > 0 && userInformation.usuariosimagenes[0].path)
                             this.props.DontShow()
                         })
         
@@ -136,7 +135,7 @@ class EditImageModal extends Component {
                     <button className='x-button' onClick={this.props.DontShow}>
                     </button>
                     <div className="img-displayed">
-                        <img src={this.state.currentUrl} alt='bigger image'></img>
+                        <img src={this.state.currentUrl} alt='bigger one'></img>
                         <div className="background" style={{backgroundImage:' url('+this.state.currentUrl+')'}}></div>
                     </div>
                     <div className="image-controller-section">
@@ -146,7 +145,7 @@ class EditImageModal extends Component {
                         </div>
                         <div className="images-thumbnails">
                             {
-                                this.state.image == false ?
+                                this.state.image === false ?
 
                                 <div className="no-images">
                                 </div>
@@ -155,7 +154,7 @@ class EditImageModal extends Component {
 
                                     
                                 this.state.image.map( ( item , id ) => (
-                                    <ImageThumbnail url={item.path} key={id} handleClick={()=>this.focusImage(id)} handleClickButton={ ()=>this.DeleteFromArray(item.id) }  displayed={ this.state.focusedImage == id ? true : false} />
+                                    <ImageThumbnail url={item.path} key={id} handleClick={()=>this.focusImage(id)} handleClickButton={ ()=>this.DeleteFromArray(item.id) }  displayed={ this.state.focusedImage === id ? true : false} />
                                 ))
                                     
                               

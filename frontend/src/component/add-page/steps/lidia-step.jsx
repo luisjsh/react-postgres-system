@@ -59,9 +59,9 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
             <Page>
                 <SectionWithTitle title='Tienta'>
                     <BirthSectionTitle title='Fecha de la tienta (opcional)'>
-                        <CustomInput name='day' value={Date.day} handleChange={handleDate} paddingWrapper='0' placeholder='Dia' maxLength='3' pattern="[0-9]{2}" />
-                        <CustomInput name='month' value={Date.month} handleChange={handleDate} paddingWrapper='0' placeholder='Mes' maxLength='3' pattern="[0-9]{2}" />
-                        <CustomInput name='year' value={Date.year} handleChange={handleDate} paddingWrapper='0' placeholder='Año' maxLength='5' pattern="[0-9]{4}" />
+                        <CustomInput name='day' value={Date.day} handleChange={handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]{2}" />
+                        <CustomInput name='month' value={Date.month} handleChange={handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]{2}" />
+                        <CustomInput name='year' value={Date.year} handleChange={handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]{4}" />
                     </BirthSectionTitle>
 
                     <CustomInput name='temptedBy' value={Data.temptedBy} handleChange={handleForm} label='Tentada(o) por (opcional)' />

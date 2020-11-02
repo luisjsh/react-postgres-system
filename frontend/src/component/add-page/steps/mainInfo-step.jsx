@@ -75,25 +75,21 @@ function MainInfoStep({
     }
 
     const handleFile = (event) =>{
-        if (event.target.files !== undefined) {
-        let photosFile = [];
-        let i = 0;
-        for (i = 0; i < event.target.files.length; i++) {
-            let url = URL.createObjectURL(event.target.files[i]);
-            photosFile.push({ id: i, file: url });
+        if (event.target.files !== undefined){
+            if(event.target.files.length > 0){
+                let photosFile = [...event.target.files].map( (item, id)  => {
+                return {id, file: URL.createObjectURL(item) , item }
+                })
+                setImage({ url: photosFile[0].file, files: photosFile, photos: photosFile });
+            }
+        } else {
+            setImage({ url: false, files: false, photos: false})
         }
-        setImage({ ...image, photos: photosFile, files: event.target.files });
-        }
-    
-        if (event.target.files[0] !== undefined) {
-        let url = URL.createObjectURL(event.target.files[0]);
-        setImage({ ...image, url: url, files: event.target.files });
     }
-}
 
 
     const PhotoChanger = (event) =>{
-        setData({ ...Data, url: event.target.attributes.value.value }); 
+        setImage({ ...image, url: event.target.attributes.value.value }); 
     }
 
     
@@ -133,15 +129,13 @@ function MainInfoStep({
         event.preventDefault()
         updateState('firstStep', 
         {...Data,
-            files: {
-                ...image.files
-            },
+            files: image.files,
             fechaNac: `${Date.day}-${Date.month}-${Date.year}`
         })
         handleClick()
         
     }
-    
+
 return (
     <form onSubmit={handleSubmit}>
         <div className="add-page">

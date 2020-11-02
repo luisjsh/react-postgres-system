@@ -1,4 +1,4 @@
-import {useEffect, useState, useCallback} from 'react'
+import {useEffect, useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import axios from 'axios'
 
@@ -11,7 +11,7 @@ function Paginator(title, pageNumber) {
     let [hasMore, setHasMore] = useState(false)
 
     let history = useHistory()
-
+    
     useEffect(()=>{
         setLoading(true)
         setError(false)
@@ -34,7 +34,7 @@ function Paginator(title, pageNumber) {
             setError(true)
         })
         return () => cancel()
-    },[title, pageNumber])
+    },[title, pageNumber, history])
 
     return {
         loading, error, items, hasMore

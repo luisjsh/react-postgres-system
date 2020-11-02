@@ -9,7 +9,6 @@ import Custombutton from '../custom-button/custom-button';
 import CarouselAdd from '../image-carousel-add/image-carousel-add';
 import CustomInput from '../custom-input/custom-input';
 import SecurityQuestions from '../security-questions-modal/security-questions'
-import ImageAside from '../item-information-card/item-information-card'
 
 class signUpPage extends React.Component {  
     constructor (props){
@@ -32,8 +31,6 @@ class signUpPage extends React.Component {
             repeatPasswordLabel: 'Repita la contraseña',
             repeatPasswordBorderColor: '#DEDEDE'
         }
-
-        let error = false 
 
         this.handleFile = this.handleFile.bind(this);
         this.PhotoChanger = this.PhotoChanger.bind(this);
@@ -104,12 +101,16 @@ class signUpPage extends React.Component {
                 method: 'POST',
                 body: formData
             }).then ( async ( response ) => {
-                let {message, token} = await response.json()
-                
+                let {message, token, user} = await response.json()
+
                 switch(message){
                     case 'succeed':
                         this.props.setGoodNotification('Cuenta creada exitosamente')
-                        this.props.saveToken(token);
+                        this.props.setUser({
+                            name: user.nombre,
+                            path: user.usuariosimagenes[0] !== undefined ? user.usuariosimagenes[0].path : false,
+                            token
+                        })
                         this.DontShow();
                         this.props.history.push('/')
                         break;
@@ -122,6 +123,9 @@ class signUpPage extends React.Component {
                         this.props.setBadNotification('error de servidor')
                         this.props.history.push('/')
                         break;
+
+                    default:
+                        return ''
                 }
             }).catch( e =>{
                 this.props.setBadNotification('Error de conexión con el servidor')
@@ -206,9 +210,10 @@ class signUpPage extends React.Component {
 
 const mapDispatchtoProps = (dispatch) =>(
     {
+        setUser: (userArray)=>{dispatch({type:'LOG_IN', payload: userArray})},
         saveToken: (token) => {dispatch({ type:'SAVE-TOKEN' , payload: token})},
         setGoodNotification: (message) =>{dispatch({ type:'SET_GOOD_NOTIFICATION', payload: message})},
-        setBadNotification: (message) =>{dispatch({ type:'SET_BAD_NOTIFICATION', payload: message})}
+        setBadNotification: (message) =>{dispatch({ type:'SET_BAD_NOTIFICATION', payload: message})},
     }
 )
 

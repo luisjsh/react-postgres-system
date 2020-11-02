@@ -17,6 +17,7 @@ class Nav extends React.Component{
             user: null,
             admin: false
         }
+
         this.Redirect = this.Redirect.bind(this);
         this.LogOut = this.LogOut.bind(this);
         this.correctHeight = this.correctHeight.bind(this);
@@ -25,21 +26,24 @@ class Nav extends React.Component{
     }
 
 
-    //--------- Admin validation ---------
-
 
      componentDidMount(){
         this.UpdateStatus()
+        if(this.props.currentUser === 'userNotLoged' && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
     }
-
-
-     componentDidUpdate(prevProps){
+    
+    
+    componentDidUpdate(prevProps){
+        if(prevProps.currentUser !== this.props.currentUser) this.UpdateStatus()
         if(prevProps.currentToken !== this.props.currentToken) this.UpdateStatus()
     }
 
 
     async UpdateStatus ( ){
-        if ( this.props.currentToken !== null ){
+        if ( this.props.currentToken ){
         
             await fetch("http://localhost:4000/user/admin", {
                 method: "GET",
@@ -50,7 +54,7 @@ class Nav extends React.Component{
               })
                 .then(async (response) => {
                     let { detail } = await response.json();
-                    validator(detail , this.props.history, this.props.logOut)
+                    validator(detail , this.props.history)
                    
                 })
                 .catch(() => this.props.setBadNotification("Error de conexión"))
@@ -71,10 +75,11 @@ class Nav extends React.Component{
     }
 
     LogOut(){
+        this.props.history.push('/login')
         this.props.logOut()
     }
 
-    async setUserForProfile(event){
+    async setUserForProfile( ){
         await fetch('http://localhost:4000/user/profile/',{
             method:'GET',
             headers:{
@@ -104,25 +109,28 @@ class Nav extends React.Component{
                     <div className="logo" value='' onClick={this.Redirect} tabIndex={0}>
 
                     </div>
-                        <SearchBar/>
+                       
+                    <SearchBar paddingWrapper='0 1em' />
+                       
                     {
-                        this.props.currentUser !== null  ?
+                        this.props.currentUser !== 'userNotLoged'  ?
                         
                     <div className='info-section'>
 
                         {
-                            this.props.currentUserImagePath == 'false' || this.props.currentUserImagePath == false  ? 
+                            this.props.currentUserImagePath === 'false' || this.props.currentUserImagePath === false  ?
                             
-                            <button className='no-image'>
-
-                            </button>
-
-                            :
-
-                            <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
-                      
-                            </button>
+                                <button className='no-image'>
+    
+                                </button>
+    
+                                :
+    
+                                <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
+                          
+                                </button>
                         }    
+
                     
 
                     <div className='information-card'>
@@ -160,31 +168,6 @@ class Nav extends React.Component{
                                     ""
                     }   
                 </nav>
-
-                <div className="navbar-bottom"  >
-                    <div className="home-button" value='' onClick={this.Redirect}  tabIndex={0}>
-
-                    </div>
-                    <div className="trofeos-button" value='trofeo'  onClick={this.Redirect} tabIndex={0}>
-
-                    </div>
-                    {
-                        this.props.currentUser != null ?
-
-                        <div className="information"  value='infocard'   tabIndex={0} onFocus={this.Redirect}>
-                            <div className="info" style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath+') center center / 60px no-repeat'}}>
-                              
-                            </div>
-                        </div>
-
-                        :
-
-                        <div className="log-in"  value='login' onClick={this.Redirect} tabIndex={0}>
-
-                        </div>
-                    }
-                </div>
-                
             </div>
         )
     }

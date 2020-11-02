@@ -21,9 +21,17 @@
         .cards-section{
             height: 100%;
             width: 100%;
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-gap: 1em;
             justify-content: center;
+            grid-template-columns: repeat(auto-fill, 300px);
+            
+            &:empty{
+                margin-top:0;
+                background-size: 100px;
+                background-position: center;
+                animation: rotate 3s infinite;        
+            }
         }
     }
 }

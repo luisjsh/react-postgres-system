@@ -189,7 +189,7 @@ class informationCard extends Component {
                     this.props.handleClick()
                     this.props.setGoodNotification('Actualizado exitosamente')
                     
-                }).catch( async error =>{ this.props.setBadNotification('Error de conexión') } )
+                }).catch( async () =>{ this.props.setBadNotification('Error de conexión') } )
         } catch(e){
             this.props.setBadNotification('Error de conexión')
         }
@@ -308,7 +308,7 @@ class informationCard extends Component {
     
                         <SecundaryText title='Nombre:'>{this.state.currentItemArray.nombre}</SecundaryText>
 
-                        <SecundaryText title='Pelaje:'>{this.state.currentItemArray.pelaje}</SecundaryText>
+                        <SecundaryText title='Pelaje:'>{this.state.currentItemArray.pelajes && this.state.currentItemArray.pelajes.nombre}</SecundaryText>
 
                         <SecundaryText title='Sexo:'><span>{this.state.currentItemArray.sexo}</span></SecundaryText>
                       

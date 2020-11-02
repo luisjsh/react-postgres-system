@@ -67,16 +67,7 @@ class AddPage extends React.Component {
       })
       .catch((e) => this.props.setBadNotification("error de conexion")); */
   }
-
-  //--------------------------------------------
- 
-  /*GeneticRange(event) {
-    let { value, name } = event.target;
-    let results = 100 - value;
-    this.setState({ [name]: value, porcentaje: results });
-  }*/
-
-  
+   
   searchParents = debounce ( async ( name, value) => {
     let parent = " ";
     if (name.search("mother") === 0) {
@@ -167,9 +158,9 @@ class AddPage extends React.Component {
     formData.append('tientaCaballo', this.state.secondStep.withHorse);
     formData.append('tientaMuleta', this.state.secondStep.withCrutch);
 
-    if (files != null) {
-      for (let i = 0; i < files.length; i++) {
-        formData.append("image", files[i]);
+    if (files){
+      for (let i = 0; i < [...files].length; i++) {
+        formData.append("image", files[i].item);
       }
     }
 
