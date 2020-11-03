@@ -29,6 +29,11 @@ class Nav extends React.Component{
 
      componentDidMount(){
         this.UpdateStatus()
+        if(this.props.currentUser === undefined && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
+    
         if(this.props.currentUser === 'userNotLoged' && this.props.location.pathname !== '/signup'){
             this.props.logOut()
             this.props.history.push('/login')
@@ -110,7 +115,7 @@ class Nav extends React.Component{
 
                     </div>
                        
-                    <SearchBar paddingWrapper='0 1em' />
+                    <SearchBar/>
                        
                     {
                         this.props.currentUser !== 'userNotLoged'  ?
@@ -126,7 +131,7 @@ class Nav extends React.Component{
     
                                 :
     
-                                <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
+                                <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 40px no-repeat'}}>
                           
                                 </button>
                         }    

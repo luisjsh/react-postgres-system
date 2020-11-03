@@ -26,12 +26,6 @@ class searchBar extends Component {
     }
 
 
-    /*    componentDidMount(){
-        document.addEventListener('onkeydown', ()=>{
-            console.log('pressed!')
-        })
-    }*/
-
     handlePress(e){
         let { cursor } = this.state
 
@@ -118,6 +112,7 @@ class searchBar extends Component {
                 <form  onSubmit={this.handleEnterKeyPress} className='search-inputs' > 
                     <CustomInput 
                         name='searchbar' 
+                        paddingWrapper='.8em .2em'
                         value={this.state.searchbar} 
                         handleChange={this.formHandler} 
                         autoComplete='off'/>
