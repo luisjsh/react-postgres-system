@@ -27,7 +27,7 @@ class Nav extends React.Component{
 
 
 
-     componentDidMount(){
+    componentDidMount(){
         this.UpdateStatus()
         if(this.props.currentUser === undefined && this.props.location.pathname !== '/signup'){
             this.props.logOut()
@@ -41,6 +41,7 @@ class Nav extends React.Component{
     }
     
     
+    
     componentDidUpdate(prevProps){
         if(prevProps.currentUser !== this.props.currentUser) this.UpdateStatus()
         if(prevProps.currentToken !== this.props.currentToken) this.UpdateStatus()
@@ -50,7 +51,7 @@ class Nav extends React.Component{
     async UpdateStatus ( ){
         if ( this.props.currentToken ){
         
-            await fetch("http://localhost:4000/user/admin", {
+            await fetch("/user/admin", {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json",
@@ -85,7 +86,7 @@ class Nav extends React.Component{
     }
 
     async setUserForProfile( ){
-        await fetch('http://localhost:4000/user/profile/',{
+        await fetch('/user/profile/',{
             method:'GET',
             headers:{
                 'Content-type' :'application/json',
@@ -115,7 +116,7 @@ class Nav extends React.Component{
 
                     </div>
                        
-                    <SearchBar/>
+                    <SearchBar paddingWrapper='0 1em' />
                        
                     {
                         this.props.currentUser !== 'userNotLoged'  ?
@@ -131,7 +132,7 @@ class Nav extends React.Component{
     
                                 :
     
-                                <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 40px no-repeat'}}>
+                                <button className='info' style={{background: 'url('+this.props.currentUserImagePath +') center center / 40px no-repeat'}}>
                           
                                 </button>
                         }    
