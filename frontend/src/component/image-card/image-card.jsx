@@ -85,6 +85,7 @@ class ImageCard extends Component {
             <HeaderWrapperBottom
               hovered={this.state.hovered}
             >
+              <SecundaryText title='Ganaderia:'>{this.props.ganaderia}</SecundaryText>
               Datos de la tienta
               <SecundaryText title='Resultado:'>{this.props.tientaResultado}</SecundaryText>
               <SecundaryText title='Lugar:'>{this.props.tientaLugar}</SecundaryText>

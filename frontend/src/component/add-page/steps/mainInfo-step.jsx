@@ -28,7 +28,7 @@ function MainInfoStep({
       madreId: 0,
       sexo: "Hembra",
       encaste: '',
-      tatuaje: '',
+      ganaderia: '',
       motherArray: false,
       fatherArray: false,
       motherSearchbarValue: "",
@@ -222,11 +222,11 @@ return (
                                     name={
                                     "url(http://localhost:4000" +
                                     path +
-                                    ") center center / 70% no-repeat"
+                                    ") center center / 30% no-repeat"
                                     }
                                     style={{
                                     background:
-                                        "url(http://localhost:4000" + path + ") center center / 70% no-repeat",
+                                        "url(http://localhost:4000" + path + ") center center / 20px no-repeat",
                                     backgroundColor: '#d4d4d4'
                                     }}
                                     onClick={hierroSelectedImage}
@@ -249,7 +249,7 @@ return (
 
                     <CustomInput name='encaste' value={Data.encaste} handleChange={formHandler} label='Encaste' required/>
 
-                    <CustomInput name='tatuaje' value={Data.tatuaje} handleChange={formHandler} label='Tatuaje' required/>
+                    <CustomInput name='ganaderia' value={Data.ganaderia} handleChange={formHandler} label='Ganaderia' required/>
 
                     <DropdownSelect labelName='Sexo' onChange={formHandler} name='sexo' value={Data.sexo} required>
                         <option value="Hembra">Hembra</option>
@@ -273,9 +273,10 @@ return (
                     <div className="parents-card">
                     {motherArray
                         ? motherArray.map(
-                            ({ id, nombre, hierro, fechanac, torosimagenes,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
+                            ({ id, nombre, hierro, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
+                                ganaderia={ganaderia}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
@@ -307,9 +308,10 @@ return (
                     <div className="parents-card">
                     {fatherArray
                         ? fatherArray.map(
-                        ({ id, nombre, hierro, fechanac, torosimagenes,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
+                        ({ id, nombre, hierro, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
+                                ganaderia={ganaderia}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}

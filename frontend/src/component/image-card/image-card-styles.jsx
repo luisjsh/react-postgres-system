@@ -53,6 +53,7 @@ export const HeaderWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   justify-items: center;
+  text-transform: capitalize;
   font-weight: bold;
   align-items: center;
 `
@@ -64,9 +65,12 @@ export const HeaderWrapperBottom = styled.div`
 `
 
 export const Hierro = styled.div`
+  background-color: white;  
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
   width: 30px;
   height: 30px;
-  background-size: cover;
   border-radius: 100% ;
 `
 

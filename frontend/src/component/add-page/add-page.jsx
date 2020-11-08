@@ -134,7 +134,7 @@ class AddPage extends React.Component {
       files,
       sexo,
       encaste,
-      tatuaje,
+      ganaderia,
       fechaNac
     } = this.state.firstStep
 
@@ -142,7 +142,7 @@ class AddPage extends React.Component {
     formData.append("nombre", nombre);
     formData.append("hierro", hierroDropdownSelected);
     formData.append("hierrocodigo", hierro);
-    formData.append("tatuaje", tatuaje);
+    formData.append("ganaderia", ganaderia);
     formData.append("encaste", encaste);
     formData.append("pelaje", pelaje);
     formData.append("sexo", sexo);

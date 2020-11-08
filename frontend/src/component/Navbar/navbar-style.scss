@@ -179,13 +179,13 @@ $main-color: #DEDEDE;
 
             .no-image{
                 background: url('./IMG/name-icon.svg') no-repeat;
-                background-size: 40px;
+                background-size: 30px;
                 background-position: center;
                 height: 40px;
                 width: 40px;
-                border: 1px solid $main-color;
+                border: none;
                 border-radius: 100%;
-                background-color: white;
+                background-color: grey;
                 transition: 0.4s;
                 outline: none;
                 cursor: pointer;   
@@ -206,11 +206,11 @@ $main-color: #DEDEDE;
                 position: absolute;
                 background-color: white;
                 border-radius: 4px;
-                margin-top: 1vh;
+                margin-top: 1.5vh;
                 transition: 0.4s;
-                animation: informationcard 0.3s forwards;
+                animation: informationcard 0.3s ease forwards;
                 right: 20px;
-                box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.2);
+                box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.2);
                 
                 
                 .inside-card{
@@ -332,13 +332,13 @@ $main-color: #DEDEDE;
 
 @keyframes informationcard {
     0%{
-        top: 30px;
-        opacity: 0.3;
+        transform: translateY(20px);
+        opacity: 0;
 
     }
 
     100%{
-        top: 50px;
+        transform: translateY(0);
         opacity: 1;
     }
 }

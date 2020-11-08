@@ -17,7 +17,8 @@ class informationCard extends Component {
         this.state = {
                 name: '',
                 encaste: '',
-                tatuaje: '',
+                ganaderia: '',
+                hierroImg: false,
                 fechanac: {
                     day: '',
                     month: '',
@@ -82,29 +83,58 @@ class informationCard extends Component {
             let { response } = await responseArray.json()
             let fechaNac = response.fechanac.split('-')
             let tientaDia = response.tientadia.split('-')
-            response && 
-                this.setState({
-                    id: id , 
-                    currentItemArray: response , 
-                    name: response.nombre, 
-                    pelaje: response.pelajes.nombre,
-                    fechanac: {
-                        day: fechaNac[2],
-                        month: fechaNac[1],
-                        year: fechaNac[0]
-                    },
-                    tientadia: {
-                        day: tientaDia[2],
-                        month: tientaDia[1],
-                        year: tientaDia[0]
-                    },
-                    tientatentadopor: response.tientatentadopor,
-                    tientaresultado: response.tientaresultado,
-                    tientalugar: response.tientalugar,
-                    tientacaballo: response.tientacaballo,
-                    tientacapa: response.tientacapa,
-                    tientamuleta: response.tientamuleta
-                })
+
+            await fetch(`/configuration/getparticularhierro/${response.hierro}`).then(async responseFromDb =>{
+                    let fetchedResponse = await responseFromDb.json()
+                    response && 
+                    this.setState({
+                        id: id , 
+                        currentItemArray: response , 
+                        name: response.nombre, 
+                        pelaje: response.pelajes.nombre,
+                        hierroImg: fetchedResponse.response.path,
+                        fechanac: {
+                            day: fechaNac[0],
+                            month: fechaNac[1],
+                            year: fechaNac[2]
+                        },
+                        tientadia: {
+                            day: tientaDia[0],
+                            month: tientaDia[1],
+                            year: tientaDia[2]
+                        },
+                        tientatentadopor: response.tientatentadopor,
+                        tientaresultado: response.tientaresultado,
+                        tientalugar: response.tientalugar,
+                        tientacaballo: response.tientacaballo,
+                        tientacapa: response.tientacapa,
+                        tientamuleta: response.tientamuleta
+                    })
+                }).catch( ()=>{
+                    response && 
+                    this.setState({
+                        id: id , 
+                        currentItemArray: response , 
+                        name: response.nombre, 
+                        pelaje: response.pelajes.nombre,
+                        fechanac: {
+                            day: fechaNac[0],
+                            month: fechaNac[1],
+                            year: fechaNac[2]
+                        },
+                        tientadia: {
+                            day: tientaDia[0],
+                            month: tientaDia[1],
+                            year: tientaDia[2]
+                        },
+                        tientatentadopor: response.tientatentadopor,
+                        tientaresultado: response.tientaresultado,
+                        tientalugar: response.tientalugar,
+                        tientacaballo: response.tientacaballo,
+                        tientacapa: response.tientacapa,
+                        tientamuleta: response.tientamuleta
+                    })
+                })  
         })
     }
 
@@ -142,7 +172,7 @@ class informationCard extends Component {
         formData.append('pelaje' , this.state.pelaje )
         formData.append('fechaNac' , `${this.state.fechanac.year}-${this.state.fechanac.month}-${this.state.fechanac.day}`)
         //formData.append('logro' , this.state.goal)
-        formData.append('tatuaje' , this.state.tatuaje)
+        formData.append('ganaderia' , this.state.ganaderia)
         formData.append('encaste' , this.state.encaste)
         formData.append('tientaDia' , `${this.state.tientadia.year}-${this.state.tientadia.month}-${this.state.tientadia.day}`)
         formData.append('tientaTentadoPor' , this.state.tientatentadopor)
@@ -166,16 +196,16 @@ class informationCard extends Component {
                         name: response.nombre, 
                         pelaje: response.pelajes.nombre,
                         encaste: response.encaste,
-                        tatuaje: response.tatuaje,
+                        ganaderia: response.ganaderia,
                         fechanac: {
-                            day: fechaNac[2],
+                            day: fechaNac[0],
                             month: fechaNac[1],
-                            year: fechaNac[0]
+                            year: fechaNac[2]
                         },
                         tientadia: {
-                            day: tientaDia[2],
+                            day: tientaDia[0],
                             month: tientaDia[1],
-                            year: tientaDia[0]
+                            year: tientaDia[2]
                         },
                         tientaresultado: response.tientaresultado,
                         tientalugar: response.tientalugar,
@@ -201,6 +231,8 @@ class informationCard extends Component {
         
 
     render() {
+        console.log(this.state)
+
         return (
             <div >
                 {this.state.confirmation && 
@@ -264,15 +296,15 @@ class informationCard extends Component {
                         <div className="date"> 
                             <label>Fecha de nacimiento</label>
                             <div className='date-section'>
-                                <CustomInput name='year' value={this.state.fechanac.year} handleChange={this.handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]{4}" />
-                                <CustomInput name='month' value={this.state.fechanac.month} handleChange={this.handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]{2}" />
                                 <CustomInput name='day' value={this.state.fechanac.day} handleChange={this.handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]{2}" />
+                                <CustomInput name='month' value={this.state.fechanac.month} handleChange={this.handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]{2}" />
+                                <CustomInput name='year' value={this.state.fechanac.year} handleChange={this.handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]{4}" />
                             </div>
                         </div>
                         
                         <CustomInput label='Encaste' type='text' handleClick={this.formHandler} onChange={this.formHandler} name='encaste' value={this.state.encaste} />
                         
-                        <CustomInput label='Tatuaje' type='text' handleClick={this.formHandler} onChange={this.formHandler} name='tatuaje' value={this.state.tatuaje} />
+                        <CustomInput label='Ganaderia' type='text' handleClick={this.formHandler} onChange={this.formHandler} name='ganaderia' value={this.state.ganaderia} />
                         
                                 <h4>Datos de la tienta</h4>
 
@@ -308,13 +340,20 @@ class informationCard extends Component {
     
                         <SecundaryText title='Nombre:'>{this.state.currentItemArray.nombre}</SecundaryText>
 
+                        <SecundaryText title='Hierro:'>
+                            {this.state.currentItemArray.hierrocodigo}
+                            {
+                            this.state.hierroImg && <img src={this.state.hierroImg}/>
+                            }
+                        </SecundaryText>
+
                         <SecundaryText title='Pelaje:'>{this.state.currentItemArray.pelajes && this.state.currentItemArray.pelajes.nombre}</SecundaryText>
 
                         <SecundaryText title='Sexo:'><span>{this.state.currentItemArray.sexo}</span></SecundaryText>
                       
                         <SecundaryText title='Encaste:'><span>{this.state.currentItemArray.encaste}</span></SecundaryText>
                         
-                        <SecundaryText title='Tatuaje:'><span>{this.state.currentItemArray.tatuaje}</span></SecundaryText>
+                        <SecundaryText title='Ganaderia:'><span>{this.state.currentItemArray.ganaderia}</span></SecundaryText>
                         
                         <SecundaryText title='Fecha de nacimiento:'><span>{this.state.currentItemArray.fechanac}</span></SecundaryText>
 

@@ -2,7 +2,6 @@ const Sequelize = require("sequelize");
 const sequelize = require("../database");
 
 const torosImagenes = require("./torosimagenes.model");
-const logrosModel = require('./usefull-model/logros.model');
 const pelajeModel = require('./usefull-model/pelaje.model')
 
 const toros = sequelize.define(
@@ -12,7 +11,7 @@ const toros = sequelize.define(
     nombre: { type: Sequelize.TEXT },
     hierro: { type: Sequelize.TEXT },
     hierrocodigo: { type: Sequelize.TEXT },
-    tatuaje: {type: Sequelize.TEXT},
+    ganaderia: {type: Sequelize.TEXT},
     pelaje: { type: Sequelize.INTEGER },
     encaste: {type: Sequelize.TEXT},
     sexo: { type: Sequelize.TEXT },

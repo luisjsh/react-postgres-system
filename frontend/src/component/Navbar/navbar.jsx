@@ -45,6 +45,16 @@ class Nav extends React.Component{
     componentDidUpdate(prevProps){
         if(prevProps.currentUser !== this.props.currentUser) this.UpdateStatus()
         if(prevProps.currentToken !== this.props.currentToken) this.UpdateStatus()
+        
+        if(this.props.currentUser === undefined && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
+    
+        if(this.props.currentUser === 'userNotLoged' && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
     }
 
 
@@ -142,11 +152,11 @@ class Nav extends React.Component{
                     <div className='information-card'>
 
                         <InfoCard
-                        user={this.props.currentUser}
-                        image={this.props.currentUserImagePath} 
-                        profile={this.setUserForProfile} 
-                        addMore={this.Redirect}
-                        LogOut={this.LogOut} 
+                            user={this.props.currentUser}
+                            image={this.props.currentUserImagePath} 
+                            profile={this.setUserForProfile} 
+                            addMore={this.Redirect}
+                            LogOut={this.LogOut}  
                         />
 
                     </div>

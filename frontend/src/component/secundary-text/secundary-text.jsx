@@ -8,9 +8,18 @@ const SecundaryTitle = styled.h3`
 `
 
 const P = styled.p`
+  display: flex;
+  align-items: bottom;
   font-size: 1em;
   margin-left: 3px;
   font-weight: 400;
+
+  img{
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+  }
+
   `
 
 function SecundaryText({children, title}){

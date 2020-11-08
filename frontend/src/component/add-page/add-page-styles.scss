@@ -212,7 +212,7 @@ $main-color: #DEDEDE;
 
                             &:focus-within {
                                 .image-select-list {
-                                    display: flex;
+                                    display: block;
                                 }
                             }
 
@@ -229,6 +229,7 @@ $main-color: #DEDEDE;
                                 border-left: 1px solid $main-color;
                                 border-bottom: 1px solid $main-color;
                                 border-right: 1px solid $main-color;
+                                z-index: 3;
 
                                 button {
                                     margin-top: 5px;

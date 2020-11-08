@@ -204,11 +204,12 @@ class ItemPage extends React.Component{
                     {
                                    this.state.parents ? 
 
-                                   this.state.parents.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                   this.state.parents.map( ({id, nombre, hierro, torosimagenes , fechanac, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                   <ImageCard
                                                   key={id}
                                                   hierro={hierro}
                                                   nombre={nombre}
+                                                  ganaderia={ganaderia}
                                                   fechanac={fechanac.slice(2, 4)}
                                                   animationDelay={index}
                                                   imagenes={torosimagenes} 
@@ -228,11 +229,12 @@ class ItemPage extends React.Component{
                     <CardCarousel title='Abuelos' itemArray={this.state.childs.response}>
                                     {
                                           this.state.grandParents ? 
-                                               this.state.grandParents.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                               this.state.grandParents.map( ({id, nombre, hierro, torosimagenes , fechanac, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                 <ImageCard
                                                 key={id}
                                                 hierro={hierro}
                                                 nombre={nombre}
+                                                ganaderia={ganaderia}
                                                 fechanac={fechanac.slice(2, 4)}
                                                 animationDelay={index}
                                                 imagenes={torosimagenes} 
@@ -257,11 +259,12 @@ class ItemPage extends React.Component{
 
                                         this.state.childs.response ? 
                                         
-                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , fechanac, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
                                             nombre={nombre}
+                                            ganaderia={ganaderia}
                                             fechanac={fechanac.slice(2, 4)}
                                             animationDelay={index}
                                             imagenes={torosimagenes}
@@ -288,10 +291,11 @@ class ItemPage extends React.Component{
 
                                         this.state.grandChilds.response ? 
                                         
-                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , fechanac, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
+                                            ganaderia={ganaderia}
                                             nombre={nombre}
                                             fechanac={fechanac.slice(2, 4)}
                                             imagenes={torosimagenes}

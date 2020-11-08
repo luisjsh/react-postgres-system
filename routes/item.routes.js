@@ -1,6 +1,8 @@
 const express = require('express')
 const router  = express.Router()
 const sequelize = require('sequelize')
+const imageMin = require('imagemin')
+const imageMin_jpeg = require('imagemin-jpegtran')
 const Op = sequelize.Op
 
 const toros = require('../models/toros.model')
@@ -9,12 +11,13 @@ const pelajeModel = require('../models/usefull-model/pelaje.model')
 
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
 
-router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
+router.post('/add', /* tokenVerification, adminVerification , */ async (req, res)=>{
+
     let { 
         nombre , 
         hierro , 
         hierrocodigo, 
-        tatuaje, 
+        ganaderia, 
         pelaje, 
         sexo, 
         encaste, 
@@ -51,7 +54,7 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
             nombre , 
             hierro,
             hierrocodigo,
-            tatuaje, 
+            ganaderia, 
             pelaje: ChoosedPelaje.id ? ChoosedPelaje.id : 0, 
             encaste, 
             sexo, 
@@ -75,7 +78,7 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
                 'hierro',
                 'hierrocodigo', 
                 'pelaje', 
-                'tatuaje',
+                'ganaderia',
                 'sexo' ,
                 'fechanac', 
                 //'logros', 
@@ -93,14 +96,20 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
         
         }).then( async response =>{
             if(req.files){
-                let i = 0;
-                for ( i=0 ; i<req.files.length; i++){
+                req.files.forEach( async ({filename}) =>{
+                    await imageMin(
+                        [`public/img/uploads/${filename}`],
+                        {
+                            destination: 'public/img/compressed',
+                            plugins: [imageMin_jpeg()]
+                        }
+                    )
                     await torosImage.create({ 
-                        path: '/img/uploads/' + req.files[i].filename, torosid: response.id
+                        path: '/img/compressed/' + filename, torosid: response.id
                     },{
                         fields: [ 'path' , 'torosid']
                     })
-                }
+                })
                 res.status(200).json({message: 'succeeded'})
             }
             else {
@@ -111,6 +120,7 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
         })
 
     } catch(e){
+        console.log(e)
         res.status(200).json({message: 'problem db'})
     } 
     
@@ -133,7 +143,6 @@ router.get('/:pageNumber', async (req, res)=>{
         })
 
     } catch(e){
-        console.log(e.message)
         res.status(200).json({message: 'problem db'})
     }
 })
@@ -248,7 +257,7 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
         //logros, 
         //notas, 
         encaste,
-        tatuaje,   
+        ganaderia,   
         tientaDia,
         tientaResultado,
         tientaTentadoPor,
@@ -278,7 +287,7 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
         //  response.logros = parseInt(logro);
         //  response.notas = notas;
             response.encaste = encaste
-            response.tatuaje = tatuaje
+            response.ganaderia = ganaderia
             response.tientadia = tientaDia
             response.tientaresultado = tientaResultado
             response.tientatentadopor = tientaTentadoPor
@@ -300,7 +309,7 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
 
 router.post('/updateimage', async (req, res)=>{
     let { tokeepimage , id } = req.body;
-   
+    
     if(typeof tokeepimage == 'string'){
         tokeepimage = [{id: 0 , path: tokeepimage}]
     } else if (typeof tokeepimage == 'object'){
@@ -339,9 +348,18 @@ router.post('/updateimage', async (req, res)=>{
         await item.destroy()
     })
     
-    req.files.map( async item =>{
+    req.files.map( async ({filename}) =>{
+
+        await imageMin(
+            [`public/img/uploads/${filename}`],
+            {
+                destination: 'public/img/compressed',
+                plugins: [imageMin_jpeg()]
+            }
+        )
+
         await torosImage.create({
-            path: '/img/uploads/' + item.filename , torosid: id 
+            path: '/img/compressed/' + filename , torosid: id 
         },{
             fields: ['path', 'torosid']
         })

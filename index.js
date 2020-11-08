@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
@@ -11,13 +12,13 @@ app.set('PORT', process.env.PORT || 4000)
 if (process.env.NODE_ENV === 'production'){
   app.use(express.static(path.join(__dirname, 'frontend/build')))
 }
-app.use(express.static(path.join(__dirname, 'frontend/build')))
 
 
 //middlewares
 
 app.use(cors());
 app.use(express.json());
+
 const storage = multer.diskStorage({
     destination: path.join(__dirname, "public/img/uploads"),
     filename: (req, file, cb, filename) => {
